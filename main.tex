@@ -12,6 +12,7 @@
 
  \date{November 2019}
 \usepackage[parfill]{parskip}
+\usepackage{amsmath}
 \begin{document}
 
 \maketitle
@@ -68,21 +69,40 @@ The expected outcome will present the reader with a with a process to validate a
 
 \subsection{Artificial Neural Networks}
 
-Artificial Neural Networks have become very popular in recent years for creating Artificial Intelligence algorithms. The aim is to teach a machine how to extract and learn features of a data set to make new predictions by replicating processes happening in the biological brain. Using a simplified neural representation: the dendrites, nucleus and axon of a neuron are respectively abstracted for a theoretical algorithm as the input, processing node, and output. The ANN is build using visible input nodes (ex. age, address, education, job status) that feed several hidden layers or neural nodes further feeding into output nods, the binary or categorical output (ex loan application granted or declined) -see fig \ref{fig:simplenetwork}.
+Artificial Neural Networks have become very popular in recent years for creating Artificial Intelligence algorithms. The aim is to teach a machine how to extract and learn features of a data set to make new predictions by replicating processes happening in the biological brain. Using a simplified neural representation: the dendrites, nucleus and axon of a neuron are respectively abstracted for a theoretical algorithm as the input, processing node, and output. 
+
+The ANN is build using visible input nodes (data you can see - ex. age, address, education, job status) that feed into several hidden layers of neural nodes further feeding into output nods, the visible binary or categorical output (ex loan application granted or declined) -see fig \ref{fig:simplenetwork}. A node in any layer can be connected to one or many  nodes in the next layer. Due to the complexity of the connections in the middle layers and the fact that the data is not easily readable, the middle layers are called hidden layers.
 
 \begin{figure}[h!]
 \centering
   \includegraphics[scale=0.4]{images/simple-neural-network.jpg}
-  \caption{Simple neural network \cite{simpleneural}}
+  \caption{Simple neural network with one hidden layer\cite{simpleneural}}
   \label{fig:simplenetwork}
 \end{figure}
 
-Each neuron in the network receives input from other nodes and computes this into a single output that feeds into other neurons or output nodes. A simple approach could be to multiply an adjustable weight to each incoming input. To avoid zero values a bias can be added further as shown in eq  \ref{neuron}
+Each neuron in the network receives input from other nodes and computes this into a single output that feeds into other neurons or output nodes. A simple approach for a prediction could be to multiply an adjustable weight to each incoming input. To avoid producing zero values for zero inputs a bias can be added further as shown in eq  \ref{neuron}
 
 \begin{equation}
 \label{neuron}
-\[ \sum_{i=1}^{n} {x_{i}} {w_{i}} + {b_{i}}  \]
+ \sum_{i=1}^{n} {x_{i}} {w_{i}} + {b_{i}}  
 \end{equation}
+When the input \( {x_{i}} {w_{i}} \) is significantly less than the bias \({b_{i}}\) this implies that input has little effect. But over the training period the weight will be adjusted accordingly to overcome the effect of the bias. The final sum is not bounded and thus can be largely different than the output of other nodes. Activation functions are used to contain this value between a specific range, most commonly between -1 or 0 and 1. For example, a simple activation function, binary step, solve this issue. But this cutoff function however will miss many small details and may only be used in binary classification problems. While there are many activation functions available, the most commonly used alternatives are the \textit{sigmoid} function and \textit{rectified linear unit} (ReLu)
+
+\begin{equation*}
+    f(n) = \begin{cases}
+               0               & n = 0\\
+               1               & n = 1\\
+               f(n-1) + f(n-2) & \text{otherwise}
+           \end{cases}
+\end{equation*}
+
+
+In multiclass classification problems, the output layer will have one neuron per class. The categories may or may not be mutually exclusive and a common way to pick the best prediction is to choose the one with the highest probability when using for example a sigmoid function. As neurons in the last hidden layer are not interconnected these probabilities are independent and need to be normalized to equal to 1. A simply function such as \textit{softmax} divides each probability but the total sum. When categories are non exclusive, a probability threshold for each output neuron such as 0.5 can be used to pick the final outcome.
+
+
+final output layer with one neuron per class
+one hot encoding
+softmax activatoin function 
 
 The ANN can be trained using an existing dataset of examples to make future predictions and the weights of each neuron are adjusted depending on the performance of the prediction vs the actual value. 
 
