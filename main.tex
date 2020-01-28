@@ -80,7 +80,7 @@ The ANN is build using visible input nodes (data you can see - ex. age, address,
   \label{fig:simplenetwork}
 \end{figure}
 
-Each neuron in the network receives input from other nodes and computes this into a single output that feeds into other neurons or output nodes. A simple approach for a prediction could be to multiply an adjustable weight to each incoming input. To avoid producing zero values for zero inputs a bias can be added further as shown in eq  \ref{neuron}
+Each neuron in the network receives input from other nodes and computes this into a single output that feeds into other neurons or output nodes. A simple approach for a neuron's prediction could be to multiply an adjustable weight to each incoming input. To avoid producing zero values for zero inputs a bias can be added further as shown in eq  \ref{neuron}
 
 \begin{equation}
 \label{neuron}
@@ -97,20 +97,25 @@ When the input \( {x_{i}} {w_{i}} \) is significantly less than the bias \({b_{i
 \end{equation*}
 
 
-In multiclass classification problems, the output layer will have one neuron per class. The categories may or may not be mutually exclusive and a common way to pick the best prediction is to choose the one with the highest probability when using for example a sigmoid function. As neurons in the last hidden layer are not interconnected these probabilities are independent and need to be normalized to equal to 1. A simply function such as \textit{softmax} divides each probability but the total sum. When categories are non exclusive, a probability threshold for each output neuron such as 0.5 can be used to pick the final outcome.
+In multi-class classification problems, the output layer will have one neuron per class. The categories may or may not be mutually exclusive and a common way to pick the best prediction is to choose the one with the highest probability when using for example a sigmoid function. As neurons in the last hidden layer are not interconnected these probabilities are independent and need to be normalized such that their sum equals to 1. A simply function such as \textit{softmax} divides each probability by the total sum. When categories are non exclusive, a probability threshold for each output neuron such as 0.5 can be used to pick the final outcomes.
+
+The ANN can be trained using an existing dataset of examples to make future predictions and the weights of each neuron are adjusted depending on the performance of the prediction vs the actual value. Equations such as the quadratic cost function (sse eq ..) or cross entropy are commonly used to make this measurement for both binary or multi-class classification. The equation provides a positive measurement of the distance from the real value. By defining \( a^L  \) as the activation function applied on \( {x_{i}} {w_{i}} \), at the last layer, the cost function takes into account a large amount of information as vectors: the weights, biases, activation function and true outcome across a number of predictions called the batch size.
+
+//TODO inset cost function
+.
+To find the correct values for the weights and biases,  the cost function needs to be minimal. By plotting a simple version of this exponential cost function against the weight of one neuron (see fig //TODO), one could theoretically simply calculate the derivative for 0, but in reality the complexity is directly proportional to the number of neurons and will have many local minimum values.
+
+//TOTO insert figure 
+
+Instead, the slope can be calculated and moved downwards to find the minimum value that optimises w, known as gradient descent. Large step sizes may overshoot the minimum while small ones will take a long time to converge. Thus a  good approach is to adapt this learning rate and Adam is one of the best performing algorithms.
 
 
-final output layer with one neuron per class
-one hot encoding
-softmax activatoin function 
-
-The ANN can be trained using an existing dataset of examples to make future predictions and the weights of each neuron are adjusted depending on the performance of the prediction vs the actual value. 
 
 
 
 
 While this idea was mentioned as early as 1970   
-
+During the training phase of the neural network, predictions are measured against the true values of the input and weights and biases are adjusted to improve performance in a process called backpropagation that is applied after the predictions are measured.
 
 
 
