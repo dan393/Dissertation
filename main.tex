@@ -3,6 +3,12 @@
 
 \usepackage{times,color}
 \usepackage{hyperref, url}
+\usepackage{pgf, tikz}
+\usepackage{pgfplots}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{caption}
+\usepackage{subcaption}
 \title{Generating Representative Artificial Datasets for Algorithm Evaluation}
 \author{\ Dan-Florin Berbec \\ \ Supervisor: Peter Bloodsworth}
 \organisation{University of Oxford}
@@ -71,7 +77,7 @@ The expected outcome will present the reader with a with a process to validate a
 
 Artificial Neural Networks have become very popular in recent years for creating Artificial Intelligence algorithms. The aim is to teach a machine how to extract and learn features of a data set to make new predictions by replicating processes happening in the biological brain. Using a simplified neural representation: the dendrites, nucleus and axon of a neuron are respectively abstracted for a theoretical algorithm as the input, processing node, and output. 
 
-The ANN is build using visible input nodes (data you can see - ex. age, address, education, job status) that feed into several hidden layers of neural nodes further feeding into output nods, the visible binary or categorical output (ex loan application granted or declined) -see fig \ref{fig:simplenetwork}. A node in any layer can be connected to one or many  nodes in the next layer. Due to the complexity of the connections in the middle layers and the fact that the data is not easily readable, the middle layers are called hidden layers.
+The ANN is built using visible input nodes (data you can see - ex. age, address, education, job status) that feed into several hidden layers of neural nodes further feeding into output nodes, the visible binary or categorical output, for example a loan application being granted or declined. A node in any layer can be connected to one or many  nodes in the next layer. Due to the complexity of the connections in the middle layers and the fact that the data is not easily readable, the middle layers are called hidden layers (fig \ref{fig:simplenetwork}.
 
 \begin{figure}[h!]
 \centering
@@ -86,30 +92,96 @@ Each neuron in the network receives input from other nodes and computes this int
 \label{neuron}
  \sum_{i=1}^{n} {x_{i}} {w_{i}} + {b_{i}}  
 \end{equation}
-When the input \( {x_{i}} {w_{i}} \) is significantly less than the bias \({b_{i}}\) this implies that input has little effect. But over the training period the weight will be adjusted accordingly to overcome the effect of the bias. The final sum is not bounded and thus can be largely different than the output of other nodes. Activation functions are used to contain this value between a specific range, most commonly between -1 or 0 and 1. For example, a simple activation function, binary step, solve this issue. But this cutoff function however will miss many small details and may only be used in binary classification problems. While there are many activation functions available, the most commonly used alternatives are the \textit{sigmoid} function and \textit{rectified linear unit} (ReLu)
 
-\begin{equation*}
+
+
+When the input \( {x_{i}} {w_{i}} \) is significantly less than the bias \({b_{i}}\) this implies that input has little effect. But over the training period the weight will be adjusted accordingly to overcome the effect of the bias. The final sum is not bounded and thus can be largely different than the output of other nodes. Activation functions are used to contain this value between a specific range, most commonly between -1 and 1. For example, a simple activation function, binary step, solve this issue. But this cutoff function however will miss many small details and may only be used in binary classification problems. While there are many activation functions available, the most commonly used alternatives are the \textit{sigmoid} function and \textit{rectified linear unit} (ReLu) which preserve more information. 
+
+
+% \begin{figure}[!h]
+
+%     \begin{subfigure}[b]{.5\linewidth}
+%     \centering
+%   \includegraphics[scale=0.05]{images/activation_binary_step.png}
+%   \caption{Binary step\cite{activationfunction}}
+%   \label{fig:simplenetwork}
+%     \end{subfigure}
+    
+%     \begin{subfigure}[b]{.3\linewidth}
+%     \centering
+%         \begin{equation*}
+%     f(n) = \begin{cases}
+%               0               & n = 0\\
+%               1               & n = 1\\
+%               f(n-1) + f(n-2) & \text{otherwise}
+%           \end{cases}
+% \end{equation*}
+%     \end{subfigure}
+    
+%     \end{figure}
+
+
+
+
+\begin{figure}[ht]
+\begin{minipage}{0.2\linewidth}
+
+
+  
+  \includegraphics[width=\textwidth]{images/activation_binary_step.png}
+  \caption{Binary step\cite{activationfunction}}
+  \label{fig:simplenetwork}
+
+        \begin{equation*}
+        \resizebox{.1\hsize}{!}{
     f(n) = \begin{cases}
-               0               & n = 0\\
-               1               & n = 1\\
-               f(n-1) + f(n-2) & \text{otherwise}
-           \end{cases}
+              0               & n = 0\\
+              1               & n = 1\\
+              f(n-1) + f(n-2) & \text{otherwise}
+          \end{cases}
+          }
 \end{equation*}
 
+\end{minipage}%
+
+
+\hfill% not: "\hspace{0.5cm}"
+\begin{minipage}{0.3\linewidth}
+%\centering  % redundant
+\includegraphics[width=\textwidth]{images/activation_binary_step.png}
+\caption{caption2}
+\label{fig:figure2}
+\end{minipage}%
+\hfill% not: "\hspace{0.5cm}"
+\begin{minipage}{0.3\linewidth}
+%\centering  % redundant
+\includegraphics[width=\textwidth]{images/activation_binary_step.png}
+\caption{caption3}
+\label{fig:figure3}
+\end{minipage}
+\end{figure}
 
 In multi-class classification problems, the output layer will have one neuron per class. The categories may or may not be mutually exclusive and a common way to pick the best prediction is to choose the one with the highest probability when using for example a sigmoid function. As neurons in the last hidden layer are not interconnected these probabilities are independent and need to be normalized such that their sum equals to 1. A simply function such as \textit{softmax} divides each probability by the total sum. When categories are non exclusive, a probability threshold for each output neuron such as 0.5 can be used to pick the final outcomes.
 
-The ANN can be trained using an existing dataset of examples to make future predictions and the weights of each neuron are adjusted depending on the performance of the prediction vs the actual value. Equations such as the quadratic cost function (sse eq ..) or cross entropy are commonly used to make this measurement for both binary or multi-class classification. The equation provides a positive measurement of the distance from the real value. By defining \( a^L  \) as the activation function applied on \( {x_{i}} {w_{i}} \), at the last layer, the cost function takes into account a large amount of information as vectors: the weights, biases, activation function and true outcome across a number of predictions called the batch size.
+The ANN can be trained using an existing dataset of examples to make future predictions and the weights of each neuron are adjusted depending on the performance of the prediction vs the actual value. Equations such as the quadratic cost function (see eq \ref{cost_function}) or cross entropy are commonly used to make this measurement for both binary or multi-class classification. The equation provides a positive measurement of the distance from the real value. By defining \( a^L  \) as the activation function applied on \( {x_{i}} {w_{i}} \), at the last layer, the cost function takes into account a large amount of information as vectors: the weights, biases, activation function and true outcome across a number of predictions called the batch size.
 
-//TODO inset cost function
-.
-To find the correct values for the weights and biases,  the cost function needs to be minimal. By plotting a simple version of this exponential cost function against the weight of one neuron (see fig //TODO), one could theoretically simply calculate the derivative for 0, but in reality the complexity is directly proportional to the number of neurons and will have many local minimum values.
+\begin{eqnarray}
+\label{cost_function}
+  C = \frac{1}{2n} \sum_x \|y(x)-a^L(x)\|^2
+\end{eqnarray}
 
-//TOTO insert figure 
+To find the correct values for the weights and biases,  the cost function needs to be minimal. By plotting a simple version of this exponential cost function against the weight of one neuron (see fig \ref{fig:costfuntiongraph}), one could theoretically simply calculate the derivative for 0, but in reality the complexity is directly proportional to the number of neurons and will have many local minimum values.
+
+\begin{figure}[h!]
+\centering
+  \includegraphics[scale=0.2]{images/A-graph-of-a-cost-function-modified-from.png}
+  \caption{Simple cost function graph\cite{costfuntion}}
+  \label{fig:costfuntiongraph}
+\end{figure}
 
 Instead, the slope can be calculated and moved downwards to find the minimum value that optimises w, known as gradient descent. Large step sizes may overshoot the minimum while small ones will take a long time to converge. Thus a  good approach is to adapt this learning rate and Adam is one of the best performing algorithms.
 
-
+Backpropagation uses the cost function to apply changes on the weights and biases of each neuron. Taking a multi-class classification problem, such as labeling dogs, cats, and fish, the aim is to make adjustments starting from the output layer and propagating these back to the first hidden layer. If the training example has a true value of a cat and the output of the activation function has a high probability for dog, then the aim is to decrease \( a^L(x) \) for the dog label and increase the the weight for cat label. Based on one single training example however, this would create a cat label biased in the algorithm and the values would only depend on the last training example. Instead, an average of the cost function is calculated over a significant proportion of the shuffled examples in the training set that remains computationally feasible - also called the batch size. The in depth mathematical details of the algorithm are beyond the scope of this project but the main equations including formal proofs are discussed by Nielsen 2018 \cite{nielsenneural} in chapter 2.
 
 
 
