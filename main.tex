@@ -3,12 +3,10 @@
 
 \usepackage{times,color}
 \usepackage{hyperref, url}
-\usepackage{pgf, tikz}
-\usepackage{pgfplots}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{caption}
-\usepackage{subcaption}
+\usepackage{subfigure}
 \title{Generating Representative Artificial Datasets for Algorithm Evaluation}
 \author{\ Dan-Florin Berbec \\ \ Supervisor: Peter Bloodsworth}
 \organisation{University of Oxford}
@@ -29,7 +27,7 @@
 \begin{abstract}
 Proprietary complex algorithms are one of the main assets for many IT companies and their correctness is fundamental in fields such as finance and medicine, or simply when using an app that provides directions to a user or makes suggestions based on personal information. We may expect in the near future that some multi-million companies will reside mostly in the cloud with only a handful of employees. For regulators, investors or companies that have an interest in buying or investing in such a company, the task of validating the IP becomes difficult, especially when all that is accessible to a buyer is a black box with a limited amount of test data. We aim to assess the tools available to reliably and independently evaluate algorithms and present a process that can provide confidence to potential buyers that an algorithm works indeed as specified.\end{abstract}
  
-\section{ Introduction}
+\section{Introduction}
 \subsection{Area of study}
 
 Algorithms are present in almost every electronic device we buy. From a simple light switch to running an OS and applications on a smartphone, their influence reaches beyond our daily decisions. For example, algorithms in a smartphone may direct a taxi driver on an alternative route based on congestion indicators set by a real-time data feed. Similarly, the prices of products in a supermarket may be influenced by low latency foreign exchange algorithms trading in an investment bank.
@@ -75,14 +73,14 @@ The expected outcome will present the reader with a with a process to validate a
 
 \subsection{Artificial Neural Networks}
 
-Artificial Neural Networks have become very popular in recent years for creating Artificial Intelligence algorithms. The aim is to teach a machine how to extract and learn features of a data set to make new predictions by replicating processes happening in the biological brain. Using a simplified neural representation: the dendrites, nucleus and axon of a neuron are respectively abstracted for a theoretical algorithm as the input, processing node, and output. 
+Artificial Neural Networks have become very popular in recent years for creating Artificial Intelligence algorithms. The aim is to teach a machine how to extract and learn features of a data set to make new predictions by replicating processes happening in the biological brain. Using a simplified neural representation: the dendrites, nucleus and axon of a neuron are respectively abstracted for a theoretical algorithm as the input, processing node, and output. This idea dates back from 1957 when Frank Rosenblatt demonstrated the first perception: "the first machine which is capable of having an original idea" \cite{rosenblatt}, but only recently has computational  power increased to develop the ability to make predictions.
 
-The ANN is built using visible input nodes (data you can see - ex. age, address, education, job status) that feed into several hidden layers of neural nodes further feeding into output nodes, the visible binary or categorical output, for example a loan application being granted or declined. A node in any layer can be connected to one or many  nodes in the next layer. Due to the complexity of the connections in the middle layers and the fact that the data is not easily readable, the middle layers are called hidden layers (fig \ref{fig:simplenetwork}.
+The ANN is built using visible input nodes (data you can see - ex. age, address, education, job status) that feed into several hidden layers of neural nodes further feeding into output nodes, the visible binary or categorical output, for example a loan application being granted or declined. A node in any layer can be connected to one or many  nodes in the next layer. Due to the complexity of the connections in the middle layers and the fact that the data is not easily readable, the middle layers are called hidden layers (fig \ref{fig:simplenetwork}).
 
 \begin{figure}[h!]
 \centering
   \includegraphics[scale=0.4]{images/simple-neural-network.jpg}
-  \caption{Simple neural network with one hidden layer\cite{simpleneural}}
+  \caption{Simple neural network with one hidden layer \cite{simpleneural}}
   \label{fig:simplenetwork}
 \end{figure}
 
@@ -95,70 +93,28 @@ Each neuron in the network receives input from other nodes and computes this int
 
 
 
-When the input \( {x_{i}} {w_{i}} \) is significantly less than the bias \({b_{i}}\) this implies that input has little effect. But over the training period the weight will be adjusted accordingly to overcome the effect of the bias. The final sum is not bounded and thus can be largely different than the output of other nodes. Activation functions are used to contain this value between a specific range, most commonly between -1 and 1. For example, a simple activation function, binary step, solve this issue. But this cutoff function however will miss many small details and may only be used in binary classification problems. While there are many activation functions available, the most commonly used alternatives are the \textit{sigmoid} function and \textit{rectified linear unit} (ReLu) which preserve more information. 
+When the input \( {x_{i}} {w_{i}} \) is significantly less than the bias \({b_{i}}\) this implies that input has little effect. But over the training period the weight will be adjusted accordingly to overcome the effect of the bias. The final sum is not bounded and thus can be largely different than the output of other nodes. Activation functions are used to contain this value between a specific range, most commonly between -1 and 1. For example, a simple activation function, binary step, can solve this issue. But this cutoff function however will drop many small details and may only be used in binary classification problems. While there are many activation functions available, the most commonly used alternatives are the \textit{sigmoid} function and \textit{rectified linear unit} (ReLu) which preserve and propagate more information as shown in figure \ref{activation_funtions}. 
 
-
-% \begin{figure}[!h]
-
-%     \begin{subfigure}[b]{.5\linewidth}
-%     \centering
-%   \includegraphics[scale=0.05]{images/activation_binary_step.png}
-%   \caption{Binary step\cite{activationfunction}}
-%   \label{fig:simplenetwork}
-%     \end{subfigure}
-    
-%     \begin{subfigure}[b]{.3\linewidth}
-%     \centering
-%         \begin{equation*}
-%     f(n) = \begin{cases}
-%               0               & n = 0\\
-%               1               & n = 1\\
-%               f(n-1) + f(n-2) & \text{otherwise}
-%           \end{cases}
-% \end{equation*}
-%     \end{subfigure}
-    
-%     \end{figure}
-
-
-
-
-\begin{figure}[ht]
-\begin{minipage}{0.2\linewidth}
-
-
-  
-  \includegraphics[width=\textwidth]{images/activation_binary_step.png}
-  \caption{Binary step\cite{activationfunction}}
-  \label{fig:simplenetwork}
-
-        \begin{equation*}
-        \resizebox{.1\hsize}{!}{
-    f(n) = \begin{cases}
-              0               & n = 0\\
-              1               & n = 1\\
-              f(n-1) + f(n-2) & \text{otherwise}
-          \end{cases}
-          }
-\end{equation*}
-
-\end{minipage}%
-
-
-\hfill% not: "\hspace{0.5cm}"
-\begin{minipage}{0.3\linewidth}
-%\centering  % redundant
-\includegraphics[width=\textwidth]{images/activation_binary_step.png}
-\caption{caption2}
-\label{fig:figure2}
-\end{minipage}%
-\hfill% not: "\hspace{0.5cm}"
-\begin{minipage}{0.3\linewidth}
-%\centering  % redundant
-\includegraphics[width=\textwidth]{images/activation_binary_step.png}
-\caption{caption3}
-\label{fig:figure3}
-\end{minipage}
+\begin{figure}
+    \centering
+    \subfigure[Binary Step]
+    {
+        \includegraphics[width=1.8in]{images/activation_binary_step_1.png}
+        \label{fig:first_sub}
+    }
+    % \\
+    \subfigure[ReLu]
+    {
+        \includegraphics[width=1.8in]{images/activation_rectified_linear.png}
+        \label{fig:second_sub}
+    }
+    \subfigure[Sigmoid]
+    {
+        \includegraphics[width=1.8in]{images/activation_sigmoid.png}
+        \label{fig:third_sub}
+    }
+    \caption{Activation functions \cite{activationfunction}}
+    \label{activation_funtions}
 \end{figure}
 
 In multi-class classification problems, the output layer will have one neuron per class. The categories may or may not be mutually exclusive and a common way to pick the best prediction is to choose the one with the highest probability when using for example a sigmoid function. As neurons in the last hidden layer are not interconnected these probabilities are independent and need to be normalized such that their sum equals to 1. A simply function such as \textit{softmax} divides each probability by the total sum. When categories are non exclusive, a probability threshold for each output neuron such as 0.5 can be used to pick the final outcomes.
@@ -170,7 +126,7 @@ The ANN can be trained using an existing dataset of examples to make future pred
   C = \frac{1}{2n} \sum_x \|y(x)-a^L(x)\|^2
 \end{eqnarray}
 
-To find the correct values for the weights and biases,  the cost function needs to be minimal. By plotting a simple version of this exponential cost function against the weight of one neuron (see fig \ref{fig:costfuntiongraph}), one could theoretically simply calculate the derivative for 0, but in reality the complexity is directly proportional to the number of neurons and will have many local minimum values.
+To find the correct values for the weights and biases,  the cost function needs to be minimal. By plotting a simple version of this exponential cost function against the weight of one neuron (see fig \ref{fig:costfuntiongraph}), one could theoretically simply calculate the derivative for 0, but in reality the complexity is directly proportional to the number of neurons and will have many local minimum values making such computations infeasible.
 
 \begin{figure}[h!]
 \centering
@@ -179,15 +135,14 @@ To find the correct values for the weights and biases,  the cost function needs 
   \label{fig:costfuntiongraph}
 \end{figure}
 
-Instead, the slope can be calculated and moved downwards to find the minimum value that optimises w, known as gradient descent. Large step sizes may overshoot the minimum while small ones will take a long time to converge. Thus a  good approach is to adapt this learning rate and Adam is one of the best performing algorithms.
+Instead, the slope can be calculated and moved downwards to find the minimum value that optimises \textit{w}, known as gradient descent. After running  a fraction or the entire dataset also known as the batch size, weights can be adjusted based on minimising the slope.  Large step sizes may overshoot the minimum while small ones will take a long time to converge. Thus, a  good approach is to adapt this learning rate and Adam\cite{kingma2014adam} is one of the best performing algorithms.
 
-Backpropagation uses the cost function to apply changes on the weights and biases of each neuron. Taking a multi-class classification problem, such as labeling dogs, cats, and fish, the aim is to make adjustments starting from the output layer and propagating these back to the first hidden layer. If the training example has a true value of a cat and the output of the activation function has a high probability for dog, then the aim is to decrease \( a^L(x) \) for the dog label and increase the the weight for cat label. Based on one single training example however, this would create a cat label biased in the algorithm and the values would only depend on the last training example. Instead, an average of the cost function is calculated over a significant proportion of the shuffled examples in the training set that remains computationally feasible - also called the batch size. The in depth mathematical details of the algorithm are beyond the scope of this project but the main equations including formal proofs are discussed by Nielsen 2018 \cite{nielsenneural} in chapter 2.
+When running on the entire batch size however, the updates happen less frequently and a local minimum is more likely to be chosen instead of the global one. An alternative is to optimize weights after each input in the training data, known as stochastic gradient descent. Due to the increased update frequency, this is more likely to find a global  minimum, but is dependent on the order of the rows in the training set and is not deterministic when data is picked randomly. Finding the global minimum has many other challenges depending on the dataset, such as very big slopes or many small ones. Trusk 2015 \cite{trask} provides possible solution to these issues.
 
+Backpropagation uses the cost function to apply changes on the weights and biases of each neuron in every layer. Taking a multi-class classification problem, such as labeling dogs, cats, and fish, the aim is to make adjustments starting from the output layer and propagating these back to the first hidden layer. If the training example has a true value of a cat and the output of the activation function has a high probability for dog, then the aim is to decrease \( a^L(x) \) for the dog label and increase the the weight for cat label using the cost function. The in depth mathematical details of the algorithm are beyond the scope of this project but the main equations including formal proofs are discussed by Nielsen 2018 \cite{nielsenneural} in chapter 2.
 
+\subsection{ANN Implementation}
 
-
-While this idea was mentioned as early as 1970   
-During the training phase of the neural network, predictions are measured against the true values of the input and weights and biases are adjusted to improve performance in a process called backpropagation that is applied after the predictions are measured.
 
 
 
