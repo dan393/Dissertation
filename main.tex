@@ -141,7 +141,23 @@ When running on the entire batch size however, the updates happen less frequentl
 
 Backpropagation uses the cost function to apply changes on the weights and biases of each neuron in every layer. Taking a multi-class classification problem, such as labeling dogs, cats, and fish, the aim is to make adjustments starting from the output layer and propagating these back to the first hidden layer. If the training example has a true value of a cat and the output of the activation function has a high probability for dog, then the aim is to decrease \( a^L(x) \) for the dog label and increase the the weight for cat label using the cost function. The in depth mathematical details of the algorithm are beyond the scope of this project but the main equations including formal proofs are discussed by Nielsen 2018 \cite{nielsenneural} in chapter 2.
 
-\subsection{ANN Implementation}
+\section{Building an ANN}
+\subsection{Choosing a Dataset}
+Kaggle\cite{kaggle} in a popular online platform for data scientists to share knowledge: this includes uploading real datasets and making them available for public use. Each dataset is open to a discussion thread and possible sample solution are discussed for different types of classification, including deep learning algorithms. Many top machine learning experts who work in the industry or academia will take part in competitions and their solutions are made public. This makes such datasets an excellent choice for the purpose of this project as a simple ANN implementation can be assessed against other solutions which arguably would end up powering real consumer products.
+
+The Stroke dataset\cite{strokedataset} contains lifestyle and medical data about patients, some of which suffered a stroke. This is an anonymous dataset the was first published be McKinsey as part of an online Hackathon on Healthcare although the source of this information cannot be verified online. The dataset has no personal identifiable information. The 14 columns contain attributes such as gender, age, hypertension, heart disease, smoking status, or the work type of a patient. More importantly, it also specifies if a patient had a stroke which allows for classifier to be trained and make future predictions.
+
+\subsection{Exploratory Data Analysis}
+When building prediction models, a crucial part is understanding the data before building a predictive model. For example, what columns are significant in predicting a stroke? Can we derive insights based on correlations? Can some information be discarded or can missing data be filled? 
+
+The stroke dataset contains 43400 entries of which only 783 (1.8\%) are patients who suffered a stroke as shown in \ref{fig:stroke_countplot}. Intuitively, we can also assume that strokes will occur more often in adults and elderly (see \ref{stroke_age_distplot}).
+
+images here
+
+A heatmap can show less intuitive correlations for a non medialy trained viewer ():
+
+\subsection{Categorical Data Transformation}
+\subsection{Missing Data}
 
 
 \begin{figure}[h!]
