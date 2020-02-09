@@ -169,13 +169,30 @@ The stroke dataset contains 43400 entries of which only 783 (1.8\%) are patients
     \label{activation_funtions}
 \end{figure}
 
-A heat-map of all the data columns (\ref{fig:heatmap}) can show less intuitive correlations for a non medically trained viewer. While age is understandably correlated with many columns such as being married, work type, or hypertension, it may not be obvious that the body mass index (bmi) would also be part of this relation. The scatter-plot in \ref{fig:age_bmi_scatterplot} shows how the bmi is increasing from childhood through to adulthood and decreasing again for elderly people. Interestingly, the bmi is also correlated with the work type - this could likely be explained by the fact that those who work are more active.
+A heat-map of all the data columns (\ref{fig:heatmap}) can show less intuitive correlations for a non medically trained viewer. While age is understandably correlated with many columns such as being married, work type, or hypertension, it may not be obvious that the body mass index (bmi) would also be part of this relation. The scatter-plot in fig \ref{fig:age_bmi_scatterplot} shows how the bmi is increasing from childhood through to adulthood and decreasing again for elderly people. Interestingly, the bmi is also correlated with the work type - this could likely be explained by the fact that those who work are more active.
 
 \begin{figure}[h!]
 \centering
   \includegraphics[scale=0.3]{images/building_ann/heatmap.png}
   \caption{Correlations among all data columns}
   \label{fig:heatmap}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \subfigure[Stroke Distribution in the dataset]
+    {
+        \includegraphics[width=2.5in]{images/building_ann/age_bmi_scatterplot.png}
+        \label{fig:age_bmi_scatterplot}
+    }
+    % \\
+    \subfigure[Age of stroke patients]
+    {
+        \includegraphics[width=3.5in]{images/building_ann/smoking_scatterplot.png}
+        \label{fig:smoking_scatterplot}
+    }
+%     \caption{Activation functions}
+    \label{activation_funtions}
 \end{figure}
 \begin{figure}[h!]
 \centering
