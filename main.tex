@@ -150,65 +150,40 @@ The Stroke dataset\cite{strokedataset} contains lifestyle and medical data about
 \subsection{Exploratory Data Analysis}
 When building prediction models, a crucial part is understanding the data before building a predictive model. For example, what columns are significant in predicting a stroke? Can we derive insights based on correlations? Can some information be discarded or can missing data be filled? 
 
-The stroke dataset contains 43400 entries of which only 783 (1.8\%) are patients who suffered a stroke as shown in \ref{fig:stroke_count}. Intuitively, we can also assume that strokes will occur more often in adults and elderly (see \ref{fig:age_of_stroke_patients}).
-
-\begin{figure}
-    \centering
-    \subfigure[Stroke Distribution in the dataset]
-    {
-        \includegraphics[width=2.5in]{images/building_ann/stroke_countplot.png}
-        \label{fig:stroke_count}
-    }
-    % \\
-    \subfigure[Age of stroke patients]
-    {
-        \includegraphics[width=3.5in]{images/building_ann/stroke_age_distplot.png}
-        \label{fig:age_of_stroke_patients}
-    }
-%     \caption{Activation functions}
-    \label{activation_funtions}
-\end{figure}
-
-A heat-map of all the data columns (\ref{fig:heatmap}) can show less intuitive correlations for a non medically trained viewer. While age is understandably correlated with many columns such as being married, work type, or hypertension, it may not be obvious that the body mass index (bmi) would also be part of this relation. The scatter-plot in fig \ref{fig:age_bmi_scatterplot} shows how the bmi is increasing from childhood through to adulthood and decreasing again for elderly people. Interestingly, the bmi is also correlated with the work type - this could likely be explained by the fact that those who work are more active.
-
-\begin{figure}[h!]
-\centering
-  \includegraphics[scale=0.3]{images/building_ann/heatmap.png}
-  \caption{Correlations among all data columns}
-  \label{fig:heatmap}
-\end{figure}
+The stroke dataset contains 43400 entries of which only 783 (1.8\%) are patients who suffered a stroke as shown in fig \ref{fig:stroke_count}. Intuitively, we can also assume that strokes will occur more often in adults and elderly (see fig \ref{fig:age_of_stroke_patients}).
 
 \begin{figure}
 \centering
-\begin{minipage}{.5\textwidth}
-  \centering
-  \includegraphics[width=1\linewidth]{images/building_ann/age_bmi_scatterplot.png}
-  \captionof{figure}{A figure}
-  \label{fig:test1}
+\begin{minipage}[t]{.5\textwidth}
+  \centering 
+  \includegraphics[width=\textwidth]{images/building_ann/stroke_countplot.png}
+  \captionof{figure}{Stroke Distribution in the dataset}
+  \label{fig:stroke_count}
 \end{minipage}%
-\begin{minipage}{.5\textwidth}
+\begin{minipage}[t]{.5\textwidth}
   \centering
-  \includegraphics[width=1\linewidth]{images/building_ann/smoking_scatterplot.png}
-  \captionof{figure}{Another figure}
-  \label{fig:test2}
+  \includegraphics[width=\textwidth]{images/building_ann/stroke_age_distplot.png}
+  \captionof{figure}{Age of stroke patients}
+  \label{fig:age_of_stroke_patients}
 \end{minipage}
 \end{figure}
 
+A heat-map of all the data columns (\ref{fig:heatmap}) can show less intuitive correlations for a non medically trained viewer. While age is understandably correlated with many columns such as being married, work type, or hypertension, it may not be obvious that the body mass index (bmi) would also be part of this relation. The scatter-plot in fig \ref{fig:age_bmi_scatterplot} shows how the bmi is increasing from childhood through to adulthood and decreasing again for elderly people. Interestingly, the bmi is also correlated with the work type - this could likely be explained by the fact that those who work are also more active.
+
 \begin{figure}
-    \centering
-    \subfigure[Stroke Distribution in the dataset]
-    {
-        \includegraphics[width=2.5in]{images/building_ann/age_bmi_scatterplot.png}
-        \label{fig:age_bmi_scatterplot}
-    }
-    % \\
-    \subfigure[Age of stroke patients]
-    {
-        \includegraphics[width=3.5in]{images/building_ann/smoking_scatterplot.png}
-        \label{fig:smoking_scatterplot}
-    }
-%     \caption{Activation functions}
-    \label{activation_funtions}
+\centering
+\begin{minipage}[t]{.7\textwidth}
+  \centering 
+  \includegraphics[width=\textwidth]{images/building_ann/heatmap.png}
+  \captionof{figure}{Correlations among all data columns}
+  \label{fig:heatmap}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/building_ann/age_bmi_scatterplot.png}
+  \captionof{figure}{Age vs body mass index}
+  \label{fig:age_bmi_scatterplot}
+\end{minipage}
 \end{figure}
 
 \subsection{Categorical Data Transformation}
