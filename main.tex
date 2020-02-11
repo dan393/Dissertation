@@ -148,9 +148,7 @@ Kaggle\cite{kaggle} in a popular online platform for data scientists to share kn
 The Stroke dataset\cite{strokedataset} contains lifestyle and medical data about patients, some of which suffered a stroke. This is an anonymous dataset the was first published be McKinsey as part of an online Hackathon on Healthcare although the source of this information cannot be verified online. The dataset has no personal identifiable information. The 14 columns contain attributes such as gender, age, hypertension, heart disease, smoking status, or the work type of a patient. More importantly, it also specifies if a patient had a stroke which allows for classifier to be trained and make future predictions.
 
 \subsection{Exploratory Data Analysis}
-When building prediction models, a crucial part is understanding the data before building a predictive model. For example, what columns are significant in predicting a stroke? Can we derive insights based on correlations? Can some information be discarded or can missing data be filled? 
-
-The stroke dataset contains 43400 entries of which only 783 (1.8\%) are patients who suffered a stroke as shown in fig \ref{fig:stroke_count}. Intuitively, we can also assume that strokes will occur more often in adults and elderly (see fig \ref{fig:age_of_stroke_patients}).
+When building predictive models, a crucial part is understanding the data before building a predictive model. For example, what columns are significant in predicting a stroke? Can we derive insights based on correlations? Can some information be discarded or can missing data be filled? 
 
 \begin{figure}
 \centering
@@ -163,19 +161,19 @@ The stroke dataset contains 43400 entries of which only 783 (1.8\%) are patients
 \begin{minipage}[t]{.5\textwidth}
   \centering
   \includegraphics[width=\textwidth]{images/building_ann/stroke_age_distplot.png}
-  \captionof{figure}{Age of stroke patients}
+  \captionof{figure}{Age distribution of patients who suffered a stroke}
   \label{fig:age_of_stroke_patients}
 \end{minipage}
 \end{figure}
 
-A heat-map of all the data columns (\ref{fig:heatmap}) can show less intuitive correlations for a non medically trained viewer. While age is understandably correlated with many columns such as being married, work type, or hypertension, it may not be obvious that the body mass index (bmi) would also be part of this relation. The scatter-plot in fig \ref{fig:age_bmi_scatterplot} shows how the bmi is increasing from childhood through to adulthood and decreasing again for elderly people. Interestingly, the bmi is also correlated with the work type - this could likely be explained by the fact that those who work are also more active.
+The stroke dataset contains 43400 entries of which only 783 (1.8\%) are patients who suffered a stroke as shown in fig \ref{fig:stroke_count}. Intuitively, we can assume that strokes will occur more often in adults and elderly (see fig \ref{fig:age_of_stroke_patients}). A heat-map using a balanced subset (equal numbers of stroke and non-stroke patient) of the available data shows correlations among all the data columns ( fig \ref{fig:heatmap}). Missed or less intuitive correlations for a non medically trained viewer become clearer. For example, it is expected that age is highly correlated with a person's lifestyle choices and health such as being married, work type, having a heart disease or hypertension. It may not be immediately obvious that heart diseases and strokes follow an almost identical distribution with a higher likelihood at older ages (fig \ref{fig:age_of_stroke_patients})). Hypertension starts at earlier ages and may be a key indicator for later strokes, both having a high correlation. Another less clear correlation is the age vs the body mass index (bmi): fig \ref{fig:age_bmi_scatterplot} shows how the bmi is increasing from childhood through to adulthood and decreasing again for elderly people. Interestingly, the bmi is also correlated with the work type - this could likely be explained by the fact that those who work are also more active.
 
 \begin{figure}
 \centering
 \begin{minipage}[t]{.7\textwidth}
   \centering 
   \includegraphics[width=\textwidth]{images/building_ann/heatmap.png}
-  \captionof{figure}{Correlations among all data columns}
+  \captionof{figure}{Correlations among all data columns using a balanced subset - smoking status is mapped to binary values}
   \label{fig:heatmap}
 \end{minipage}%
 \begin{minipage}[t]{.4\textwidth}
@@ -186,6 +184,9 @@ A heat-map of all the data columns (\ref{fig:heatmap}) can show less intuitive c
 \end{minipage}
 \end{figure}
 
+Surprisingly, a stronger correlation is seen among smoking status and gender (.... fig gender) than among  smoking and strokes or hypertension. Only 0.017\% of those who never smoked suffered a stroke, only slightly better than 0.02\% of those who regularly smoke. Unexpectedly, the highest rate of strokes is for former smokers at 0.03\%.
+
+\newpage
 \subsection{Categorical Data Transformation}
 \subsection{Missing Data}
 
