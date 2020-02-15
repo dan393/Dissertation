@@ -177,10 +177,17 @@ For example, it is expected that age is highly correlated with a person's lifest
   \label{fig:heatmap}
 \end{figure}
 
-Surprisingly, a stronger correlation is seen among smoking status and gender (.... fig gender) than among  smoking and strokes or hypertension. Only 1.7\% of those who never smoked suffered a stroke, only slightly better than 2\% of those who regularly smoke. Unexpectedly, the highest rate of strokes is for former smokers at 3\%.
+Surprisingly, a strong correlation is seen among smoking status and gender (fig \ref{fig:gender_smoking_percentage}) than among  smoking vs strokes or hypertension. There are more males who smoke or formerly smoked than females. The number of females who never smoked is also significantly higher. Only 1.7\% of those who never smoked suffered a stroke, only slightly better than 2\% of those who regularly smoke. Unexpectedly, the highest rate of strokes is for former smokers at 3\%.
 
+\begin{figure}[h!]
+\centering
+  \includegraphics[width=.4\textwidth]{images/building_ann/gender_smoking_percentage.png}
+  \caption{Percentage of male/female smokers}
+  \label{fig:gender_smoking_percentage}
+\end{figure}
 
-\subsection{Categorical Data Transformation}
+\subsection{Categorical and Missing Data}
+The correlations and insights derived from the previous section allow us to fill in missing data in a manner that is consistent with the dataset. Two columns, the \textit{bmi} and \textit{smoking status} are missing information.
 \subsection{Missing Data}
 
 
