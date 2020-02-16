@@ -201,8 +201,40 @@ By creating these mapping to numerical values, the ANN will need more neurons an
 
 \subsection{Architecture of the ANN with Keras}
 
+Keras\cite{keras} is the official api library for implementing high-level ANNs in Python using tensorflow (2.0). Hidden and output layers can be easily added with parameters such as the number of neurons or activation function to be used. A model can be trained using a large number of parameters that abstract away from the granular implementation details that would otherwise require an in depth understanding of complex mathematical formulas.
 
+The first step is to split the dataset into a training and test set. We use 80\% to train and 20\% to test. The validation data will only be used to measure the performance and not for any training purposes during backpropagation. The data is then sclaed and normalized using the \textit{std} and \textit{min/max} values of the dataset.
 
+The number of epochs is set to 200 with an early stopping callback to avoid over fitting after the valuation loss stops improving. Given this is an imbalanced dataset, the batch size is set to 2048 to ensure the model trains on enough rows from the minority class. The loss function is binary cross entropy with Adam as the optimizer.
+
+On the first training attempt of the model, this achieved a 98\% accuracy. However, this metric is misleading due to the fact that the dataset is highly imbalanced. The precision for class 0 (no stroke) is nearly 99\% while 0 for the minority class 1 (suffered a stroke). The algorithm learns to always predict 0 regardless of the input. This is a common problem for Deep Learning. There are several approaches worth discussing to overcome this.
+
+One solution is to attach weights to each class\cite{cost_sensitive}\cite{WangS}. Thus, the ANN becomes sensitive to the importance of the class: the cost function is punishing the network proportionally higher when it miscalssfies a row from the under-represented class.
+
+The networks significantly improves when the weights are set proportionally to the class distributions \{class 0:0.51 and class 1:27.71\}. Training is stopped early after 32 epochs (fig:\ref{fig:val_loss_weighted}).  Figures  \ref{fig:confusion_matrix_weighted} and \ref{fig:classification_report_weighted} show how label 1 now has an 83\% recall score (TP/(TP +FN)) but only 4\% precision (TP/(TP + FP)). If this was a real medical test, it would correctly identify most of those patients who have a stroke, but would also wrongly misdiagnose 1/3 of healthy patients.
+
+\begin{figure}[h!]
+\centering
+ \includegraphics[width=0.4\textwidth]{images/building_ann/val_loss_weighted.png}
+  \captionof{figure}{Loss minimising on training and test data though epoch training}
+  \label{fig:val_loss_weighted}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\begin{minipage}[t]{.4\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/building_ann/confusion_matrix_weighted.png}
+  \captionof{figure}{Confusion matrix for class weighted ANN}
+  \label{fig:confusion_matrix_weighted}
+\end{minipage}
+\begin{minipage}[t]{.5\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{images/building_ann/classification_report_weighted.png}
+  \captionof{figure}{Classification report}
+  \label{fig:classification_report_weighted}
+  \end{minipage}
+\end{figure}
 
 
 
