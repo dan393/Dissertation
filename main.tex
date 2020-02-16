@@ -172,7 +172,7 @@ For example, it is expected that age is highly correlated with a person's lifest
 
 \begin{figure}[h!]
 \centering
-  \includegraphics[width=.7\textwidth]{images/building_ann/heatmap.png}
+  \includegraphics[width=.73\textwidth]{images/building_ann/heatmap.png}
   \caption{Correlations among all data columns using a balanced subset - smoking status is mapped to binary values}
   \label{fig:heatmap}
 \end{figure}
@@ -187,20 +187,19 @@ Surprisingly, a strong correlation is seen among smoking status and gender (fig 
 \end{figure}
 
 \subsection{Categorical and Missing Data}
-The correlations and insights derived from the previous section allow us to fill in missing data in a manner that is consistent with the dataset. Two columns, the \textit{bmi} and \textit{smoking status} are missing information.
-\subsection{Missing Data}
+The correlations and insights derived from the previous section allow us to fill in missing data in a manner that is consistent with the dataset's features. Two columns, the \textit{bmi} and \textit{smoking status} are missing information.
 
+There are 1462 (3.3\%) rows missing the bmi value. To ensure the dataset has no \textit{nan} values, we could simply delete these rows or replace the missing bmi with an average over the entire dataset. However, the strong correlations with age and work type allow us to be more precise: replacing the bmi with the average bmi for that age group would produce a larger distribution, but the bmi has a significantly stronger correlation (0.42) with the work type, which in turn will distribute bmi average values over five types of work. Averaging the bmi of each work type to replace missing bmi is the better choice.
 
+The smoking column is missing in 30\% of the data. Surprisingly, this is not strongly correlated with other attributes, and has a particularly low correlation with the stroke column. A reasonable approach could be to delete the column entirely, but in a realistic scenario, stakeholders would loose confidence if they learned that smoking information has been dropped in a stroke prediction product. As such, we can fill this information using an empirical approach: if the work type is children or age is less than 18, we set this values to\textit{ never smoked}. Otherwise, we can make use of the fact that males are significantly heavier smokers and thus decide the status based on gender.
 
+The least significant column in the dataset is the id of patients. This is a numerical value that replace personal identifiable data. This has no correlations with any attributes and should be dropped.
 
+Categorical data needs to be mapped to numerical values for  an ANN to work. One hot encoding is used to avoid wrongly increasing the importance of a category based on it numerical mapping. For example, the column residence type will translate to columns \textit{urban} and \textit{rural} with values of 0 or 1 only. As this is duplicating the data, only one column is need and the other is dropped. For attributes with more categories, columns are created for each value  with mappings of 0 or 1. This approach ensures that no categorical value has a higher rank than others.
 
+By creating these mapping to numerical values, the ANN will need more neurons and more processing resources. Such mappings are usually evenly distributed, but in the case of gender which has three categories (Male, Female, Other) , only 11 entries are labelled as Other out of 43400 rows. One hot encoding would add unnecessary overhead on the dataset and a good approach would be to merge such values in one of the other categories. In this case however, the eleven rows can be dropped. Finally, the number of columns after the data translation increased from 11 to 15 columns.
 
-
-
-
-
-
-
+\subsection{Architecture of the ANN with Keras}
 
 
 
