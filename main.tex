@@ -6,6 +6,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{caption}
+\usepackage{booktabs}
 \usepackage{subfigure}
 \title{Generating Representative Artificial Datasets for Algorithm Evaluation}
 \author{\ Dan-Florin Berbec \\ \ Supervisor: Peter Bloodsworth}
@@ -211,33 +212,26 @@ On the first training attempt of the model, this achieved a 98\% accuracy. Howev
 
 One solution is to attach weights to each class\cite{cost_sensitive}\cite{WangS}. Thus, the ANN becomes sensitive to the importance of the class: the cost function is punishing the network proportionally higher when it miscalssfies a row from the under-represented class.
 
-The networks significantly improves when the weights are set proportionally to the class distributions \{class 0:0.51 and class 1:27.71\}. Training is stopped early after 32 epochs (fig:\ref{fig:val_loss_weighted}).  Figures  \ref{fig:confusion_matrix_weighted} and \ref{fig:classification_report_weighted} show how label 1 now has an 83\% recall score (TP/(TP +FN)) but only 4\% precision (TP/(TP + FP)). If this was a real medical test, it would correctly identify most of those patients who have a stroke, but would also wrongly misdiagnose 1/3 of healthy patients.
+The networks significantly improves when the weights are set proportionally to the class distributions \{class 0:0.51 and class 1:27.71\}. Training is stopped early after 32 epochs (fig:\ref{fig:val_loss_weighted}).  The classification report in figure   \ref{fig:weighted_ann} show how label 1 now has an 83\% recall score (TP/(TP +FN)) but only 4\% precision (TP/(TP + FP)). If this was a real medical test, it would correctly identify most of those patients who have a stroke, but would also wrongly misdiagnose 1/3 of healthy patients.
 
-\begin{figure}[h!]
-\centering
- \includegraphics[width=0.4\textwidth]{images/building_ann/val_loss_weighted.png}
-  \captionof{figure}{Loss minimising on training and test data though epoch training}
-  \label{fig:val_loss_weighted}
+
+\begin{figure}
+    \centering
+    \subfigure
+    {
+        \input{images/building_ann/weighted.tex}
+        \label{fig:first_sub}
+    }
+    
+    \subfigure
+    {
+        \includegraphics[width=7in]{images/building_ann/val_loss_weighted.png}
+        \label{fig:second_sub}
+    }
+    \caption{Weighted network}
+    \label{fig:weighted_ann}
 \end{figure}
-
-\begin{figure}[h!]
-\centering
-\begin{minipage}[t]{.4\textwidth}
-  \centering
-  \includegraphics[width=\textwidth]{images/building_ann/confusion_matrix_weighted.png}
-  \captionof{figure}{Confusion matrix for class weighted ANN}
-  \label{fig:confusion_matrix_weighted}
-\end{minipage}
-\begin{minipage}[t]{.5\textwidth}
-  \centering
-  \includegraphics[width=\textwidth]{images/building_ann/classification_report_weighted.png}
-  \captionof{figure}{Classification report}
-  \label{fig:classification_report_weighted}
-  \end{minipage}
-\end{figure}
-
-
-
+   
 \newpage
 \footnotesize
 

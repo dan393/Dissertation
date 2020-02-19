@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.16)  16 FEB 2020 23:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.16)  19 FEB 2020 00:44
 entering extended mode
 **./main.tex
 (main.tex
@@ -287,18 +287,38 @@ Package caption Info: Standard document class detected.
 \c@continuedfloat=\count268
 Package caption Info: hyperref package is loaded.
 )
+("C:\Program Files\MiKTeX 2.9\tex/latex/booktabs\booktabs.sty"
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen165
+\lightrulewidth=\dimen166
+\cmidrulewidth=\dimen167
+\belowrulesep=\dimen168
+\belowbottomsep=\dimen169
+\aboverulesep=\dimen170
+\abovetopsep=\dimen171
+\cmidrulesep=\dimen172
+\cmidrulekern=\dimen173
+\defaultaddspace=\dimen174
+\@cmidla=\count269
+\@cmidlb=\count270
+\@aboverulesep=\dimen175
+\@belowrulesep=\dimen176
+\@thisruleclass=\count271
+\@lastruleclass=\count272
+\@thisrulewidth=\dimen177
+)
 ("C:\Program Files\MiKTeX 2.9\tex/latex/subfigure\subfigure.sty"
 Package: subfigure 2002/07/30 v2.1.4 subfigure package
 \subfigtopskip=\skip53
 \subfigcapskip=\skip54
-\subfigcaptopadj=\dimen165
+\subfigcaptopadj=\dimen178
 \subfigbottomskip=\skip55
-\subfigcapmargin=\dimen166
+\subfigcapmargin=\dimen179
 \subfiglabelskip=\skip56
-\c@subfigure=\count269
-\c@lofdepth=\count270
-\c@subtable=\count271
-\c@lotdepth=\count272
+\c@subfigure=\count273
+\c@lofdepth=\count274
+\c@subtable=\count275
+\c@lotdepth=\count276
 
 ****************************************
 * Local config file subfigure.cfg used *
@@ -312,34 +332,47 @@ Package: parskip 2020-01-22 v2.0d non-zero parskip adjustments
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/etoolbox\etoolbox.sty"
 Package: etoolbox 2019/09/21 v2.5h e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count273
+\etb@tempcnta=\count277
 ))
 ("C:\Program Files\MiKTeX 2.9\tex/latex/l3backend\l3backend-pdfmode.def"
 File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
-\l__kernel_color_stack_int=\count274
+\l__kernel_color_stack_int=\count278
 \l__pdf_internal_box=\box47
 )
-(main.aux)
+(main.aux
+
+LaTeX Warning: Label `fig:first_sub' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:first_sub' multiply defined.
+
+
+LaTeX Warning: Label `fig:second_sub' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:second_sub' multiply defined.
+
+)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
 LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 2
-0.
+1.
  ("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\ot1ptm.fd"
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
@@ -379,16 +412,16 @@ File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 
 ("C:\Program Files\MiKTeX 2.9\tex/context/base/mkii\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count275
-\scratchdimen=\dimen167
+\scratchcounter=\count279
+\scratchdimen=\dimen180
 \scratchbox=\box48
-\nofMPsegments=\count276
-\nofMParguments=\count277
+\nofMPsegments=\count280
+\nofMParguments=\count281
 \everyMPshowfont=\toks21
-\MPscratchCnt=\count278
-\MPscratchDim=\dimen168
-\MPnumerator=\count279
-\makeMPintoPDFobject=\count280
+\MPscratchCnt=\count282
+\MPscratchDim=\dimen181
+\MPnumerator=\count283
+\makeMPintoPDFobject=\count284
 \everyMPtoPDFconversion=\toks22
 ) ("C:\Program Files\MiKTeX 2.9\tex/latex/epstopdf-pkg\epstopdf-base.sty"
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -396,7 +429,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
 )
 \AtBeginShipoutBox=\box49
-Package hyperref Info: Link coloring OFF on input line 20.
+Package hyperref Info: Link coloring OFF on input line 21.
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/hyperref\nameref.sty"
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
@@ -407,11 +440,11 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ("C:\Program Files\MiKTeX 2.9\tex/generic/gettitlestring\gettitlestring.sty"
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count281
+\c@section@level=\count285
 )
-LaTeX Info: Redefining \ref on input line 20.
-LaTeX Info: Redefining \pageref on input line 20.
-LaTeX Info: Redefining \nameref on input line 20.
+LaTeX Info: Redefining \ref on input line 21.
+LaTeX Info: Redefining \pageref on input line 21.
+LaTeX Info: Redefining \nameref on input line 21.
 
 (main.out) (main.out)
 \@outlinefile=\write3
@@ -428,7 +461,7 @@ Package epstopdf Info: Source file: <oxfordlogo.eps>
 (epstopdf)                    size: 31014 bytes
 (epstopdf)             Command: <epstopdf --outfile=oxfordlogo-eps-converted-to
 .pdf oxfordlogo.eps>
-(epstopdf)             \includegraphics on input line 23.
+(epstopdf)             \includegraphics on input line 24.
 Package epstopdf Info: Output file is already uptodate.
 
 
@@ -437,16 +470,16 @@ n: found PDF version <1.7>, but at most version <1.5> allowed
 <oxfordlogo-eps-converted-to.pdf, id=39, 285.065pt x 285.065pt>
 File: oxfordlogo-eps-converted-to.pdf Graphic file (type pdf)
 <use oxfordlogo-eps-converted-to.pdf>
-Package pdftex.def Info: oxfordlogo-eps-converted-to.pdf  used on input line 23
+Package pdftex.def Info: oxfordlogo-eps-converted-to.pdf  used on input line 24
 .
 (pdftex.def)             Requested size: 40.00017pt x 40.0pt.
 
-Overfull \hbox (412.9679pt too wide) detected at line 23
+Overfull \hbox (412.9679pt too wide) detected at line 24
 []
  []
 
 
-Underfull \hbox (badness 10000) detected at line 23
+Underfull \hbox (badness 10000) detected at line 24
 [] []
  []
 
@@ -459,32 +492,32 @@ o-eps-converted-to.pdf>] [2
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.28 ...m works indeed as specified.\end{abstract}
+l.29 ...m works indeed as specified.\end{abstract}
                                                    [1
 
 ]pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.44 
+l.45 
       [1]pdfTeX warning (ext4): destination with the same identifier (name{page
 .2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.64 
+l.65 
       [2] [3]
 <images/simple-neural-network.jpg, id=90, 503.8825pt x 337.26pt>
 File: images/simple-neural-network.jpg Graphic file (type jpg)
 <use images/simple-neural-network.jpg>
 Package pdftex.def Info: images/simple-neural-network.jpg  used on input line 8
-2.
+3.
 (pdftex.def)             Requested size: 201.54942pt x 134.9016pt.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 89.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 90.
 
  ("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 89.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 90.
 
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
@@ -494,18 +527,18 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: images/activation_binary_step_1.png Graphic file (type png)
 <use images/activation_binary_step_1.png>
 Package pdftex.def Info: images/activation_binary_step_1.png  used on input lin
-e 104.
+e 105.
 (pdftex.def)             Requested size: 130.08621pt x 65.04019pt.
 <images/activation_rectified_linear.png, id=97, 2168.1pt x 1084.05pt>
 File: images/activation_rectified_linear.png Graphic file (type png)
 <use images/activation_rectified_linear.png>
 Package pdftex.def Info: images/activation_rectified_linear.png  used on input 
-line 110.
+line 111.
 (pdftex.def)             Requested size: 130.08621pt x 65.04019pt.
 <images/activation_sigmoid.png, id=98, 2168.1pt x 1084.05pt>
 File: images/activation_sigmoid.png Graphic file (type png)
 <use images/activation_sigmoid.png>
-Package pdftex.def Info: images/activation_sigmoid.png  used on input line 115.
+Package pdftex.def Info: images/activation_sigmoid.png  used on input line 116.
 
 (pdftex.def)             Requested size: 130.08621pt x 65.04019pt.
  [4 <./images/simple-neural-network.jpg>]
@@ -515,7 +548,7 @@ File: images/A-graph-of-a-cost-function-modified-from.png Graphic file (type pn
 g)
 <use images/A-graph-of-a-cost-function-modified-from.png>
 Package pdftex.def Info: images/A-graph-of-a-cost-function-modified-from.png  u
-sed on input line 133.
+sed on input line 134.
 (pdftex.def)             Requested size: 170.63448pt x 117.83815pt.
  [5 <./images/activation_binary_step_1.png> <./images/activation_rectified_line
 ar.png> <./images/activation_sigmoid.png> <./images/A-graph-of-a-cost-function-
@@ -524,20 +557,20 @@ modified-from.png>]
 File: images/building_ann/age_bmi_scatterplot.png Graphic file (type png)
 <use images/building_ann/age_bmi_scatterplot.png>
 Package pdftex.def Info: images/building_ann/age_bmi_scatterplot.png  used on i
-nput line 157.
+nput line 158.
 (pdftex.def)             Requested size: 181.18439pt x 181.18182pt.
 <images/building_ann/stroke_age_distplot.png, id=145, 722.7pt x 578.16pt>
 File: images/building_ann/stroke_age_distplot.png Graphic file (type png)
 <use images/building_ann/stroke_age_distplot.png>
 Package pdftex.def Info: images/building_ann/stroke_age_distplot.png  used on i
-nput line 163.
+nput line 164.
 (pdftex.def)             Requested size: 226.48395pt x 181.18623pt.
  [6]
 <images/building_ann/heatmap.png, id=160, 1084.05pt x 1084.05pt>
 File: images/building_ann/heatmap.png Graphic file (type png)
 <use images/building_ann/heatmap.png>
 Package pdftex.def Info: images/building_ann/heatmap.png  used on input line 17
-5.
+6.
 (pdftex.def)             Requested size: 330.66463pt x 330.65958pt.
  [7 <./images/building_ann/age_bmi_scatterplot.png> <./images/building_ann/stro
 ke_age_distplot.png> <./images/building_ann/heatmap.png>]
@@ -547,51 +580,38 @@ File: images/building_ann/gender_smoking_percentage.png Graphic file (type png)
 
 <use images/building_ann/gender_smoking_percentage.png>
 Package pdftex.def Info: images/building_ann/gender_smoking_percentage.png  use
-d on input line 184.
+d on input line 185.
 (pdftex.def)             Requested size: 181.18439pt x 181.18182pt.
  [8 <./images/building_ann/gender_smoking_percentage.png>]
 LaTeX Font Info:    Trying to load font information for OMS+ptm on input line 2
-14.
+15.
 ("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\omsptm.fd"
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 214.
-<images/building_ann/val_loss_weighted.png, id=182, 433.62pt x 289.08pt>
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 215.
+
+
+LaTeX Warning: Reference `fig:val_loss_weighted' on page 9 undefined on input l
+ine 215.
+
+(images/building_ann/weighted.tex)
+<images/building_ann/val_loss_weighted.png, id=180, 1084.05pt x 361.35pt>
 File: images/building_ann/val_loss_weighted.png Graphic file (type png)
 <use images/building_ann/val_loss_weighted.png>
 Package pdftex.def Info: images/building_ann/val_loss_weighted.png  used on inp
-ut line 218.
-(pdftex.def)             Requested size: 181.18439pt x 120.79082pt.
+ut line 230.
+(pdftex.def)             Requested size: 505.89pt x 168.62701pt.
 
+Overfull \hbox (58.9221pt too wide) in paragraph at lines 230--231
+ [][] 
+ []
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<images/building_ann/confusion_matrix_weighted.png, id=183, 361.35pt x 361.35pt
->
-File: images/building_ann/confusion_matrix_weighted.png Graphic file (type png)
-
-<use images/building_ann/confusion_matrix_weighted.png>
-Package pdftex.def Info: images/building_ann/confusion_matrix_weighted.png  use
-d on input line 227.
-(pdftex.def)             Requested size: 181.18439pt x 181.18182pt.
-<images/building_ann/classification_report_weighted.png, id=184, 212.795pt x 72
-.27pt>
-File: images/building_ann/classification_report_weighted.png Graphic file (type
- png)
-<use images/building_ann/classification_report_weighted.png>
-Package pdftex.def Info: images/building_ann/classification_report_weighted.png
-  used on input line 233.
-(pdftex.def)             Requested size: 226.48395pt x 76.9234pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[9] (main.bbl [10 <./images/building_ann/val_loss_weighted.png> <./images/build
-ing_ann/confusion_matrix_weighted.png> <./images/building_ann/classification_re
-port_weighted.png>]
+[9] (main.bbl [10 <./images/building_ann/val_loss_weighted.png>]
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 5
 .
- ("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\ot1pcr.fd"
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\ot1pcr.fd"
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 Underfull \hbox (badness 10000) in paragraph at lines 13--16
@@ -656,20 +676,27 @@ Underfull \hbox (badness 10000) in paragraph at lines 84--87
 ) [11
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 250.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 250.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 244.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 244.
  (main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 250.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 250.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 244.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 244.
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 710F3DDBB827D270D6088BB9DC2F7FF4;629.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 250.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 244.
  ) 
 Here is how much of TeX's memory you used:
- 8717 strings out of 481565
- 132730 string characters out of 2923924
- 401806 words of memory out of 3000000
- 23704 multiletter control sequences out of 15000+200000
+ 8768 strings out of 481565
+ 133059 string characters out of 2923924
+ 402454 words of memory out of 3000000
+ 23748 multiletter control sequences out of 15000+200000
  557523 words of font info for 75 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,11n,42p,1081b,371s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -683,9 +710,9 @@ ts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy
 ram Files/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 
 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/u
 rw/times/utmri8a.pfb>
-Output written on main.pdf (14 pages, 1002893 bytes).
+Output written on main.pdf (14 pages, 1054647 bytes).
 PDF statistics:
- 288 PDF objects out of 1000 (max. 8388607)
- 57 named destinations out of 1000 (max. 500000)
- 138 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 284 PDF objects out of 1000 (max. 8388607)
+ 58 named destinations out of 1000 (max. 500000)
+ 128 words of extra memory for PDF output out of 10000 (max. 10000000)
 
