@@ -1,0 +1,103 @@
+\begin{thebibliography}{10}
+
+\bibitem{activationfunction}
+Activation function - wikipedia.
+\newblock \url{https://en.wikipedia.org/wiki/Activation_function}.
+
+\bibitem{jail}
+Ai is sending people to jail—and getting it wrong - mit.
+\newblock
+  \url{https://www.technologyreview.com/s/612775/algorithms-criminal-justice-ai/}.
+
+\bibitem{algassessment}
+Algorithm assessment report.
+\newblock
+  \url{https://data.govt.nz/use-data/analyse-data/government-algorithm-transparency-and-accountability/algorithm-assessment-report/}.
+
+\bibitem{alphago}
+Alphago | deepmind.
+\newblock \url{https://deepmind.com/research/alphago/}.
+
+\bibitem{backtesting}
+Backtesting - investopedia.
+\newblock \url{https://www.investopedia.com/terms/b/backtesting.asp}.
+
+\bibitem{robot}
+Coding your own algo-trading robot - investopedia.
+\newblock
+  \url{https://www.investopedia.com/articles/active-trading/081315/how-code-your-own-algo-trading-robot.asp}.
+
+\bibitem{stealuber}
+Did uber steal google's intellectual property? | the new yorker.
+\newblock
+  \url{https://www.newyorker.com/magazine/2018/10/22/did-uber-steal-googles-intellectual-property.}
+
+\bibitem{costfuntion}
+A graph of a cost function - researchgate.
+\newblock
+  \url{https://www.researchgate.net/figure/A-graph-of-a-cost-function-modified-from_fig1_329920042}.
+
+\bibitem{cost_sensitive}
+How to develop a cost-sensitive neural network.
+\newblock
+  \url{https://machinelearningmastery.com/cost-sensitive-neural-network-for-imbalanced-classification}.
+
+\bibitem{kaggle}
+Kaggle.
+\newblock \url{https://www.kaggle.com//}.
+
+\bibitem{keras}
+Keras.
+\newblock \url{https://keras.io/}.
+
+\bibitem{simpleneural}
+Neural network - databricks.
+\newblock \url{https://databricks.com/glossary/neural-network}.
+
+\bibitem{trask}
+A neural network in 13 lines of python (part 2).
+\newblock \url{https://iamtrask.github.io/2015/07/27/python-network-part2/}.
+
+\bibitem{rosenblatt}
+Professor's perceptron paved the way for ai – 60 years too soon.
+\newblock
+  \url{https://news.cornell.edu/stories/2019/09/professors-perceptron-paved-way-ai-60-years-too-soon/}.
+
+\bibitem{strokedataset}
+Stroke dataset.
+\newblock \url{https://www.kaggle.com/asaumya/healthcare-dataset-stroke-data/}.
+
+\bibitem{jeopardy}
+The triple jeopardy of ke xu, a chinese hedge fund quant ....
+\newblock
+  \url{https://www.bloomberg.com/news/features/2018-11-19/the-triple-jeopardy-of-ke-xu-a-chinese-hedge-fund-quant}.
+
+\bibitem{trolley}
+Trolley problem - wikipedia.
+\newblock \url{https://en.wikipedia.org/wiki/Trolley_problem}.
+
+\bibitem{waymo}
+Uber and waymo settle autonomous driving tech lawsuit.
+\newblock \url{https://www.wired.com/story/uber-waymo-lawsuit-settlement/.}
+
+\bibitem{autonomous}
+Well-funded autonomous vehicle startups | crunchbase.
+\newblock
+  \url{https://www.crunchbase.com/lists/well-funded-autonomous-vehicle-startups/f2214864-27b0-47cf-b596-257602ab8145/organization.companies}.
+
+\bibitem{kingma2014adam}
+Diederik~P. Kingma and Jimmy Ba.
+\newblock Adam: A method for stochastic optimization, 2014.
+
+\bibitem{nielsenneural}
+Michael~A. Nielsen.
+\newblock Neural networks and deep learning, 2018.
+
+\bibitem{WangS}
+S.~Wang, W.~Liu, J.~Wu, L.~Cao, Q.~Meng, and P.J. Kennedy.
+\newblock Training deep neural networks on imbalanced data sets.
+\newblock In {\em Proceedings of the International Joint Conference on Neural
+  Networks}, volume 2016-, pages 4368--4374. Institute of Electrical and
+  Electronics Engineers Inc., 2016.
+
+\end{thebibliography}
