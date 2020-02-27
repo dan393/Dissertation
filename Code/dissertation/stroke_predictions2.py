@@ -32,15 +32,13 @@ import imblearn as imblearn
 print('imblearn' + imblearn.__version__)
 
 
-# In[6]:
+# In[ ]:
 
 
-tf.config.list_physical_devices('GPU')
-with tf.Session() as sess:
-  devices = sess.list_devices()
 
 
-# In[7]:
+
+# In[3]:
 
 
 import threading
@@ -49,7 +47,7 @@ threading.activeCount()
 
 # # Helper methods
 
-# In[ ]:
+# In[4]:
 
 
 def save(path):
@@ -61,7 +59,7 @@ def loadDataSet():
     return pd.read_csv("../input/stroke-dataset/stroke.csv")
 
 
-# In[ ]:
+# In[5]:
 
 
 df=loadDataSet();
@@ -71,7 +69,7 @@ df.info()
 
 # # Data Exploration
 
-# In[ ]:
+# In[6]:
 
 
 plt.figure(figsize=(5,5))
@@ -79,7 +77,7 @@ sns.countplot(x='stroke',data=df)
 save('/building_ann/stroke_countplot.png')
 
 
-# In[ ]:
+# In[7]:
 
 
 df
@@ -91,7 +89,7 @@ df
 
 
 
-# In[ ]:
+# In[8]:
 
 
 plt.figure(figsize=(10,8))
@@ -114,7 +112,7 @@ save('/building_ann/stroke_age_distplot.png')
 
 
 
-# In[ ]:
+# In[9]:
 
 
 df['gender'].value_counts()
@@ -126,7 +124,7 @@ df['gender'].value_counts()
 
 
 
-# In[ ]:
+# In[10]:
 
 
 df.iloc[95]
@@ -186,7 +184,7 @@ df.iloc[95]
 
 
 
-# In[ ]:
+# In[11]:
 
 
 from sklearn import preprocessing
@@ -206,7 +204,7 @@ plt.ylim(12, 0)
 save('/building_ann/heatmap.png')
 
 
-# In[ ]:
+# In[12]:
 
 
 df_hm
@@ -218,7 +216,7 @@ df_hm
 
 
 
-# In[ ]:
+# In[13]:
 
 
 # plt.figure(figsize=(25,25))
@@ -226,7 +224,7 @@ df_hm
 # save('/building_ann/pairplot.png')
 
 
-# In[ ]:
+# In[14]:
 
 
 plt.figure(figsize=(5,5))
@@ -234,7 +232,7 @@ sns.scatterplot(x='age',y='bmi', hue='stroke', data=df)
 save('/building_ann/age_bmi_scatterplot.png')
 
 
-# In[ ]:
+# In[15]:
 
 
 plt.figure(figsize=(5,5))
@@ -249,7 +247,7 @@ save('/building_ann/smoking_scatterplot.png')
 
 
 
-# In[ ]:
+# In[16]:
 
 
 len(df[df['stroke'] == 1 ])/len(df)
@@ -261,7 +259,7 @@ len(df[df['stroke'] == 1 ])/len(df)
 
 
 
-# In[ ]:
+# In[17]:
 
 
 # Adapted code from: https://github.com/mwaskom/seaborn/issues/1027
@@ -290,7 +288,7 @@ save('/building_ann/gender_smoking_percentage.png')
 
 
 
-# In[ ]:
+# In[18]:
 
 
 
@@ -299,7 +297,7 @@ stroke_n = df[df['stroke'] == 0 ].groupby("smoking_status").count()['stroke']
 print(stroke_y/(stroke_y + stroke_n))
 
 
-# In[ ]:
+# In[19]:
 
 
 df.groupby("smoking_status")['stroke'].value_counts(normalize=True)
@@ -311,13 +309,13 @@ df.groupby("smoking_status")['stroke'].value_counts(normalize=True)
 
 
 
-# In[ ]:
+# In[20]:
 
 
 np.bincount(df.apply(lambda x : 1 if x['gender']=='Male' else 0, axis =1))
 
 
-# In[ ]:
+# In[21]:
 
 
 np.bincount(df['stroke'])
@@ -337,13 +335,13 @@ np.bincount(df['stroke'])
 
 # # Missing Data
 
-# In[ ]:
+# In[22]:
 
 
 df.isnull().sum()/len(df)
 
 
-# In[ ]:
+# In[23]:
 
 
 df
@@ -355,7 +353,7 @@ df
 
 
 
-# In[ ]:
+# In[24]:
 
 
 def fill_smoking_status(smoking_status, work_type, gender, age):
@@ -393,7 +391,7 @@ df = df.drop('id',axis=1)
 df
 
 
-# In[ ]:
+# In[25]:
 
 
 # def fill_smoking_status(smoking_status, work_type, gender, age):
@@ -433,7 +431,7 @@ df
 
 
 
-# In[ ]:
+# In[26]:
 
 
 
@@ -470,7 +468,7 @@ df.isnull().sum()
 
 
 
-# In[ ]:
+# In[27]:
 
 
 # # sorted(df['smoking_status'].unique())
@@ -478,7 +476,7 @@ df.isnull().sum()
 # sns.countplot(x='stroke',data=df,hue='smoking_status')
 
 
-# In[ ]:
+# In[28]:
 
 
 df.corr()
@@ -540,13 +538,13 @@ df.corr()
 
 
 
-# In[ ]:
+# In[29]:
 
 
 from sklearn.model_selection import train_test_split
 
 
-# In[ ]:
+# In[30]:
 
 
 X = df.drop('stroke', axis =1).values
@@ -554,7 +552,7 @@ y = df['stroke'].values
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=101)
 
 
-# In[ ]:
+# In[31]:
 
 
 help(table)
@@ -562,7 +560,7 @@ help(table)
 
 # # Train the Model
 
-# In[ ]:
+# In[32]:
 
 
 from sklearn.preprocessing import MinMaxScaler
@@ -572,7 +570,7 @@ X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
 
-# In[ ]:
+# In[33]:
 
 
 def plot_roc(name, labels, predictions, ax, **kwargs):
@@ -628,13 +626,13 @@ def plot_model_results(model_name, model):
     plt.show()
 
 
-# In[ ]:
+# In[34]:
 
 
 help(table)
 
 
-# In[ ]:
+# In[35]:
 
 
 import tensorflow as tf
@@ -663,7 +661,7 @@ METRICS = [
 ]
 
 
-# In[ ]:
+# In[36]:
 
 
 def create_model(model_name, X_train=X_train, y_train=y_train, with_weigths=True):
@@ -706,7 +704,7 @@ def create_model(model_name, X_train=X_train, y_train=y_train, with_weigths=True
 #     return model.evaluate(X_test, y_test)
 
 
-# In[ ]:
+# In[37]:
 
 
 def create_model_logistic(model_name, X_train=X_train, y_train=y_train, with_weigths=True):
@@ -735,19 +733,19 @@ def create_model_logistic(model_name, X_train=X_train, y_train=y_train, with_wei
 #     return model.evaluate(X_test, y_test)
 
 
-# In[ ]:
+# In[38]:
 
 
 create_model('weighted')
 
 
-# In[ ]:
+# In[39]:
 
 
 # results[5]
 
 
-# In[ ]:
+# In[40]:
 
 
 create_model('simple', with_weigths=False)
@@ -771,7 +769,7 @@ create_model('simple', with_weigths=False)
 
 
 
-# In[ ]:
+# In[41]:
 
 
 print(np.bincount(y_train))
@@ -781,7 +779,7 @@ print(np.bincount(y_train_SMOTE))
 create_model('smote',X_train_SMOTE,y_train_SMOTE)
 
 
-# In[ ]:
+# In[42]:
 
 
 print(np.bincount(y_train))
@@ -791,7 +789,7 @@ print(np.bincount(y_train_miss))
 create_model('near_miss',X_train_miss,y_train_miss)
 
 
-# In[ ]:
+# In[43]:
 
 
 # print(np.bincount(y_train))
@@ -801,7 +799,7 @@ create_model('near_miss',X_train_miss,y_train_miss)
 # create_model('cluster', X_train_cluster, y_train_cluster)
 
 
-# In[ ]:
+# In[44]:
 
 
 print(np.bincount(y_train))
@@ -811,7 +809,7 @@ print(np.bincount(y_train_SMTomek))
 create_model('SMOTETomek', X_train_SMTomek, y_train_SMTomek)
 
 
-# In[ ]:
+# In[45]:
 
 
 print(np.bincount(y_train))
