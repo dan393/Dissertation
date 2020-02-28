@@ -19,16 +19,27 @@ from datetime import datetime
 
 
 import tensorflow as tf
-print(tf.__version__)
+print('tensorflow' + tf.__version__)
+import tensorboard as tensorboard
+print('tensorboard' + tensorboard.__version__)
+import seaborn as seaborn
+print('seaborn' + seaborn.__version__)
 tf.config.list_physical_devices('GPU') 
 tf.test.is_built_with_cuda
 print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
 tf.config.experimental.list_physical_devices('GPU')
 
 
+# In[3]:
+
+
+from tensorflow.python.client import device_lib
+device_lib.list_local_devices()
+
+
 # # Helper methods
 
-# In[3]:
+# In[4]:
 
 
 def save(path):
@@ -40,7 +51,7 @@ def loadDataSet():
     return pd.read_csv("../input/stroke-dataset/stroke.csv")
 
 
-# In[4]:
+# In[5]:
 
 
 df=loadDataSet();
@@ -50,7 +61,7 @@ df.info()
 
 # # Data Exploration
 
-# In[5]:
+# In[6]:
 
 
 plt.figure(figsize=(5,5))
@@ -58,7 +69,7 @@ sns.countplot(x='stroke',data=df)
 save('/building_ann/stroke_countplot.png')
 
 
-# In[6]:
+# In[7]:
 
 
 df
@@ -70,7 +81,7 @@ df
 
 
 
-# In[7]:
+# In[8]:
 
 
 plt.figure(figsize=(10,8))
@@ -93,7 +104,7 @@ save('/building_ann/stroke_age_distplot.png')
 
 
 
-# In[8]:
+# In[9]:
 
 
 df['gender'].value_counts()
@@ -105,7 +116,7 @@ df['gender'].value_counts()
 
 
 
-# In[9]:
+# In[10]:
 
 
 df.iloc[95]
@@ -165,7 +176,7 @@ df.iloc[95]
 
 
 
-# In[10]:
+# In[11]:
 
 
 from sklearn import preprocessing
@@ -185,7 +196,7 @@ plt.ylim(12, 0)
 save('/building_ann/heatmap.png')
 
 
-# In[11]:
+# In[12]:
 
 
 df_hm
@@ -197,7 +208,7 @@ df_hm
 
 
 
-# In[12]:
+# In[13]:
 
 
 # plt.figure(figsize=(25,25))
@@ -205,7 +216,7 @@ df_hm
 # save('/building_ann/pairplot.png')
 
 
-# In[13]:
+# In[14]:
 
 
 plt.figure(figsize=(5,5))
@@ -213,7 +224,7 @@ sns.scatterplot(x='age',y='bmi', hue='stroke', data=df)
 save('/building_ann/age_bmi_scatterplot.png')
 
 
-# In[14]:
+# In[15]:
 
 
 plt.figure(figsize=(5,5))
@@ -228,7 +239,7 @@ save('/building_ann/smoking_scatterplot.png')
 
 
 
-# In[15]:
+# In[16]:
 
 
 len(df[df['stroke'] == 1 ])/len(df)
@@ -240,7 +251,7 @@ len(df[df['stroke'] == 1 ])/len(df)
 
 
 
-# In[16]:
+# In[17]:
 
 
 # Adapted code from: https://github.com/mwaskom/seaborn/issues/1027
@@ -269,7 +280,7 @@ save('/building_ann/gender_smoking_percentage.png')
 
 
 
-# In[17]:
+# In[18]:
 
 
 
@@ -278,7 +289,7 @@ stroke_n = df[df['stroke'] == 0 ].groupby("smoking_status").count()['stroke']
 print(stroke_y/(stroke_y + stroke_n))
 
 
-# In[18]:
+# In[19]:
 
 
 df.groupby("smoking_status")['stroke'].value_counts(normalize=True)
@@ -290,13 +301,13 @@ df.groupby("smoking_status")['stroke'].value_counts(normalize=True)
 
 
 
-# In[19]:
+# In[20]:
 
 
 np.bincount(df.apply(lambda x : 1 if x['gender']=='Male' else 0, axis =1))
 
 
-# In[20]:
+# In[21]:
 
 
 np.bincount(df['stroke'])
@@ -316,13 +327,13 @@ np.bincount(df['stroke'])
 
 # # Missing Data
 
-# In[21]:
+# In[22]:
 
 
 df.isnull().sum()/len(df)
 
 
-# In[22]:
+# In[23]:
 
 
 df
@@ -334,7 +345,7 @@ df
 
 
 
-# In[23]:
+# In[24]:
 
 
 def fill_smoking_status(smoking_status, work_type, gender, age):
@@ -372,7 +383,7 @@ df = df.drop('id',axis=1)
 df
 
 
-# In[24]:
+# In[25]:
 
 
 # def fill_smoking_status(smoking_status, work_type, gender, age):
@@ -412,7 +423,7 @@ df
 
 
 
-# In[25]:
+# In[26]:
 
 
 
@@ -449,7 +460,7 @@ df.isnull().sum()
 
 
 
-# In[26]:
+# In[27]:
 
 
 # # sorted(df['smoking_status'].unique())
@@ -457,7 +468,7 @@ df.isnull().sum()
 # sns.countplot(x='stroke',data=df,hue='smoking_status')
 
 
-# In[27]:
+# In[28]:
 
 
 df.corr()
@@ -519,13 +530,13 @@ df.corr()
 
 
 
-# In[28]:
+# In[29]:
 
 
 from sklearn.model_selection import train_test_split
 
 
-# In[29]:
+# In[30]:
 
 
 X = df.drop('stroke', axis =1).values
@@ -533,7 +544,7 @@ y = df['stroke'].values
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=101)
 
 
-# In[30]:
+# In[31]:
 
 
 help(table)
@@ -541,7 +552,7 @@ help(table)
 
 # # Train the Model
 
-# In[31]:
+# In[32]:
 
 
 from sklearn.preprocessing import MinMaxScaler
@@ -551,7 +562,7 @@ X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
 
-# In[32]:
+# In[33]:
 
 
 def plot_roc(name, labels, predictions, ax, **kwargs):
@@ -607,13 +618,13 @@ def plot_model_results(model_name, model):
     plt.show()
 
 
-# In[33]:
+# In[34]:
 
 
 help(table)
 
 
-# In[34]:
+# In[35]:
 
 
 import tensorflow as tf
@@ -642,7 +653,7 @@ METRICS = [
 ]
 
 
-# In[35]:
+# In[36]:
 
 
 def create_model(model_name, X_train=X_train, y_train=y_train, with_weigths=True):
@@ -685,7 +696,7 @@ def create_model(model_name, X_train=X_train, y_train=y_train, with_weigths=True
 #     return model.evaluate(X_test, y_test)
 
 
-# In[36]:
+# In[37]:
 
 
 def create_model_logistic(model_name, X_train=X_train, y_train=y_train, with_weigths=True):
@@ -714,19 +725,19 @@ def create_model_logistic(model_name, X_train=X_train, y_train=y_train, with_wei
 #     return model.evaluate(X_test, y_test)
 
 
-# In[37]:
+# In[38]:
 
 
 create_model('weighted')
 
 
-# In[38]:
+# In[39]:
 
 
 # results[5]
 
 
-# In[ ]:
+# In[40]:
 
 
 create_model('simple', with_weigths=False)
@@ -750,7 +761,7 @@ create_model('simple', with_weigths=False)
 
 
 
-# In[ ]:
+# In[41]:
 
 
 print(np.bincount(y_train))
@@ -760,7 +771,7 @@ print(np.bincount(y_train_SMOTE))
 create_model('smote',X_train_SMOTE,y_train_SMOTE)
 
 
-# In[ ]:
+# In[42]:
 
 
 print(np.bincount(y_train))
@@ -770,7 +781,7 @@ print(np.bincount(y_train_miss))
 create_model('near_miss',X_train_miss,y_train_miss)
 
 
-# In[ ]:
+# In[43]:
 
 
 # print(np.bincount(y_train))
@@ -780,7 +791,7 @@ create_model('near_miss',X_train_miss,y_train_miss)
 # create_model('cluster', X_train_cluster, y_train_cluster)
 
 
-# In[ ]:
+# In[44]:
 
 
 print(np.bincount(y_train))
@@ -790,7 +801,7 @@ print(np.bincount(y_train_SMTomek))
 create_model('SMOTETomek', X_train_SMTomek, y_train_SMTomek)
 
 
-# In[ ]:
+# In[45]:
 
 
 print(np.bincount(y_train))
@@ -800,7 +811,7 @@ print(np.bincount(y_train_rus))
 create_model('rus', X_train_rus, y_train_rus)
 
 
-# In[ ]:
+# In[46]:
 
 
 print(np.bincount(y_train))
@@ -994,14 +1005,13 @@ datetime.now()
 # In[ ]:
 
 
-import tensorboard
-print(tensorboard.__version__)
+
 
 
 # In[ ]:
 
 
-print(tf.__version__)
+
 
 
 # In[ ]:
