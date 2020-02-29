@@ -43,7 +43,7 @@ device_lib.list_local_devices()
 
 
 def save(path):
-    plt.savefig('../../images' + path)
+#     plt.savefig('../../images' + path)
     return
 
 def loadDataSet():
@@ -61,15 +61,13 @@ df.info()
 
 # # Data Exploration
 
+# In[ ]:
+
+
+
+
+
 # In[6]:
-
-
-plt.figure(figsize=(5,5))
-sns.countplot(x='stroke',data=df)
-save('/building_ann/stroke_countplot.png')
-
-
-# In[7]:
 
 
 df
@@ -81,15 +79,156 @@ df
 
 
 
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[7]:
+
+
+from sklearn import preprocessing
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
 # In[8]:
 
 
-plt.figure(figsize=(10,8))
-sns.distplot(df.loc[df['stroke'] == 1]['age'], label='Stroke Patients', kde_kws={"shade": True},hist=False, bins =20)
-sns.distplot(df.loc[df['heart_disease'] == 1]['age'], label='Heart Disease Patients', kde_kws={"shade": True},hist=False, bins =20)
-sns.distplot(df.loc[df['hypertension'] == 1]['age'], label='Hypertension', kde_kws={"shade": True},hist=False, bins =20)
-plt.legend()
-save('/building_ann/stroke_age_distplot.png')
+# plt.figure(figsize=(25,25))
+# sns.pairplot(df_hm)
+# save('/building_ann/pairplot.png')
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
@@ -107,7 +246,7 @@ save('/building_ann/stroke_age_distplot.png')
 # In[9]:
 
 
-df['gender'].value_counts()
+df.groupby("smoking_status")['stroke'].value_counts(normalize=True)
 
 
 # In[ ]:
@@ -119,195 +258,10 @@ df['gender'].value_counts()
 # In[10]:
 
 
-df.iloc[95]
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[11]:
-
-
-from sklearn import preprocessing
-df_hm = loadDataSet()
-le = preprocessing.LabelEncoder()
-df_hm.gender = le.fit_transform(df_hm.gender)
-df_hm.ever_married = le.fit_transform(df_hm.ever_married)
-df_hm=df_hm.dropna(subset=['smoking_status'])
-df_hm.smoking_status = le.fit_transform(df_hm.smoking_status)
-df_hm.Residence_type = le.fit_transform(df_hm.Residence_type)
-df_hm.work_type = le.fit_transform(df_hm.work_type)
-
-
-plt.figure(figsize=(15,15))
-sns.heatmap(df_hm.corr(),annot=True,cmap='viridis', linewidth=1)
-plt.ylim(12, 0)
-save('/building_ann/heatmap.png')
-
-
-# In[12]:
-
-
-df_hm
-
-
-# In[ ]:
-
-
-
-
-
-# In[13]:
-
-
-# plt.figure(figsize=(25,25))
-# sns.pairplot(df_hm)
-# save('/building_ann/pairplot.png')
-
-
-# In[14]:
-
-
-plt.figure(figsize=(5,5))
-sns.scatterplot(x='age',y='bmi', hue='stroke', data=df)
-save('/building_ann/age_bmi_scatterplot.png')
-
-
-# In[15]:
-
-
-plt.figure(figsize=(5,5))
-df = loadDataSet()
-sns.countplot(x='smoking_status',data=df,hue='gender')
-save('/building_ann/smoking_scatterplot.png')
-
-
-# In[ ]:
-
-
-
-
-
-# In[16]:
-
-
-len(df[df['stroke'] == 1 ])/len(df)
-
-
-# In[ ]:
-
-
-
-
-
-# In[17]:
-
-
-# Adapted code from: https://github.com/mwaskom/seaborn/issues/1027
-plt.figure(figsize=(5,5))
-df = loadDataSet()
-genderOther = df[ df['gender'] == 'Other' ].index
-df.drop(genderOther , inplace=True)
-x, y, hue = "smoking_status", "percentage", "gender"
-# hue_order = ["Male", "Female"]
-
-#f, axes = plt.subplots(1, 2)
-# sns.countplot(x=x, hue=hue, data=df, ax=axes[0])
-prop_df = (df[x]
-           .groupby(df[hue])
-           .value_counts(normalize=True)
-           .rename(y)
-           .reset_index())
-
-sns.barplot(x=x, y=y, hue=hue, data=prop_df)#, ax=axes[1])
-save('/building_ann/gender_smoking_percentage.png')
-
-
-# In[ ]:
-
-
-
-
-
-# In[18]:
-
-
-
-stroke_y = df[df['stroke'] == 1 ].groupby("smoking_status").count()['stroke']
-stroke_n = df[df['stroke'] == 0 ].groupby("smoking_status").count()['stroke']
-print(stroke_y/(stroke_y + stroke_n))
-
-
-# In[19]:
-
-
-df.groupby("smoking_status")['stroke'].value_counts(normalize=True)
-
-
-# In[ ]:
-
-
-
-
-
-# In[20]:
-
-
 np.bincount(df.apply(lambda x : 1 if x['gender']=='Male' else 0, axis =1))
 
 
-# In[21]:
+# In[11]:
 
 
 np.bincount(df['stroke'])
@@ -327,13 +281,13 @@ np.bincount(df['stroke'])
 
 # # Missing Data
 
-# In[22]:
+# In[12]:
 
 
 df.isnull().sum()/len(df)
 
 
-# In[23]:
+# In[13]:
 
 
 df
@@ -345,7 +299,7 @@ df
 
 
 
-# In[24]:
+# In[14]:
 
 
 def fill_smoking_status(smoking_status, work_type, gender, age):
@@ -383,7 +337,7 @@ df = df.drop('id',axis=1)
 df
 
 
-# In[25]:
+# In[15]:
 
 
 # def fill_smoking_status(smoking_status, work_type, gender, age):
@@ -423,7 +377,7 @@ df
 
 
 
-# In[26]:
+# In[16]:
 
 
 
@@ -460,7 +414,7 @@ df.isnull().sum()
 
 
 
-# In[27]:
+# In[17]:
 
 
 # # sorted(df['smoking_status'].unique())
@@ -468,7 +422,7 @@ df.isnull().sum()
 # sns.countplot(x='stroke',data=df,hue='smoking_status')
 
 
-# In[28]:
+# In[18]:
 
 
 df.corr()
@@ -530,13 +484,13 @@ df.corr()
 
 
 
-# In[29]:
+# In[19]:
 
 
 from sklearn.model_selection import train_test_split
 
 
-# In[30]:
+# In[20]:
 
 
 X = df.drop('stroke', axis =1).values
@@ -544,15 +498,15 @@ y = df['stroke'].values
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=101)
 
 
-# In[31]:
+# In[ ]:
 
 
-help(table)
+
 
 
 # # Train the Model
 
-# In[32]:
+# In[21]:
 
 
 from sklearn.preprocessing import MinMaxScaler
@@ -562,7 +516,7 @@ X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
 
-# In[33]:
+# In[22]:
 
 
 def plot_roc(name, labels, predictions, ax, **kwargs):
@@ -618,13 +572,13 @@ def plot_model_results(model_name, model):
     plt.show()
 
 
-# In[34]:
+# In[23]:
 
 
 help(table)
 
 
-# In[35]:
+# In[24]:
 
 
 import tensorflow as tf
@@ -653,7 +607,7 @@ METRICS = [
 ]
 
 
-# In[36]:
+# In[25]:
 
 
 def create_model(model_name, X_train=X_train, y_train=y_train, with_weigths=True):
@@ -696,7 +650,7 @@ def create_model(model_name, X_train=X_train, y_train=y_train, with_weigths=True
 #     return model.evaluate(X_test, y_test)
 
 
-# In[37]:
+# In[26]:
 
 
 def create_model_logistic(model_name, X_train=X_train, y_train=y_train, with_weigths=True):
@@ -725,19 +679,19 @@ def create_model_logistic(model_name, X_train=X_train, y_train=y_train, with_wei
 #     return model.evaluate(X_test, y_test)
 
 
-# In[38]:
+# In[27]:
 
 
 create_model('weighted')
 
 
-# In[39]:
+# In[28]:
 
 
 # results[5]
 
 
-# In[40]:
+# In[29]:
 
 
 create_model('simple', with_weigths=False)
@@ -761,7 +715,7 @@ create_model('simple', with_weigths=False)
 
 
 
-# In[41]:
+# In[30]:
 
 
 print(np.bincount(y_train))
@@ -771,7 +725,7 @@ print(np.bincount(y_train_SMOTE))
 create_model('smote',X_train_SMOTE,y_train_SMOTE)
 
 
-# In[42]:
+# In[ ]:
 
 
 print(np.bincount(y_train))
@@ -781,7 +735,7 @@ print(np.bincount(y_train_miss))
 create_model('near_miss',X_train_miss,y_train_miss)
 
 
-# In[43]:
+# In[ ]:
 
 
 # print(np.bincount(y_train))
@@ -791,7 +745,7 @@ create_model('near_miss',X_train_miss,y_train_miss)
 # create_model('cluster', X_train_cluster, y_train_cluster)
 
 
-# In[44]:
+# In[ ]:
 
 
 print(np.bincount(y_train))
@@ -801,7 +755,7 @@ print(np.bincount(y_train_SMTomek))
 create_model('SMOTETomek', X_train_SMTomek, y_train_SMTomek)
 
 
-# In[45]:
+# In[ ]:
 
 
 print(np.bincount(y_train))
@@ -811,7 +765,7 @@ print(np.bincount(y_train_rus))
 create_model('rus', X_train_rus, y_train_rus)
 
 
-# In[46]:
+# In[ ]:
 
 
 print(np.bincount(y_train))
@@ -973,20 +927,20 @@ def hrun(dataset_name='default', X_train=X_train, y_train=y_train):
 generated_datasets_X={}
 generated_datasets_y={}
 
-generated_datasets_X['weighted'] = X_train
-generated_datasets_y['weighted'] = y_train
+# generated_datasets_X['weighted'] = X_train
+# generated_datasets_y['weighted'] = y_train
 
-generated_datasets_X['smote'] = X_train_SMOTE
-generated_datasets_y['smote'] = y_train_SMOTE
+# generated_datasets_X['smote'] = X_train_SMOTE
+# generated_datasets_y['smote'] = y_train_SMOTE
 
-generated_datasets_X['smte'] = X_train_smte
-generated_datasets_y['smte'] = y_train_smte
+# generated_datasets_X['smte'] = X_train_smte
+# generated_datasets_y['smte'] = y_train_smte
 
-generated_datasets_X['SMOTETomek'] = X_train_SMTomek
-generated_datasets_y['SMOTETomek'] = y_train_SMTomek
+# generated_datasets_X['SMOTETomek'] = X_train_SMTomek
+# generated_datasets_y['SMOTETomek'] = y_train_SMTomek
 
-generated_datasets_X['ros'] = X_train_ros
-generated_datasets_y['ros'] = y_train_ros
+# generated_datasets_X['ros'] = X_train_ros
+# generated_datasets_y['ros'] = y_train_ros
 
 generated_datasets_X['rus'] = X_train_rus
 generated_datasets_y['rus'] = y_train_rus
@@ -999,7 +953,10 @@ for key in generated_datasets_X.keys():
 # In[ ]:
 
 
-datetime.now()
+# from multiprocessing import Pool
+# p = Pool()
+# p.map(hrun, [(key,generated_datasets_X.get(key), generated_datasets_y.get(key)) for key in generated_datasets_X.keys()])
+# # results = p.map(lambda x: x**2, [1 for key in [1,2,3]])
 
 
 # In[ ]:
@@ -1017,58 +974,55 @@ datetime.now()
 # In[ ]:
 
 
-a = os.path.join('logs', 'hparam_tuning', datetime.now().strftime("%Y-%m-%d-%H%M"))
-b = os.path.join(a, 'b')
-b
+
 
 
 # In[ ]:
 
 
-help(tensorboard)
 
-
-# In[ ]:
-
-
-roc_curve(y_test,predictions)
 
 
 # In[ ]:
 
 
-len(predictions)
 
-
-# In[ ]:
-
-
-row = 300
-patient = df.drop('stroke', axis = 1).iloc[row]
-patient
 
 
 # In[ ]:
 
 
-patient = scaler.transform(patient.values.reshape(1,13))
-patient
 
-
-# In[ ]:
-
-
-model.predict_classes(patient)[0][0]
 
 
 # In[ ]:
 
 
-for row in range (0,10):
-    patient = df.drop('stroke', axis = 1).iloc[row]
-    patient = scaler.transform(patient.values.reshape(1,13))
-    prediction = (model.predict_classes(patient))[0][0]
-    print ("Predicted:{} Actual:{}".format(prediction,df.iloc[row]['stroke']))
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
 
 
 
