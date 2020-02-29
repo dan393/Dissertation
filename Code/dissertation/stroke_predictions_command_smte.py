@@ -575,10 +575,6 @@ def plot_model_results(model_name, model):
 # In[23]:
 
 
-help(table)
-
-
-# In[24]:
 
 
 import tensorflow as tf
@@ -646,11 +642,12 @@ def create_model(model_name, X_train=X_train, y_train=y_train, with_weigths=True
     
     plot_model_results(model_name,model)
     
-    
-#     return model.evaluate(X_test, y_test)
+print(np.bincount(y_train))
+smte = SMOTEENN('auto')
+X_train_smte, y_train_smte = smt.fit_sample(X_train, y_train)
+print(np.bincount(y_train_smte))
+create_model('smte', X_train_smte, y_train_smte)
 
-
-# In[26]:
 
 
 def create_model_logistic(model_name, X_train=X_train, y_train=y_train, with_weigths=True):
@@ -674,113 +671,11 @@ def create_model_logistic(model_name, X_train=X_train, y_train=y_train, with_wei
     logit.fit(X_train, y_train)
     predictions = logit.predict(X_test)
     print(classification_report(y_test, predictions))
-    
-    
-#     return model.evaluate(X_test, y_test)
-
-
-# In[27]:
-
-
-create_model('weighted')
-
-
-# In[28]:
-
-
-# results[5]
-
-
-# In[29]:
-
-
-create_model('simple', with_weigths=False)
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[30]:
-
-
-print(np.bincount(y_train))
-smt = SMOTE()
-X_train_SMOTE, y_train_SMOTE = smt.fit_sample(X_train, y_train)
-print(np.bincount(y_train_SMOTE))
-create_model('smote',X_train_SMOTE,y_train_SMOTE)
-
-
-# In[ ]:
-
-
-print(np.bincount(y_train))
-nr = NearMiss()
-X_train_miss, y_train_miss = nr.fit_sample(X_train, y_train)
-print(np.bincount(y_train_miss))
-create_model('near_miss',X_train_miss,y_train_miss)
-
-
-# In[ ]:
-
-
-# print(np.bincount(y_train))
-# cluster = ClusterCentroids()
-# X_train_cluster, y_train_cluster = cluster.fit_sample(X_train, y_train)
-# print(np.bincount(y_train_cluster))
-# create_model('cluster', X_train_cluster, y_train_cluster)
-
-
-# In[ ]:
-
-
-print(np.bincount(y_train))
-smt = SMOTETomek('auto')
-X_train_SMTomek, y_train_SMTomek = smt.fit_sample(X_train, y_train)
-print(np.bincount(y_train_SMTomek))
-create_model('SMOTETomek', X_train_SMTomek, y_train_SMTomek)
-
-
-# In[ ]:
-
-
-print(np.bincount(y_train))
-rus = RandomUnderSampler()
-X_train_rus, y_train_rus = rus.fit_sample(X_train, y_train)
-print(np.bincount(y_train_rus))
-create_model('rus', X_train_rus, y_train_rus)
-
-
-# In[ ]:
-
-
-print(np.bincount(y_train))
-ros = RandomOverSampler()
-X_train_ros, y_train_ros = ros.fit_sample(X_train, y_train)
-print(np.bincount(y_train_ros))
-create_model('ros', X_train_ros, y_train_ros)
-
-
-# In[ ]:
 
 
 print(np.bincount(y_train))
 smte = SMOTEENN('auto')
-X_train_smte, y_train_smte = smt.fit_sample(X_train, y_train)
+X_train_smte, y_train_smte = smte.fit_sample(X_train, y_train)
 print(np.bincount(y_train_smte))
 create_model('smte', X_train_smte, y_train_smte)
 
