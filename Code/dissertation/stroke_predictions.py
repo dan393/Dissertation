@@ -74,10 +74,6 @@ X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 print(np.bincount(y_train))
 
-smt = SMOTETomek('auto')
-X_train_SMTomek, y_train_SMTomek = smt.fit_sample(X_train, y_train)
-print(np.bincount(y_train_SMTomek))
-
 from tensorboard.plugins.hparams import api as hp
 import os
 
@@ -93,16 +89,36 @@ base_dir = os.path.join('logs', 'hparam_tuning', datetime.now().strftime("%Y-%m-
 if not os.path.exists(base_dir):
     os.mkdir(base_dir)
 
-METRIC_ACCURACY = 'accuracy'
+from keras import backend as K
+
+def recall_m(y_true, y_pred):
+    true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+    possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
+    recall = true_positives / (possible_positives + K.epsilon())
+    return recall
+
+def precision_m(y_true, y_pred):
+    true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+    predicted_positives = K.sum(K.round(K.clip(y_pred, 0, 1)))
+    precision = true_positives / (predicted_positives + K.epsilon())
+    return precision
+
+def f1_m(y_true, y_pred):
+    precision = precision_m(y_true, y_pred)
+    recall = recall_m(y_true, y_pred)
+    return 2*((precision*recall)/(precision+recall+K.epsilon()))
+
 METRICS = [
-    keras.metrics.TruePositives(name='tp'),
-    keras.metrics.FalsePositives(name='fp'),
-    keras.metrics.TrueNegatives(name='tn'),
-    keras.metrics.FalseNegatives(name='fn'),
-    keras.metrics.BinaryAccuracy(name='accuracy'),
-    keras.metrics.Precision(name='precision'),
-    keras.metrics.Recall(name='recall'),
-    keras.metrics.AUC(name='auc')]
+      keras.metrics.TruePositives(name='tp'),
+      keras.metrics.FalsePositives(name='fp'),
+      keras.metrics.TrueNegatives(name='tn'),
+      keras.metrics.FalseNegatives(name='fn'),
+      keras.metrics.BinaryAccuracy(name='accuracy'),
+      keras.metrics.Precision(name='precision'),
+      keras.metrics.Recall(name='recall'),
+      keras.metrics.AUC(name='auc'),
+        f1_m
+]
 
 def train_test_model(model_name, hparams, logdir, X_train=X_train, y_train=y_train, with_weigths=True):
     model = Sequential()
@@ -135,7 +151,7 @@ def train_test_model(model_name, hparams, logdir, X_train=X_train, y_train=y_tra
               batch_size=hparams[HP_BATCH_SIZE],
               validation_data=(X_test, y_test),
               verbose=0,
-              callbacks=[EarlyStopping(monitor='loss', mode='min', verbose=1, patience=30),
+              callbacks=[EarlyStopping(monitor='loss', mode='min', verbose=1, patience=10),
                          tf.keras.callbacks.TensorBoard(log_dir=logdir, histogram_freq=1, write_graph=False,
                                                         write_images=False, update_freq='epoch',
                                                         profile_batch=100000000),  # log metrics
@@ -154,9 +170,16 @@ def run(run_name, hparams, X_train=X_train, y_train=y_train):
     with tf.summary.create_file_writer(log_dir).as_default():
         hp.hparams(hparams)  # record the values used in this trial
         results = train_test_model(run_name, hparams, log_dir, X_train, y_train)
+        tf.summary.scalar('loss', results[0], step=1)
+        tf.summary.scalar('tp', results[1], step=1)
+        tf.summary.scalar('fp', results[2], step=1)
+        tf.summary.scalar('tn', results[3], step=1)
+        tf.summary.scalar('fn', results[4], step=1)
         tf.summary.scalar('accuracy', results[5], step=1)
-        tf.summary.scalar('auc', results[8], step=1)
         tf.summary.scalar('precision', results[6], step=1)
+        tf.summary.scalar('recall', results[7], step=1)
+        tf.summary.scalar('auc', results[8], step=1)
+        tf.summary.scalar('f1-score', results[9], step=1)
 
 
 def hrun(dataset_name='default', X_train=X_train, y_train=y_train):
@@ -183,5 +206,9 @@ def hrun(dataset_name='default', X_train=X_train, y_train=y_train):
                                 run(run_name, hparams, X_train, y_train)
                                 session_num += 1
                                 print('time taken to complete: ', datetime.now() - start)
+
+smt = SMOTETomek('auto')
+X_train_SMTomek, y_train_SMTomek = smt.fit_sample(X_train, y_train)
+print(np.bincount(y_train_SMTomek))
 
 hrun('SMOTETomek', X_train_SMTomek, y_train_SMTomek)
