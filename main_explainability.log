@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.16)  4 APR 2020 14:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.16)  4 APR 2020 23:45
 entering extended mode
-**./main.tex
-(main.tex
+**./main_explainability.tex
+(main_explainability.tex
 LaTeX2e <2020-02-02> patch level 1
 L3 programming layer <2020-02-08> (softeng.cls
 ("C:\Program Files\MiKTeX 2.9\tex/latex/base\report.cls"
@@ -339,7 +339,7 @@ File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
 \l__kernel_color_stack_int=\count278
 \l__pdf_internal_box=\box47
 )
-(main.aux
+(main_explainability.aux
 
 LaTeX Warning: Label `fig:first_sub' multiply defined.
 
@@ -368,7 +368,7 @@ LaTeX Warning: Label `sub@fig:second_sub' multiply defined.
 LaTeX Warning: Label `fig:weighted_ann' multiply defined.
 
 )
-\openout1 = `main.aux'.
+\openout1 = `main_explainability.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
 LaTeX Font Info:    ... okay on input line 21.
@@ -461,9 +461,9 @@ LaTeX Info: Redefining \ref on input line 21.
 LaTeX Info: Redefining \pageref on input line 21.
 LaTeX Info: Redefining \nameref on input line 21.
 
-(main.out) (main.out)
+(main_explainability.out) (main_explainability.out)
 \@outlinefile=\write3
-\openout3 = `main.out'.
+\openout3 = `main_explainability.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfigure package is loaded.
@@ -482,7 +482,7 @@ Package epstopdf Info: Output file is already uptodate.
 
 pdfTeX warning: pdflatex (file ./oxfordlogo-eps-converted-to.pdf): PDF inclusio
 n: found PDF version <1.7>, but at most version <1.5> allowed
-<oxfordlogo-eps-converted-to.pdf, id=39, 285.065pt x 285.065pt>
+<oxfordlogo-eps-converted-to.pdf, id=43, 285.065pt x 285.065pt>
 File: oxfordlogo-eps-converted-to.pdf Graphic file (type pdf)
 <use oxfordlogo-eps-converted-to.pdf>
 Package pdftex.def Info: oxfordlogo-eps-converted-to.pdf  used on input line 24
@@ -507,118 +507,127 @@ o-eps-converted-to.pdf>] [2
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.29 ...m works indeed as specified.\end{abstract}
+l.29 ...pecified and is trustworthy.\end{abstract}
                                                    [1
 
-]pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
+] (main_explainability.toc
+LaTeX Font Info:    Trying to load font information for U+msa on input line 1.
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 1.
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+))
+\tf@toc=\write4
+\openout4 = `main_explainability.toc'.
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.32 \newpage
+              [1
+
+]pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.45 
-      [1]pdfTeX warning (ext4): destination with the same identifier (name{page
-.2}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.65 
-      [2] [3]
-<images/simple-neural-network.jpg, id=90, 503.8825pt x 337.26pt>
+      [2] [3] [4] [5]
+<images/simple-neural-network.jpg, id=128, 503.8825pt x 337.26pt>
 File: images/simple-neural-network.jpg Graphic file (type jpg)
 <use images/simple-neural-network.jpg>
-Package pdftex.def Info: images/simple-neural-network.jpg  used on input line 8
-3.
+Package pdftex.def Info: images/simple-neural-network.jpg  used on input line 1
+08.
 (pdftex.def)             Requested size: 201.54942pt x 134.9016pt.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 90.
-
- ("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Trying to load font information for U+msb on input line 90.
-
-
-("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-<images/activation_binary_step_1.png, id=95, 2168.1pt x 1084.05pt>
+ [6 <./images/simple-neural-network.jpg>]
+<images/activation_binary_step_1.png, id=140, 2168.1pt x 1084.05pt>
 File: images/activation_binary_step_1.png Graphic file (type png)
 <use images/activation_binary_step_1.png>
 Package pdftex.def Info: images/activation_binary_step_1.png  used on input lin
-e 105.
+e 130.
 (pdftex.def)             Requested size: 130.08621pt x 65.04019pt.
-<images/activation_rectified_linear.png, id=97, 2168.1pt x 1084.05pt>
+<images/activation_rectified_linear.png, id=142, 2168.1pt x 1084.05pt>
 File: images/activation_rectified_linear.png Graphic file (type png)
 <use images/activation_rectified_linear.png>
 Package pdftex.def Info: images/activation_rectified_linear.png  used on input 
-line 111.
+line 136.
 (pdftex.def)             Requested size: 130.08621pt x 65.04019pt.
-<images/activation_sigmoid.png, id=98, 2168.1pt x 1084.05pt>
+<images/activation_sigmoid.png, id=143, 2168.1pt x 1084.05pt>
 File: images/activation_sigmoid.png Graphic file (type png)
 <use images/activation_sigmoid.png>
-Package pdftex.def Info: images/activation_sigmoid.png  used on input line 116.
+Package pdftex.def Info: images/activation_sigmoid.png  used on input line 141.
 
 (pdftex.def)             Requested size: 130.08621pt x 65.04019pt.
- [4 <./images/simple-neural-network.jpg>]
-<images/A-graph-of-a-cost-function-modified-from.png, id=119, 853.1875pt x 589.
+<images/A-graph-of-a-cost-function-modified-from.png, id=148, 853.1875pt x 589.
 20125pt>
 File: images/A-graph-of-a-cost-function-modified-from.png Graphic file (type pn
 g)
 <use images/A-graph-of-a-cost-function-modified-from.png>
 Package pdftex.def Info: images/A-graph-of-a-cost-function-modified-from.png  u
-sed on input line 134.
+sed on input line 159.
 (pdftex.def)             Requested size: 170.63448pt x 117.83815pt.
- [5 <./images/activation_binary_step_1.png> <./images/activation_rectified_line
-ar.png> <./images/activation_sigmoid.png> <./images/A-graph-of-a-cost-function-
-modified-from.png>]
-<images/building_ann/age_bmi_scatterplot.png, id=144, 361.35pt x 361.35pt>
+ [7 <./images/activation_binary_step_1.png> <./images/activation_rectified_line
+ar.png> <./images/activation_sigmoid.png>] [8 <./images/A-graph-of-a-cost-funct
+ion-modified-from.png>]
+<images/building_ann/age_bmi_scatterplot.png, id=188, 361.35pt x 361.35pt>
 File: images/building_ann/age_bmi_scatterplot.png Graphic file (type png)
 <use images/building_ann/age_bmi_scatterplot.png>
 Package pdftex.def Info: images/building_ann/age_bmi_scatterplot.png  used on i
-nput line 158.
+nput line 183.
 (pdftex.def)             Requested size: 181.18439pt x 181.18182pt.
-<images/building_ann/stroke_age_distplot.png, id=145, 722.7pt x 578.16pt>
+<images/building_ann/stroke_age_distplot.png, id=189, 722.7pt x 578.16pt>
 File: images/building_ann/stroke_age_distplot.png Graphic file (type png)
 <use images/building_ann/stroke_age_distplot.png>
 Package pdftex.def Info: images/building_ann/stroke_age_distplot.png  used on i
-nput line 164.
+nput line 189.
 (pdftex.def)             Requested size: 226.48395pt x 181.18623pt.
- [6]
-<images/building_ann/heatmap.png, id=160, 1084.05pt x 1084.05pt>
+<images/building_ann/heatmap.png, id=194, 1084.05pt x 1084.05pt>
 File: images/building_ann/heatmap.png Graphic file (type png)
 <use images/building_ann/heatmap.png>
-Package pdftex.def Info: images/building_ann/heatmap.png  used on input line 17
-6.
+Package pdftex.def Info: images/building_ann/heatmap.png  used on input line 20
+1.
 (pdftex.def)             Requested size: 330.66463pt x 330.65958pt.
- [7 <./images/building_ann/age_bmi_scatterplot.png> <./images/building_ann/stro
-ke_age_distplot.png> <./images/building_ann/heatmap.png>]
-<images/building_ann/gender_smoking_percentage.png, id=169, 361.35pt x 361.35pt
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[9 <./images/building_ann/age_bmi_scatterplot.png> <./images/building_ann/strok
+e_age_distplot.png>]
+<images/building_ann/gender_smoking_percentage.png, id=206, 361.35pt x 361.35pt
 >
 File: images/building_ann/gender_smoking_percentage.png Graphic file (type png)
 
 <use images/building_ann/gender_smoking_percentage.png>
 Package pdftex.def Info: images/building_ann/gender_smoking_percentage.png  use
-d on input line 185.
+d on input line 210.
 (pdftex.def)             Requested size: 181.18439pt x 181.18182pt.
- [8 <./images/building_ann/gender_smoking_percentage.png>]
+ [10 <./images/building_ann/heatmap.png> <./images/building_ann/gender_smoking_
+percentage.png>] [11]
 LaTeX Font Info:    Trying to load font information for OMS+ptm on input line 2
-15.
+40.
+
 ("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\omsptm.fd"
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 215.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 240.
 
 
-LaTeX Warning: Reference `fig:val_loss_weighted' on page 9 undefined on input l
-ine 215.
+LaTeX Warning: Reference `fig:val_loss_weighted' on page 12 undefined on input 
+line 240.
 
 (images/building_ann/weighted.tex)
-<images/building_ann/weighted.png, id=180, 1228.59pt x 433.62pt>
+<images/building_ann/weighted.png, id=223, 1228.59pt x 433.62pt>
 File: images/building_ann/weighted.png Graphic file (type png)
 <use images/building_ann/weighted.png>
 Package pdftex.def Info: images/building_ann/weighted.png  used on input line 2
-32.
+57.
 (pdftex.def)             Requested size: 505.89pt x 178.55286pt.
 
-Overfull \hbox (58.9221pt too wide) in paragraph at lines 226--233
+Overfull \hbox (58.9221pt too wide) in paragraph at lines 251--258
  [][] 
  []
 
@@ -626,14 +635,14 @@ Overfull \hbox (58.9221pt too wide) in paragraph at lines 226--233
 File: images/building_ann/weighted.png Graphic file (type png)
 <use images/building_ann/weighted.png>
 Package pdftex.def Info: images/building_ann/weighted.png  used on input line 2
-51.
+76.
 (pdftex.def)             Requested size: 505.89pt x 178.55286pt.
 
-Overfull \hbox (58.9221pt too wide) in paragraph at lines 245--252
+Overfull \hbox (58.9221pt too wide) in paragraph at lines 270--277
  [][] 
  []
 
-[9] [10 <./images/building_ann/weighted.png>] (main.bbl
+[12 <./images/building_ann/weighted.png>] (main_explainability.bbl [13]
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 5
 .
 
@@ -699,16 +708,40 @@ Underfull \hbox (badness 10000) in paragraph at lines 84--87
 -[]startups /
  []
 
-) [11
+
+Underfull \hbox (badness 10000) in paragraph at lines 89--92
+[]\OT1/ptm/m/n/10 AI aids doc-tors as-sess Covid-19 CT scans.  []$\OT1/pcr/m/n/
+10 https : / / www . imveurope . com / news /
+ []
+
+[14
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 265.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 265.
- (main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 265.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 265.
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 710F3DDBB827D270D6088BB9DC2F7FF4;629.
+Underfull \hbox (badness 2229) in paragraph at lines 124--128
+[]\OT1/ptm/m/n/10 Information Comis-sioner's Of-fice.  Rights re-lated to au-to
+-mated de-ci-sion mak-ing in-clud-ing pro-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 124--128
+\OT1/ptm/m/n/10 fil-ing.  []$\OT1/pcr/m/n/10 https : / / ico . org . uk / for-[
+]organisations / guide-[]to-[]data-[]protection /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 124--128
+\OT1/pcr/m/n/10 guide-[]to-[]the-[]general-[]data-[]protection-[]regulation-[]g
+dpr / individual-[]rights /
+ []
+
+) [15]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 290.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 290.
+ (main_explainability.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 290.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 290.
+Package rerunfilecheck Info: File `main_explainability.out' has not changed.
+(rerunfilecheck)             Checksum: C7572E0E5F65370E29C3DA68CF8E6980;677.
 
 
 LaTeX Warning: There were undefined references.
@@ -716,16 +749,16 @@ LaTeX Warning: There were undefined references.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 265.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 290.
  ) 
 Here is how much of TeX's memory you used:
- 8772 strings out of 481565
- 133152 string characters out of 2923924
- 402454 words of memory out of 3000000
- 23748 multiletter control sequences out of 15000+200000
+ 8798 strings out of 481565
+ 133799 string characters out of 2923924
+ 403695 words of memory out of 3000000
+ 23758 multiletter control sequences out of 15000+200000
  557523 words of font info for 75 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,11n,42p,1081b,371s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,11n,42p,1096b,423s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Program Files/Mi
 KTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9
 /fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Files/MiKTeX 2.9/fonts/t
@@ -736,9 +769,9 @@ ts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy
 ram Files/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 
 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/u
 rw/times/utmri8a.pfb>
-Output written on main.pdf (14 pages, 1059797 bytes).
+Output written on main_explainability.pdf (18 pages, 1077244 bytes).
 PDF statistics:
- 288 PDF objects out of 1000 (max. 8388607)
- 61 named destinations out of 1000 (max. 500000)
- 128 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 344 PDF objects out of 1000 (max. 8388607)
+ 74 named destinations out of 1000 (max. 500000)
+ 136 words of extra memory for PDF output out of 10000 (max. 10000000)
 
