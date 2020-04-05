@@ -26,8 +26,6 @@
 \@writefile{toc}{\contentsline {section}{\numberline {1}Motivation}{2}{section.0.1}\protected@file@percent }
 \citation{gdpr}
 \citation{algassessment}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Introduction}{3}{section.0.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Area of study}{3}{subsection.0.2.1}\protected@file@percent }
 \citation{robot}
 \citation{backtesting}
 \citation{alphago}
@@ -36,18 +34,24 @@
 \citation{stealuber}
 \citation{waymo}
 \citation{jeopardy}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Proposed work}{4}{subsection.0.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Introduction}{4}{section.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Explainability - Problem Outline}{4}{subsection.0.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Proposed work}{5}{subsection.0.2.2}\protected@file@percent }
 \citation{rosenblatt}
 \citation{simpleneural}
 \citation{simpleneural}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Artificial Neural Networks}{6}{subsection.0.2.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Simple neural network with one hidden layer \cite  {simpleneural}\relax }}{6}{figure.caption.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Background Literature}{6}{section.0.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Historical and current landscape - foundational papers}{6}{subsection.0.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}ELI5}{6}{subsection.0.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}LIME}{6}{subsection.0.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}SHAP}{6}{subsection.0.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Artificial Neural Networks}{6}{subsection.0.3.5}\protected@file@percent }
+\newlabel{neuron}{{1}{6}{Artificial Neural Networks}{equation.0.3.1}{}}
+\citation{activationfunction}
+\citation{activationfunction}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Simple neural network with one hidden layer \cite  {simpleneural}\relax }}{7}{figure.caption.2}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:simplenetwork}{{1}{6}{Simple neural network with one hidden layer \cite {simpleneural}\relax }{figure.caption.2}{}}
-\citation{activationfunction}
-\citation{activationfunction}
-\citation{costfuntion}
-\citation{costfuntion}
+\newlabel{fig:simplenetwork}{{1}{7}{Simple neural network with one hidden layer \cite {simpleneural}\relax }{figure.caption.2}{}}
 \newlabel{fig:first_sub}{{2(a)}{7}{Subfigure 0 2(a)}{subfigure.0.2.1}{}}
 \newlabel{sub@fig:first_sub}{{(a)}{7}{Subfigure 0 2(a)\relax }{subfigure.0.2.1}{}}
 \newlabel{fig:second_sub}{{2(b)}{7}{Subfigure 0 2(b)}{subfigure.0.2.2}{}}
@@ -59,45 +63,47 @@
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Binary Step}}}{7}{figure.caption.3}\protected@file@percent }
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {ReLu}}}{7}{figure.caption.3}\protected@file@percent }
 \@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {Sigmoid}}}{7}{figure.caption.3}\protected@file@percent }
-\newlabel{neuron}{{1}{7}{Artificial Neural Networks}{equation.0.2.1}{}}
-\newlabel{cost_function}{{2}{7}{Artificial Neural Networks}{equation.0.2.2}{}}
+\citation{costfuntion}
+\citation{costfuntion}
 \citation{kingma2014adam}
 \citation{trask}
 \citation{nielsenneural}
 \citation{kaggle}
-\citation{strokedataset}
+\newlabel{cost_function}{{2}{8}{Artificial Neural Networks}{equation.0.3.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Simple cost function graph\cite  {costfuntion}\relax }}{8}{figure.caption.4}\protected@file@percent }
 \newlabel{fig:costfuntiongraph}{{3}{8}{Simple cost function graph\cite {costfuntion}\relax }{figure.caption.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Building an ANN}{8}{section.0.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Choosing a Dataset}{8}{subsection.0.3.1}\protected@file@percent }
+\citation{strokedataset}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Age vs body mass index\relax }}{9}{figure.caption.5}\protected@file@percent }
 \newlabel{fig:age_bmi_scatterplot}{{4}{9}{Age vs body mass index\relax }{figure.caption.5}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Age distribution of patients who suffered a stroke\relax }}{9}{figure.caption.5}\protected@file@percent }
 \newlabel{fig:age_of_stroke_patients}{{5}{9}{Age distribution of patients who suffered a stroke\relax }{figure.caption.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Exploratory Data Analysis}{9}{subsection.0.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Exploratory work}{9}{section.0.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Building an ANN}{9}{subsection.0.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Choosing a Dataset}{9}{subsection.0.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Exploratory Data Analysis}{9}{subsection.0.4.3}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Correlations among all data columns using a balanced subset - smoking status is mapped to binary values\relax }}{10}{figure.caption.6}\protected@file@percent }
 \newlabel{fig:heatmap}{{6}{10}{Correlations among all data columns using a balanced subset - smoking status is mapped to binary values\relax }{figure.caption.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Percentage of male/female smokers\relax }}{10}{figure.caption.7}\protected@file@percent }
-\newlabel{fig:gender_smoking_percentage}{{7}{10}{Percentage of male/female smokers\relax }{figure.caption.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Categorical and Missing Data}{10}{subsection.0.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Categorical and Missing Data}{10}{subsection.0.4.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Percentage of male/female smokers\relax }}{11}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:gender_smoking_percentage}{{7}{11}{Percentage of male/female smokers\relax }{figure.caption.7}{}}
 \citation{keras}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Architecture of the ANN with Keras}{11}{subsection.0.3.4}\protected@file@percent }
 \citation{cost_sensitive}
 \citation{WangS}
-\newlabel{fig:first_sub}{{8(a)}{12}{Subfigure 0 8(a)}{subfigure.0.8.1}{}}
-\newlabel{sub@fig:first_sub}{{(a)}{12}{Subfigure 0 8(a)\relax }{subfigure.0.8.1}{}}
-\newlabel{fig:second_sub}{{8(b)}{12}{Subfigure 0 8(b)}{subfigure.0.8.2}{}}
-\newlabel{sub@fig:second_sub}{{(b)}{12}{Subfigure 0 8(b)\relax }{subfigure.0.8.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Weighted network\relax }}{12}{figure.caption.8}\protected@file@percent }
-\newlabel{fig:weighted_ann}{{8}{12}{Weighted network\relax }{figure.caption.8}{}}
-\bibstyle{plain}
-\bibdata{template}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Architecture of the ANN with Keras}{12}{subsection.0.4.5}\protected@file@percent }
+\newlabel{fig:first_sub}{{8(a)}{13}{Subfigure 0 8(a)}{subfigure.0.8.1}{}}
+\newlabel{sub@fig:first_sub}{{(a)}{13}{Subfigure 0 8(a)\relax }{subfigure.0.8.1}{}}
+\newlabel{fig:second_sub}{{8(b)}{13}{Subfigure 0 8(b)}{subfigure.0.8.2}{}}
+\newlabel{sub@fig:second_sub}{{(b)}{13}{Subfigure 0 8(b)\relax }{subfigure.0.8.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Weighted network\relax }}{13}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:weighted_ann}{{8}{13}{Weighted network\relax }{figure.caption.8}{}}
 \newlabel{fig:first_sub}{{9(a)}{13}{Subfigure 0 9(a)}{subfigure.0.9.1}{}}
 \newlabel{sub@fig:first_sub}{{(a)}{13}{Subfigure 0 9(a)\relax }{subfigure.0.9.1}{}}
 \newlabel{fig:second_sub}{{9(b)}{13}{Subfigure 0 9(b)}{subfigure.0.9.2}{}}
 \newlabel{sub@fig:second_sub}{{(b)}{13}{Subfigure 0 9(b)\relax }{subfigure.0.9.2}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Weighted network\relax }}{13}{figure.caption.9}\protected@file@percent }
 \newlabel{fig:weighted_ann}{{9}{13}{Weighted network\relax }{figure.caption.9}{}}
+\bibstyle{plain}
+\bibdata{template}
 \bibcite{activationfunction}{1}
 \bibcite{jail}{2}
 \bibcite{algassessment}{3}

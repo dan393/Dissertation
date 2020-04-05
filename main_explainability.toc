@@ -1,10 +1,16 @@
 \contentsline {section}{\numberline {1}Motivation}{2}{section.0.1}%
-\contentsline {section}{\numberline {2}Introduction}{3}{section.0.2}%
-\contentsline {subsection}{\numberline {2.1}Area of study}{3}{subsection.0.2.1}%
-\contentsline {subsection}{\numberline {2.2}Proposed work}{4}{subsection.0.2.2}%
-\contentsline {subsection}{\numberline {2.3}Artificial Neural Networks}{6}{subsection.0.2.3}%
-\contentsline {section}{\numberline {3}Building an ANN}{8}{section.0.3}%
-\contentsline {subsection}{\numberline {3.1}Choosing a Dataset}{8}{subsection.0.3.1}%
-\contentsline {subsection}{\numberline {3.2}Exploratory Data Analysis}{9}{subsection.0.3.2}%
-\contentsline {subsection}{\numberline {3.3}Categorical and Missing Data}{10}{subsection.0.3.3}%
-\contentsline {subsection}{\numberline {3.4}Architecture of the ANN with Keras}{11}{subsection.0.3.4}%
+\contentsline {section}{\numberline {2}Introduction}{4}{section.0.2}%
+\contentsline {subsection}{\numberline {2.1}Explainability - Problem Outline}{4}{subsection.0.2.1}%
+\contentsline {subsection}{\numberline {2.2}Proposed work}{5}{subsection.0.2.2}%
+\contentsline {section}{\numberline {3}Background Literature}{6}{section.0.3}%
+\contentsline {subsection}{\numberline {3.1}Historical and current landscape - foundational papers}{6}{subsection.0.3.1}%
+\contentsline {subsection}{\numberline {3.2}ELI5}{6}{subsection.0.3.2}%
+\contentsline {subsection}{\numberline {3.3}LIME}{6}{subsection.0.3.3}%
+\contentsline {subsection}{\numberline {3.4}SHAP}{6}{subsection.0.3.4}%
+\contentsline {subsection}{\numberline {3.5}Artificial Neural Networks}{6}{subsection.0.3.5}%
+\contentsline {section}{\numberline {4}Exploratory work}{9}{section.0.4}%
+\contentsline {subsection}{\numberline {4.1}Building an ANN}{9}{subsection.0.4.1}%
+\contentsline {subsection}{\numberline {4.2}Choosing a Dataset}{9}{subsection.0.4.2}%
+\contentsline {subsection}{\numberline {4.3}Exploratory Data Analysis}{9}{subsection.0.4.3}%
+\contentsline {subsection}{\numberline {4.4}Categorical and Missing Data}{10}{subsection.0.4.4}%
+\contentsline {subsection}{\numberline {4.5}Architecture of the ANN with Keras}{12}{subsection.0.4.5}%
