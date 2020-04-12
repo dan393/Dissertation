@@ -35,13 +35,13 @@ Algorithms are present in almost every electronic device we buy. From a simple l
 
 Another example shows the US justice system relying much more heavily on algorithms - these are used to provide a likelihood score of a convict to re-offend and is one of the main factors for a judge when deciding a sentencing\cite{jail}. The algorithm used is trained on historical data and seems to have biases correlated to a convict financial status - it may transform these biases into causations. Importantly, the underlying algorithm is private and not made available to the public for assessment.
 
-Provided that secrecy is of utmost importance for ML companies across all industries, many questions arise from stakeholders: how can regulators verify the fairness/lack of bias of a financial algorithms? Will an algorithmic robot trained on worst case scenario data from the 2008 financial crises perform as well during a new financial crises with different root causes? How can a judge have confidence that no bias is part of the score given to a convict if the underlying algorithm is only accessible to a handful of people? How can investors evaluate that the product of an ML company does indeed what is says it does? 
+Provided that secrecy is of utmost importance for machine learning companies across all industries, many questions arise from stakeholders: how can regulators verify the fairness/lack of bias of a financial algorithms? Will an algorithmic robot trained on worst case scenario data from the 2008 financial crises perform as well during a new financial crises with different root causes? How can a judge have confidence that no bias is part of the score given to a convict if the underlying algorithm is only accessible to a handful of people? How can investors evaluate that the product of an ML company does indeed what is says it does? 
 
-More importantly, given the coronavirus outbreak that started in December 2019, can a doctor trust ad-hoc built AI systems that claim to diagnose the virus or help find a cure? Many companies are racing to produce products that have eye-catching accuracy and performance, but more discussion is needed before deployment on how these algorithms perform on real test data. 
+More importantly, given the coronavirus outbreak that started in December 2019, can a doctor trust ad-hoc built AI systems that claim to diagnose the virus or help find a cure? Many companies are racing to produce products that have eye-catching accuracy and performance, but more discussion is needed on how these algorithms perform on real test data. 
 
-For example, Darwin AI \cite{DarwinAI} claims to work on a novel Covid-19 test that uses a classification system based on CT scans to detect the spread of the virus in the lungs vs common pneumonia or healthy patients\cite{covid-net}. The authors do warn that their algorithm should not be used in production systems as it is only trained on a limited number of smaples for positive patients. However, similar products are already used in hospitals\cite{aids-doctors} and whithin the scientific community many such approaches are discussed with a focus on performance.\cite{ai-covid-19}.
+For example, Darwin AI \cite{DarwinAI} claims to work on a novel Covid-19 test that uses a classification system based on CT scans to detect the spread of the virus in the lungs vs common pneumonia or healthy patients\cite{covid-net}. The authors do warn that their algorithm should not be used in production systems as it is only trained on a limited number of samples for positive patients - in an online presentation the authors describe how they initially produces a model with perfect predictions for all classes, but it was using the colour of the bed the patient was lying on while the CT scan was performed. Such a perfect model would have disastrous consequences if performance was the only important metric. However, similar products are already used in hospitals\cite{aids-doctors} and within the scientific community many such approaches are discussed with a focus on performance.\cite{ai-covid-19}.
 
-Another example within healthcare of a neural network that performs well but picks biases is described by Rich Caruana, a principal Microsoft researcher. He built a network which classifies severe cases of pneumonia vs mild ones\cite{rich-caruana}. On close inspections he notices that having asthma lowers the risk of having severe pneumonia (among several other biases). This correlation is related to the extra care taken for such patients - they are more likely to see a doctor immediately if they don't feel well. If his network would be deployed to decide on real cases, it would implicitly classify them as a lower risk and could have catastrophic consequences - such patients would likely not be admitted to hospital. Importantly, he stresses out how hard it is to detect such biases and why at least in healthcare it is crucial that a doctor understand why a classification has been made. 
+Another example within healthcare of a neural network that performs well but picks biases is described by Rich Caruana, a principal Microsoft researcher. He built a network which classifies severe cases of pneumonia vs mild ones\cite{rich-caruana}. On close inspections he notices that having asthma lowers the risk of having severe pneumonia (among several other biases). This correlation is related to the extra care taken for such patients - they are more likely to see a doctor immediately if they don't feel well. If his network would be deployed to decide on real cases, it would implicitly classify them as a lower risk and could have catastrophic consequences - such patients would likely not be admitted to hospital. Importantly, he stresses out how hard it is to detect such biases and why at least in healthcare it is crucial that a doctor understands why a classification has been made. 
 
 Furthermore, machine learning classifiers are becoming increasingly complex: specifically, deep learning neural networks may outperform other classifiers such as SVMs or decision trees but the results are hardly explainable due to the hidden layers that aim to mimic real brain activity. For example, an architecture for convolutional neural networks such as ResNet\cite{res-net} used for image classification can use 152 layers. It may output a superior performance compared to other architectures, but how can we detect biases and explain how it learned them, thus helping us to improve the algorithm?
 
@@ -49,13 +49,13 @@ The new general data protection regulations (GDPR) which came into effect in the
 
 Therefore, more discussion is needed on why an algorithm outputs a specific classification and how it will generalize on real data outside it's training set. This need constitutes the core motivation for this project. The aim is to survey available tools that help explain machine learning algorithms. A complete survey of such tools for every machine learning algorithm would be outside the scope. Deep Learning is a relatively new field and that neural networks become ubiquitous, a more narrowed scope is to mainly assess tools used to explain artificial and convolutional neural networks. However, most tools and techniques treat AI models as a blackbox and do not require an understanding of the underlying architecture. As such, these tools are applicable to a wide range of models.
 
-Although some techniques for explainability are fairly recently developed, the interest within the scientific community in this topic is very high and many pros and cons have been discussed. The aim of this project will be two-fold: one one side we aim to discuss the various techniques and on the other to survey the actual applicability in the real world, the latter not being researched as much. 
+Although some techniques for explainability are fairly recently developed, the interest within the scientific community in this topic is very high and many pros and cons have been discussed. The aim of this project will be two-fold: one one side we aim to discuss and compare the various techniques and on the other to survey the actual applicability in the real world, the latter not being researched as much. 
 
 For this purpose, the project will start with some exploratory work, with implementation of neural networks and discussing approaches for explaining their outputs. The next part of the project is to work on a couple of real case studies and answer questions such as: How do commercial companies use these tools? What are the best practices used to develop trustworthy models? What features would data scientists like to see in these tools in the future to help them better understand and improve their models? Can their models be assessed independently?
 
 This approach differs slightly form the one described in the original project proposal. Instead of evaluating the performance and determine the real value of commercial algorithms, we focus instead on explaining their decisions. This new approach is motivated after extensive reading and discussions with researchers who work with commercial companies. Aiming to challenge their IP and requesting their help in providing their data, algorithms, benchmark tools and most importantly their time, would be unrealistic and provide little value. Likely companies would dismiss such requests and furthermore it would be unlikely to outperform real employees who have a vast amount of experience in machine learning. 
 
-On the other hand, understanding the practices used commercially to explain models, could benefit them in return by providing recommendations of how such practices can be further improved. In addition, only access to a blackbox algorithm is needed and a few test samples as opposed to entire datasets. It is reasonable to expect a higher willingness from private companies to collaborate. 
+On the other hand, understanding the practices used commercially to explain models, could benefit them in return by providing recommendations of how such practices can be further improved. In addition, only access to a blackbox algorithm with a few test samples would be enough to perform an attainability evaluation as opposed to entire datasets required to build the algorithm completely. It is reasonable to expect a higher willingness from private companies to collaborate under such circumstances of mutual benefit. 
 
 \section{Introduction}
 
@@ -66,21 +66,21 @@ While simple algorithms have been around for many years aiding our decisions, co
 
 Finance also relies heavily on automation and algorithmic trading is rising very fast. Robot advisors are slowly replacing or at least aiding financial advisors to reduce the commissions charged as well as improve the performance of a fund\cite{robot}. For most financial institutions, especially large investment banks, regulators require backtesting to be executed and results sent for analysis\cite{backtesting}. This aims to ensure that trading strategies performing live today can also handle data in extreme environments such as the financial crisis in 2008.
 
-While most of the algorithms used in decision making are currently crunching data to produce a deterministic output, newer types of algorithms within Machine Learning (ML) and Artificial Intelligence (AI) aim to train on historical data to find patterns that are applicable on new test data. From systems that recommend similar items to a virtual Go player that can beat a world champion\cite{alphago}, ML algorithms become increasingly trusted to take decisions that may significantly affect people's life. Huge investments are poured into self driving cars and a large number of big tech companies as well as many start ups\cite{autonomous} claim a share of this funding. These smart algorithms powering the cars may be expected to take the right decisions in noisy environments that have not been part of the training data, or ethical ones with no clear solutions, such as the trolley problem\cite{trolley}. As they are designed by humans, biases are also likely to influence the algorithm design. For such critical systems, especially where different decisions can be regarded as optimal, explainability becomes crucial.
+While most of the algorithms used in decision making are currently crunching data to produce a deterministic output, newer types of algorithms within Machine Learning (ML) and Artificial Intelligence (AI) aim to train on historical data to find patterns that are applicable on new test data. From systems that recommend similar items to online shoppers to a virtual Go player that can beat a world champion\cite{alphago}, ML algorithms become increasingly trusted to take decisions that may significantly influence people's life. Huge investments are poured into self driving cars and a large number of big tech companies as well as many start ups\cite{autonomous} claim a share of this funding. These smart algorithms powering the cars may be expected to take the right decisions in noisy environments that have not been part of the training data, or ethical ones with no clear solutions, such as the trolley problem\cite{trolley}. As they are designed by humans, biases are also likely to influence the algorithm design. For such critical systems, especially where different decisions can be regarded as optimal, explainability becomes crucial.
 
 But the main assets of ML companies lie in developing such algorithms and preserving their secrecy. For big tech giants, such as Google, Uber or Waymo, theft of trade secrets is a serious concern and lawsuits are commonplace\cite{stealuber,waymo}. Algorithmic trade secrets, such as trading software, are also crucial in the financial industry, and any attempt for industrial espionage is thoroughly chased\cite{jeopardy}.
 
-Most of the time, a blackbox is provided to an external audit or potential investor with limited test data. Furthermore, this data could easily be proprietary as well and cleaned to fit the claims of the product. Currently, it seems that stakeholders do not have any means to independently verify that an algorithm does indeed what it says it does. 
+Therefore, most of the time, a blackbox is provided to an external audit or potential investor with limited test data. Furthermore, this data could easily be proprietary as well and cleaned to fit the claims of the product. Currently, it seems that stakeholders do not have any means to independently verify that an algorithm does indeed what it says it does. 
 
-With the increasing rise of tech startups, we may assume that in the near future, multi billion dollar companies may have only a handful of employees with a codebase living in the cloud and their main asset being IP. Their algorithms may have significant decisions for the public, yet understanding why a decision has been taken may be challenging to explain. In particular, end users should always be able to understand exactly what factors mattered when an automated decision is taken (e.g. why has my loan been denied? why was I not addmited to the hospial when ill? where did my pension's trading strategy go wrong?) - importantly such explanations should also be easily understandable. From a human computer inteaction perspective this will help users accept decision more easily: a good example is Netflix, which provides clear explanations to users for new shows it recommends based on previous viewings. 
+With the increasing rise of tech startups, we may assume that in the near future, multi billion dollar companies may have only a handful of employees with a codebase living in the cloud and their main asset being IP. Their algorithms may have significant decisions for the public, yet understanding why a decision has been taken may be challenging to explain. In particular, end users should always be able to understand exactly what factors mattered when an automated decision is taken (e.g. Why has my loan been denied? Why was I not admitted to the hospital when ill? Where did my pension's trading strategy go wrong?) - importantly such explanations should also be easily understandable. From a human computer interaction perspective this will help users accept decision more easily: a good example is Netflix, which provides clear explanations to users for new shows it recommends based on previous viewings. 
 
 \subsection{Proposed work}
 
-The aim of this project is to investigate the available tools used by researchers and other stakeholders in understanding how their models behave when making classifications. Ideally, the main focus will be to compare tools and processes for cases where the model is treated as a blackbox with a limited amount of test data. The next stage is to assess the suitability of these tools within real case studies and eventually make realistic proposals for improvements. The focus will be on explaining artificial and convolutional neural networks, but the general guidelines derived should be applicable to any organisation independent of  the size, technology stack or industry.
+The aim of this project is to investigate the available tools used by researchers and other stakeholders in understanding how their models behave when making classifications. Ideally, the main focus will be to compare tools and processes that can fit scenarios where the model is treated as a blackbox with a limited amount of test data. The next stage is to assess the suitability of these tools within real case studies and eventually make realistic proposals for improvements. The focus will be on explaining artificial and convolutional neural networks, but the general guidelines derived should be applicable to any organisation independent of the size, technology stack or industry.
 
 Deep learning mainly provides two types of algorithms: supervised and unsupervised learning. Supervised learning is used for classification purposes while unsupervised learning aims to find patterns within a data sets that are not mapped to specific labels.
 
-Artificial neural networks (ANN) are trained on test data sets and make predictions on new inputs. Their efficiency can usually be measured on how accurate their predictions are. For example, given a dataset of customers leaving a bank, a ANN can make future predictions based on independent variables on whether a customer is likely or not to leave the bank as well. A ANN could also decide based on income and age, whether a customer should be granted a loan or not. Another example could be a ANN making stock price predictions. While the algorithm is not public, it would be crucial for customers to have the ability understand its behaviour before placing any money of their savings.
+Artificial neural networks (ANN) are trained on test data sets and make predictions on new inputs. Their efficiency can usually be measured on how accurate their predictions are. For example, given a dataset of customers leaving a bank, a ANN can make future predictions based on independent variables on whether a customer is likely or not to leave the bank as well. An ANN could also decide based on income and age, whether a customer should be granted a loan or not. Another example could be a ANN making stock price predictions. While the algorithm is not public, it would be crucial for customers to have the ability to understand its behaviour before placing any money of their savings.
 
 The aim is also to test the behaviour of the algorithm under worst case scenarios or perform other modifications to the dataset to identify potential poor performance that impacts the validity of testing and in particular pick any unhealthy biases. The project will evaluate a number of open source ANNs used in a variety of fields such as healthcare, finance, or law. The algorithms may be packaged as runnable code with training and test data or as a black box with test data only. 
 
@@ -88,15 +88,91 @@ A first step is to review the historical and current approaches used to train an
 
 The second step will discuss specific use cases. Of particular interest are models that perform within healthcare, especially during the coronavirus pandemic where AI is heavily relied on to diagnose or find treatments. Many solutions are rapidly deployed and their correctness can be crucial in reducing the number of deaths caused by COVID-19. Informal discussions with software engineers designing these models will be conducted aiming to find out what tools and best practices are used to ensure correctness of deployed models. Where possible, the selection of models discussed in the background literature will be applied on such models to make further inferences. This will of course be done with the express consent of the companies or where such models are open source.
 
-The expected outcome will present the reader with a set of best practices and tools currently used in academia and real world models for explaining AI models. A comparison of the tools and use cases they cover best and what is needed in the future will be addressed. These examples do not aim to provide a silver bullet for implementing foolproof explainable models, but rather a sample of what might be useful in developing and testing process, which is subject to further background literature and the rapid growth of new ideas being published in the field. 
+The expected outcome will present the reader with a set of best practices and tools currently used in academia and in the real world for explaining AI models. A comparison of the tools and use cases they cover best and what is needed in the future will be addressed. These examples do not aim to provide a silver bullet for implementing foolproof explainable models, but rather a sample of what might be useful in the development and testing process of new models to ensure that correct outputs are produced for the right reasons. This is subject to further background literature and the rapid growth of new ideas being published in the field.
 
+Further notes:
+novelty of exaplinability -whhy and what that means. models are designed and trained to perform well and reduce the loss function not to be explainable to humans in an intitive way
+ 
+ The ‘black box’ problem that plagues AI — our inability to peek inside exotic neural networks and understand how they work — represents one of the most urgent moral and %business imperatives of our time. - https://medium.com/@sheldon.fernandez/dark-ai-and-the-promise-of-explainability-part-i-a6b35009a88c
+
+impaortant areas such as healthcare will avoid using where possible models that cannot explain descisions even when the performance of a deep learning is by far superior to other models.
+
+\newpage
 \section{Background Literature}
-\subsection{Historical and current landscape - foundational papers}
-\subsection{ELI5}
+\subsection{Overview}
+what is explainabilit? define my metrics
+what are common appraoches? 
+discussion on individual methods with pros and cons.
+what can I select for asession on exploratory analysis and on comertical asessment?
+\subsection{What is explainability?}
+Explainability is a new filed in AI and the focus is mainly to explain what features in the input significantly influence the model to provide a higher probability to a class than to others. But what can we classify as a well explained decision? What metrics can be used?
+
+Christoper Molnar \cite{molnar2019}
+
+\subsection{Current approaches}
+
+Ideally this process should be incorporated by design and starts at the very beginning when exploratory data analysis is performed. 
+
+Khaleghi \cite{khaleghi} explains the importance of identifying shortcoming of the training data such as class imbalance issues or dealing with missing data. This can be achieved by using different types of charts to plot the data and using statistical analysis to fill in missing values. Importantly, features should also be explainable and meaningful to the end user who should also intuitively asses their importance. When the number of features in a dataset is too large, dimensionality reduction techniques such as principal component analysis can be applied.
+
+At a model implementation stage, many new architectures emerge that incorporate explainability by design, in particular for neural networks. For example, Alvarez-Melis et al (2018)\cite{alvarezmelis2018robust} propose Self-Explaining Neural Networks which work by \textit{"progressively generalizing linear classifiers to complex yet architecturally explicit models"}. Such designs aim to make explanation understandable, faithful and consistent. Similarly, Al-Shedivat et al(2017)\cite{alshedivat2017contextual} propose Contextual Explanation Networks: these \textit{"generate parameters for intermediate graphical models which are further used for prediction and play the role of explanations."} These models not not offer a clear understandable interpretation and more research is needed to develop them further.
+
+However, explainability is mainly assessed after the model has been created. In turn, this approach does allow for improved models to be generated after assessment in an iterative process and are not different than other methods used to improve performance such as hyper parameter tuning. 
+
+In a broad overview, Sheldon Fernandez \cite{fernandez-dark-ai} describes four general approaches currently used to interpret and explain models, which grew from theoretical scenarios into commercial use-cases. The first approach is to create \textbf{perturbations} of a particular input set and asses the impact of the predicted decisions. \textbf{Backwards propagation} estimates the weight of neurons in each layer to derive an importance score for each feature. Another approach is to use a simple but more explainable model that is trained to imitate the complex one (e.g. a decision tree imitating a deep neural network). The last approach, \textbf{Activation Optimization} searches for input patterns to maximise/minimise the classification probability for an input.
+
+Each of these techniques has benefits and limitations. In the article mentioned, Fernandez further details some limitations: for example, using a proxy to simplify a model will rather provide hints on how the underlying algorithms performs. While these may be useful, they may not be accurate and should not be relied upon in mission-critical systems.
+
+Other techniques will perturb the input to assess the importance of its features. Perturbing such features even slightly can produce opposing results and furthermore, they can only be applied to a number of limited inputs and would not account for global behaviour. Perturbing data with a large number of features would further also increase the computational cost exponentially.
+
+In all cases, the scores attributed to different features will need to be interpreted by the user and models improved accordingly. Inherently, such decisions would be debatable by different users. In healthcare for example, two specialists could have different domain views on weather some features are more important than others.
+
+For our purposes, we need to identify solutions that are readily available to developers, easy to implement on current models and understandable by all stakeholders, ideally applicable to any type of model and not exclusive to neural networks.
+
+Model-specific or model-agnostic
+focus on explaining after the network is build.
+Local or global?
+-area I am going to consider and why and area I will not consider and ww
+- mostly interested in black box approaches as this allows independent evaluation
+-
+
+- high level overview of different approaches with pros and cons
+Perturbation: 
+- treats models as a blackbox, and probes it. the explanation is not a clear verifiable one. they fail to generalise for all classes. only analyses part of networks and are not globally applicable to all classes. not verifaiable 
+
+-most of these produce heatmaps and lets the reader decide on the correctness - but what if perople interpret these resutls differently?
+
+Backwards Propagation
+Proxy: 
+Activation Optimization:
+
+split into categories of approaches , not only what the stuff is and educate the reader.
+
+- developers require an deep understanfing of how the models arhitecure learns so they can improve it, whil those using it need to understand how it works as a whole when a decision is taken - fro example a written text on what features are important 
+
+input features are not the only thing - is the dataset imbalanced? what optimization functions were used?
+
+Influence Functions -
+
+%Importance scores (aka saliency heatmaps) - most common type of exmplanbation
+
+%Anchors methods: https://homes.cs.washington.edu/~marcotcr/aaai18.pdf
+
+%Decision trees  - https://link.springer.com/chapter/10.1007/978-3-319-46307-0_29
+
+For our purposes, we need to find solutions that are available to developers, easy to implement on current models and understandable by all stakeholders.
+
+The perturbation mechanism methods have two main advantages: they are typically easy to implement, and they are not limited to a specific model architecture but compuytationally expensive if the models are high dimentaional.
+
+Gradient-weighted Class Activation Mapping (Grad-CAM)
 \subsection{LIME}
+what is useful, what I learn, what areas are weak, what can be improved 
+like a critic, this area can be better, waht to take forward
+
+(LIME) approach provides explanation for an instance prediction of a model,
 \subsection{SHAP}
-
-
+\subsection{Selection of methods - reflection on why these are best to be compared}
+ We do not aim to implement techniques from scratch based on papers
 
 \subsection{Artificial Neural Networks}
 
