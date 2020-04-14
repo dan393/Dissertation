@@ -119,6 +119,12 @@ Sheldon Fernandez.
 \newblock
   \url{https://medium.com/@sheldon.fernandez/dark-ai-and-the-promise-of-explainability-part-i-a6b35009a88c}.
 
+\bibitem{guidotti}
+Riccardo Guidotti, Anna Monreale, Salvatore Ruggieri, Franco Turini, Fosca
+  Giannotti, and Dino Pedreschi.
+\newblock A survey of methods for explaining black box models.
+\newblock {\em ACM Comput. Surv.}, 51(5), August 2018.
+
 \bibitem{res-net}
 K.~He, X.~Zhang, S.~Ren, and J.~Sun.
 \newblock Deep residual learning for image recognition.
