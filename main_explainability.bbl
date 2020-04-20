@@ -1,159 +1,24 @@
 \begin{thebibliography}{10}
 
-\bibitem{activationfunction}
-Activation function - wikipedia.
-\newblock \url{https://en.wikipedia.org/wiki/Activation_function}.
-
 \bibitem{jail}
 Ai is sending people to jail—and getting it wrong - mit.
 \newblock
   \url{https://www.technologyreview.com/s/612775/algorithms-criminal-justice-ai/}.
 
-\bibitem{algassessment}
-Algorithm assessment report.
-\newblock
-  \url{https://data.govt.nz/use-data/analyse-data/government-algorithm-transparency-and-accountability/algorithm-assessment-report/}.
+\bibitem{DarwinAI}
+DarwinAI.
+\newblock \url{https://www.darwinai.com/index.html}.
 
-\bibitem{alphago}
-Alphago | deepmind.
-\newblock \url{https://deepmind.com/research/alphago/}.
-
-\bibitem{backtesting}
-Backtesting - investopedia.
-\newblock \url{https://www.investopedia.com/terms/b/backtesting.asp}.
-
-\bibitem{robot}
-Coding your own algo-trading robot - investopedia.
-\newblock
-  \url{https://www.investopedia.com/articles/active-trading/081315/how-code-your-own-algo-trading-robot.asp}.
-
-\bibitem{stealuber}
-Did uber steal google's intellectual property? | the new yorker.
-\newblock
-  \url{https://www.newyorker.com/magazine/2018/10/22/did-uber-steal-googles-intellectual-property.}
-
-\bibitem{costfuntion}
-A graph of a cost function - researchgate.
-\newblock
-  \url{https://www.researchgate.net/figure/A-graph-of-a-cost-function-modified-from_fig1_329920042}.
-
-\bibitem{khaleghi}
-The how of explainable ai: Pre-modelling explainability.
-\newblock
-  \url{https://towardsdatascience.com/the-how-of-explainable-ai-pre-modelling-explainability-699150495fe4}.
-
-\bibitem{cost_sensitive}
-How to develop a cost-sensitive neural network.
-\newblock
-  \url{https://machinelearningmastery.com/cost-sensitive-neural-network-for-imbalanced-classification}.
-
-\bibitem{kaggle}
-Kaggle.
-\newblock \url{https://www.kaggle.com//}.
-
-\bibitem{keras}
-Keras.
-\newblock \url{https://keras.io/}.
-
-\bibitem{simpleneural}
-Neural network - databricks.
-\newblock \url{https://databricks.com/glossary/neural-network}.
-
-\bibitem{trask}
-A neural network in 13 lines of python (part 2).
-\newblock \url{https://iamtrask.github.io/2015/07/27/python-network-part2/}.
-
-\bibitem{rosenblatt}
-Professor's perceptron paved the way for ai – 60 years too soon.
-\newblock
-  \url{https://news.cornell.edu/stories/2019/09/professors-perceptron-paved-way-ai-60-years-too-soon/}.
-
-\bibitem{strokedataset}
-Stroke dataset.
-\newblock \url{https://www.kaggle.com/asaumya/healthcare-dataset-stroke-data/}.
-
-\bibitem{jeopardy}
-The triple jeopardy of ke xu, a chinese hedge fund quant ....
-\newblock
-  \url{https://www.bloomberg.com/news/features/2018-11-19/the-triple-jeopardy-of-ke-xu-a-chinese-hedge-fund-quant}.
-
-\bibitem{trolley}
-Trolley problem - wikipedia.
-\newblock \url{https://en.wikipedia.org/wiki/Trolley_problem}.
-
-\bibitem{waymo}
-Uber and waymo settle autonomous driving tech lawsuit.
-\newblock \url{https://www.wired.com/story/uber-waymo-lawsuit-settlement/.}
-
-\bibitem{autonomous}
-Well-funded autonomous vehicle startups | crunchbase.
-\newblock
-  \url{https://www.crunchbase.com/lists/well-funded-autonomous-vehicle-startups/f2214864-27b0-47cf-b596-257602ab8145/organization.companies}.
+\bibitem{covid-net}
+Linda Wang.
+\newblock {COVID-Net: A Tailored Deep Convolutional Neural Network Design for
+  Detection of COVID-19 Cases from Chest Radiography Images}.
+\newblock {\em Not Published}, 2009.
 
 \bibitem{aids-doctors}
 AI~aids doctors~assess Covid-19 CT~scans.
 \newblock
   \url{https://www.imveurope.com/news/ai-aids-doctors-assess-covid-19-ct-scans}.
-
-\bibitem{alshedivat2017contextual}
-Maruan Al-Shedivat, Avinava Dubey, and Eric~P. Xing.
-\newblock Contextual explanation networks, 2017.
-
-\bibitem{alvarezmelis2018robust}
-David Alvarez-Melis and Tommi~S. Jaakkola.
-\newblock Towards robust interpretability with self-explaining neural networks,
-  2018.
-
-\bibitem{BarredoArrietaAlejandro2020EAIX}
-Alejandro Barredo~Arrieta, Natalia Díaz-Rodríguez, Javier Del~Ser, Adrien
-  Bennetot, Siham Tabik, Alberto Barbado, Salvador Garcia, Sergio Gil-Lopez,
-  Daniel Molina, Richard Benjamins, Raja Chatila, and Francisco Herrera.
-\newblock Explainable artificial intelligence (xai): Concepts, taxonomies,
-  opportunities and challenges toward responsible ai.
-\newblock {\em Information Fusion}, 58:82--115, 2020.
-
-\bibitem{rich-caruana}
-Rich Caruana.
-\newblock Intelligible machine learning models for healthcare.
-\newblock \url{https://www.youtube.com/watch?v=ezSG9GORF54}.
-
-\bibitem{DarwinAI}
-DarwinAI.
-\newblock \url{https://www.darwinai.com/index.html}.
-
-\bibitem{fernandez-dark-ai}
-Sheldon Fernandez.
-\newblock Dark ai and the promise of explainability (part i).
-\newblock
-  \url{https://medium.com/@sheldon.fernandez/dark-ai-and-the-promise-of-explainability-part-i-a6b35009a88c}.
-
-\bibitem{GilpinLeilaniH}
-Leilani~H. Gilpin, David Bau, Ben~Z. Yuan, Ayesha Bajwa, Michael Specter, and
-  Lalana Kagal.
-\newblock Explaining explanations: An overview of interpretability of machine
-  learning.
-\newblock 2018.
-
-\bibitem{GoodmanB2017EUro}
-B~Goodman and Seth Flaxman.
-\newblock European union regulations on algorithmic decision-making and a
-  "right to explanation".
-\newblock {\em AI Magazine}, 38, 2017.
-
-\bibitem{guidotti}
-Riccardo Guidotti, Anna Monreale, Salvatore Ruggieri, Franco Turini, Fosca
-  Giannotti, and Dino Pedreschi.
-\newblock A survey of methods for explaining black box models.
-\newblock {\em ACM Comput. Surv.}, 51(5), August 2018.
-
-\bibitem{res-net}
-K.~He, X.~Zhang, S.~Ren, and J.~Sun.
-\newblock Deep residual learning for image recognition.
-\newblock pages 770--778, June 2016.
-
-\bibitem{kingma2014adam}
-Diederik~P. Kingma and Jimmy Ba.
-\newblock Adam: A method for stochastic optimization, 2014.
 
 \bibitem{ai-covid-19}
 Lin Li, Lixin Qin, Zeguo Xu, Youbing Yin, Xin Wang, Bin Kong, Junjie Bai,
@@ -163,15 +28,27 @@ Lin Li, Lixin Qin, Zeguo Xu, Youbing Yin, Xin Wang, Bin Kong, Junjie Bai,
   acquired pneumonia on chest ct.
 \newblock {\em Radiology}, page 200905, 03 2020.
 
-\bibitem{molnar2019}
-Christoph Molnar.
-\newblock {\em Interpretable Machine Learning}.
-\newblock 2019.
-\newblock \url{https://christophm.github.io/interpretable-ml-book/}.
+\bibitem{rich-caruana}
+Rich Caruana.
+\newblock Intelligible machine learning models for healthcare.
+\newblock \url{https://www.youtube.com/watch?v=ezSG9GORF54}.
 
-\bibitem{nielsenneural}
-Michael~A. Nielsen.
-\newblock Neural networks and deep learning, 2018.
+\bibitem{res-net}
+K.~He, X.~Zhang, S.~Ren, and J.~Sun.
+\newblock Deep residual learning for image recognition.
+\newblock pages 770--778, June 2016.
+
+\bibitem{fernandez-dark-ai}
+Sheldon Fernandez.
+\newblock Dark ai and the promise of explainability (part i).
+\newblock
+  \url{https://medium.com/@sheldon.fernandez/dark-ai-and-the-promise-of-explainability-part-i-a6b35009a88c}.
+
+\bibitem{GoodmanB2017EUro}
+B~Goodman and Seth Flaxman.
+\newblock European union regulations on algorithmic decision-making and a
+  "right to explanation".
+\newblock {\em AI Magazine}, 38, 2017.
 
 \bibitem{gdpr}
 Information~Comissioner's Office.
@@ -179,11 +56,165 @@ Information~Comissioner's Office.
 \newblock
   \url{https://ico.org.uk/for-organisations/guide-to-data-protection/guide-to-the-general-data-protection-regulation-gdpr/individual-rights/rights-related-to-automated-decision-making-including-profiling/}.
 
-\bibitem{covid-net}
-Linda Wang.
-\newblock {COVID-Net: A Tailored Deep Convolutional Neural Network Design for
-  Detection of COVID-19 Cases from Chest Radiography Images}.
-\newblock {\em Not Published}, 2009.
+\bibitem{algassessment}
+Algorithm assessment report.
+\newblock
+  \url{https://data.govt.nz/use-data/analyse-data/government-algorithm-transparency-and-accountability/algorithm-assessment-report/}.
+
+\bibitem{robot}
+Coding your own algo-trading robot - investopedia.
+\newblock
+  \url{https://www.investopedia.com/articles/active-trading/081315/how-code-your-own-algo-trading-robot.asp}.
+
+\bibitem{backtesting}
+Backtesting - investopedia.
+\newblock \url{https://www.investopedia.com/terms/b/backtesting.asp}.
+
+\bibitem{alphago}
+Alphago | deepmind.
+\newblock \url{https://deepmind.com/research/alphago/}.
+
+\bibitem{autonomous}
+Well-funded autonomous vehicle startups | crunchbase.
+\newblock
+  \url{https://www.crunchbase.com/lists/well-funded-autonomous-vehicle-startups/f2214864-27b0-47cf-b596-257602ab8145/organization.companies}.
+
+\bibitem{trolley}
+Trolley problem - wikipedia.
+\newblock \url{https://en.wikipedia.org/wiki/Trolley_problem}.
+
+\bibitem{BarredoArrietaAlejandro2020EAIX}
+Alejandro Barredo~Arrieta, Natalia Díaz-Rodríguez, Javier Del~Ser, Adrien
+  Bennetot, Siham Tabik, Alberto Barbado, Salvador Garcia, Sergio Gil-Lopez,
+  Daniel Molina, Richard Benjamins, Raja Chatila, and Francisco Herrera.
+\newblock Explainable artificial intelligence (xai): Concepts, taxonomies,
+  opportunities and challenges toward responsible ai.
+\newblock {\em Information Fusion}, 58:82--115, 2020.
+
+\bibitem{stealuber}
+Did uber steal google's intellectual property? | the new yorker.
+\newblock
+  \url{https://www.newyorker.com/magazine/2018/10/22/did-uber-steal-googles-intellectual-property.}
+
+\bibitem{waymo}
+Uber and waymo settle autonomous driving tech lawsuit.
+\newblock \url{https://www.wired.com/story/uber-waymo-lawsuit-settlement/.}
+
+\bibitem{jeopardy}
+The triple jeopardy of ke xu, a chinese hedge fund quant ....
+\newblock
+  \url{https://www.bloomberg.com/news/features/2018-11-19/the-triple-jeopardy-of-ke-xu-a-chinese-hedge-fund-quant}.
+
+\bibitem{molnar2019}
+Christoph Molnar.
+\newblock {\em Interpretable Machine Learning}.
+\newblock 2019.
+\newblock \url{https://christophm.github.io/interpretable-ml-book/}.
+
+\bibitem{guidotti}
+Riccardo Guidotti, Anna Monreale, Salvatore Ruggieri, Franco Turini, Fosca
+  Giannotti, and Dino Pedreschi.
+\newblock A survey of methods for explaining black box models.
+\newblock {\em ACM Comput. Surv.}, 51(5), August 2018.
+
+\bibitem{GilpinLeilaniH}
+Leilani~H. Gilpin, David Bau, Ben~Z. Yuan, Ayesha Bajwa, Michael Specter, and
+  Lalana Kagal.
+\newblock Explaining explanations: An overview of interpretability of machine
+  learning.
+\newblock 2018.
+
+\bibitem{khaleghi}
+The how of explainable ai: Pre-modelling explainability.
+\newblock
+  \url{https://towardsdatascience.com/the-how-of-explainable-ai-pre-modelling-explainability-699150495fe4}.
+
+\bibitem{YangFan2019EEWG}
+Fan Yang, Mengnan Du, and Xia Hu.
+\newblock Evaluating explanation without ground truth in interpretable machine
+  learning.
+\newblock 2019.
+
+\bibitem{YairWeiss2002Miao}
+Yair Weiss, Eero~P. Simoncelli, and Edward~H. Adelson.
+\newblock Motion illusions as optimal percepts.
+\newblock {\em Nature Neuroscience}, 5(6):598, 2002.
+
+\bibitem{alvarezmelis2018robust}
+David Alvarez-Melis and Tommi~S. Jaakkola.
+\newblock Towards robust interpretability with self-explaining neural networks,
+  2018.
+
+\bibitem{alshedivat2017contextual}
+Maruan Al-Shedivat, Avinava Dubey, and Eric~P. Xing.
+\newblock Contextual explanation networks, 2017.
+
+\bibitem{bibal2019user}
+Adrien Bibal, Bruno Dumas, and Beno{\^\i}t Fr{\'e}nay.
+\newblock User-based experiment guidelines for measuring interpretability in
+  machine learning.
+\newblock In {\em EGC Workshop on Advances in Interpretable Machine Learning
+  and Artificial Intelligence}, 2019.
+
+\bibitem{LageIsaac2019AEot}
+Isaac Lage, Emily Chen, Jeffrey He, Menaka Narayanan, Been Kim, Sam Gershman,
+  and Finale Doshi-Velez.
+\newblock An evaluation of the human-interpretability of explanation.
+\newblock 2019.
+
+\bibitem{LinZhongQiu2019DERD}
+Zhong~Qiu Lin, Mohammad~Javad Shafiee, Stanislav Bochkarev, Michael~St. Jules,
+  Xiao~Yu Wang, and Alexander Wong.
+\newblock Do explanations reflect decisions? a machine-centric strategy to
+  quantify the performance of explainability algorithms.
+\newblock 2019.
+
+\bibitem{rosenblatt}
+Professor's perceptron paved the way for ai – 60 years too soon.
+\newblock
+  \url{https://news.cornell.edu/stories/2019/09/professors-perceptron-paved-way-ai-60-years-too-soon/}.
+
+\bibitem{simpleneural}
+Neural network - databricks.
+\newblock \url{https://databricks.com/glossary/neural-network}.
+
+\bibitem{activationfunction}
+Activation function - wikipedia.
+\newblock \url{https://en.wikipedia.org/wiki/Activation_function}.
+
+\bibitem{costfuntion}
+A graph of a cost function - researchgate.
+\newblock
+  \url{https://www.researchgate.net/figure/A-graph-of-a-cost-function-modified-from_fig1_329920042}.
+
+\bibitem{kingma2014adam}
+Diederik~P. Kingma and Jimmy Ba.
+\newblock Adam: A method for stochastic optimization, 2014.
+
+\bibitem{trask}
+A neural network in 13 lines of python (part 2).
+\newblock \url{https://iamtrask.github.io/2015/07/27/python-network-part2/}.
+
+\bibitem{nielsenneural}
+Michael~A. Nielsen.
+\newblock Neural networks and deep learning, 2018.
+
+\bibitem{kaggle}
+Kaggle.
+\newblock \url{https://www.kaggle.com//}.
+
+\bibitem{strokedataset}
+Stroke dataset.
+\newblock \url{https://www.kaggle.com/asaumya/healthcare-dataset-stroke-data/}.
+
+\bibitem{keras}
+Keras.
+\newblock \url{https://keras.io/}.
+
+\bibitem{cost_sensitive}
+How to develop a cost-sensitive neural network.
+\newblock
+  \url{https://machinelearningmastery.com/cost-sensitive-neural-network-for-imbalanced-classification}.
 
 \bibitem{WangS}
 S.~Wang, W.~Liu, J.~Wu, L.~Cao, Q.~Meng, and P.J. Kennedy.
@@ -191,10 +222,5 @@ S.~Wang, W.~Liu, J.~Wu, L.~Cao, Q.~Meng, and P.J. Kennedy.
 \newblock In {\em Proceedings of the International Joint Conference on Neural
   Networks}, volume 2016-, pages 4368--4374. Institute of Electrical and
   Electronics Engineers Inc., 2016.
-
-\bibitem{YairWeiss2002Miao}
-Yair Weiss, Eero~P. Simoncelli, and Edward~H. Adelson.
-\newblock Motion illusions as optimal percepts.
-\newblock {\em Nature Neuroscience}, 5(6):598, 2002.
 
 \end{thebibliography}

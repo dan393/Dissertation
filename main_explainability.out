@@ -8,11 +8,12 @@
 \BOOKMARK [2][-]{subsection.0.3.3}{Current approaches towards XAI}{section.0.3}% 8
 \BOOKMARK [2][-]{subsection.0.3.4}{LIME}{section.0.3}% 9
 \BOOKMARK [2][-]{subsection.0.3.5}{SHAP}{section.0.3}% 10
-\BOOKMARK [2][-]{subsection.0.3.6}{Selection of methods - reflection on why these are best to be compared}{section.0.3}% 11
-\BOOKMARK [2][-]{subsection.0.3.7}{Artificial Neural Networks}{section.0.3}% 12
-\BOOKMARK [1][-]{section.0.4}{Exploratory work}{}% 13
-\BOOKMARK [2][-]{subsection.0.4.1}{Building an ANN}{section.0.4}% 14
-\BOOKMARK [2][-]{subsection.0.4.2}{Choosing a Dataset}{section.0.4}% 15
-\BOOKMARK [2][-]{subsection.0.4.3}{Exploratory Data Analysis}{section.0.4}% 16
-\BOOKMARK [2][-]{subsection.0.4.4}{Categorical and Missing Data}{section.0.4}% 17
-\BOOKMARK [2][-]{subsection.0.4.5}{Architecture of the ANN with Keras}{section.0.4}% 18
+\BOOKMARK [2][-]{subsection.0.3.6}{Evaluation Strategies for XAI methods}{section.0.3}% 11
+\BOOKMARK [2][-]{subsection.0.3.7}{Selection of methods - reflection on why these are best to be compared}{section.0.3}% 12
+\BOOKMARK [2][-]{subsection.0.3.8}{Artificial Neural Networks}{section.0.3}% 13
+\BOOKMARK [1][-]{section.0.4}{Exploratory work}{}% 14
+\BOOKMARK [2][-]{subsection.0.4.1}{Building an ANN}{section.0.4}% 15
+\BOOKMARK [2][-]{subsection.0.4.2}{Choosing a Dataset}{section.0.4}% 16
+\BOOKMARK [2][-]{subsection.0.4.3}{Exploratory Data Analysis}{section.0.4}% 17
+\BOOKMARK [2][-]{subsection.0.4.4}{Categorical and Missing Data}{section.0.4}% 18
+\BOOKMARK [2][-]{subsection.0.4.5}{Architecture of the ANN with Keras}{section.0.4}% 19
