@@ -26,10 +26,11 @@
 \clearpage\mbox{}\clearpage
 
 \begin{abstract}
-Machine Learning algorithms become the main assets for many IT companies and their correctness is fundamental in many fields such as healthcare and finance, or simply when using an app that provides directions to a user or makes suggestions based on personal information. Computational power increases exponentially and the complexity and performance of algorithms follows the same pattern, while explainability becomes more challenging. For regulators, investors or companies that have an interest in buying or investing in such a company, the task of validating the IP becomes difficult, especially when all that is accessible is a black box with a limited amount of test data. More importantly, AI decisions can significantly impact an end user's life. We aim to assess the tools and best practices currently used to reliably and independently evaluate and explain an algorithm decision, which in turn, will provide confidence to all stakeholders that it works indeed as specified and is trustworthy for real world use cases.\end{abstract}
+Machine Learning algorithms become the main assets for many IT companies and their correctness is fundamental in many fields such as healthcare and finance, or simply when using an app that provides directions to a user or makes suggestions based on personal information. Computational power increases exponentially and the complexity and performance of algorithms follows the same pattern, but explainability becomes more challenging. For users, regulators, or investors that have an interest in using or investing in an AI product, the task of validating its correctness becomes difficult, especially when all that is accessible is a black box with a limited amount of test data. More importantly, AI decisions can significantly impact an end user's life and newer fields such as Deep Learning, although superior to other approaches, will be avoided in critical systems such as healthcare unless users can trust them and understand how they take decisions. We aim to assess the tools and best practices currently used to reliably and independently evaluate and explain an algorithm's decision, which in turn, will provide confidence to all stakeholders that it works indeed as specified and is trustworthy for real world use cases.\end{abstract}
  
 \tableofcontents
 \newpage
+
 \section{Motivation}
 Algorithms are present in almost every electronic device we buy. From a simple light switch to running an OS and applications on a smartphone, their influence reaches beyond our daily decisions. For example, algorithms in a smartphone may direct a taxi driver on an alternative route based on congestion indicators set by a real-time data feed. Similarly, the prices of products in a supermarket may be influenced by low latency foreign exchange algorithms trading in an investment bank.
 
@@ -43,9 +44,9 @@ For example, Darwin AI \cite{DarwinAI} claims to work on a novel Covid-19 test t
 
 Another example within healthcare of a neural network that performs well but picks biases is described by Rich Caruana, a principal Microsoft researcher. He built a network which classifies severe cases of pneumonia vs mild ones\cite{rich-caruana}. On close inspections he notices that having asthma lowers the risk of having severe pneumonia (among several other biases). This correlation is related to the extra care taken for such patients - they are more likely to see a doctor immediately if they don't feel well. If his network would be deployed to decide on real cases, it would implicitly classify them as a lower risk and could have catastrophic consequences - such patients would likely not be admitted to hospital. Importantly, he stresses out how hard it is to detect such biases and why at least in healthcare it is crucial that a doctor understands why a classification has been made. 
 
-Furthermore, machine learning classifiers are becoming increasingly complex: specifically, deep learning neural networks may outperform other classifiers such as SVMs or decision trees but the results are hardly explainable due to the hidden layers that aim to mimic real brain activity. For example, an architecture for convolutional neural networks such as ResNet\cite{res-net} used for image classification can use 152 layers. It may output a superior performance compared to other architectures, but how can we detect biases and explain how it learned them, thus helping us to improve the algorithm?
+Furthermore, machine learning classifiers are becoming increasingly complex: specifically, deep learning neural networks may outperform other classifiers such as SVMs or decision trees but the results are hardly explainable due to the hidden layers that aim to mimic real brain activity. For example, an architecture for convolutional neural networks such as ResNet\cite{res-net} used for image classification can use 152 layers. It may output a superior performance compared to other architectures, but how can we detect biases and explain how it learned them, thus helping us to improve the algorithm?  Fernandez\cite{27} describes this problem as \textit{"the ‘black box’ problem that plagues AI — our inability to peek inside exotic neural networks and understand how they work — represents one of the most urgent moral and business imperatives of our time"}.
 
-The new general data protection regulations (GDPR) which came into effect in the European Union, further stress the importance of being able to explain automated decisions to individuals. This allows individuals to challenge decisions \cite{gdpr} and requests explanations.
+The new general data protection regulations (GDPR) which came into effect in the European Union, further stress the importance of being able to explain automated decisions to individuals. This allows individuals to challenge decisions \cite{GoodmanB2017EUro, gdpr} and requests explanations.
 
 Therefore, more discussion is needed on why an algorithm outputs a specific classification and how it will generalize on real data outside it's training set. This need constitutes the core motivation for this project. The aim is to survey available tools that help explain machine learning algorithms. A complete survey of such tools for every machine learning algorithm would be outside the scope. Deep Learning is a relatively new field and that neural networks become ubiquitous, a more narrowed scope is to mainly assess tools used to explain artificial and convolutional neural networks. However, most tools and techniques treat AI models as a blackbox and do not require an understanding of the underlying architecture. As such, these tools are applicable to a wide range of models.
 
@@ -63,10 +64,16 @@ On the other hand, understanding the practices used commercially to explain mode
 \subsection{Explainability - Problem Outline}
 While simple algorithms have been around for many years aiding our decisions, complex ones now become ubiquitous in our decision-making process, many times with a significant outcome. Almost all industries including finance and healthcare or governmental institutions use algorithms to process large amounts of data to optimise spending resources. For example, a review\cite{algassessment} from the New Zealand government shows how crucial algorithms are in ensuring the wellbeing of the population. Ministries of justice, education and healthcare, customs and police, all use algorithms and data to improve their efficiency. Algorithms allow for data to be gathered and analysed, identifying key areas where young people need support or helping to aggregate data and address risks at border control. Passport and visa applications can also be automated to reduce waiting times and allow staff to manually process the ones that reach a risk threshold. However, the review clearly states that significant decisions are still currently made by humans. 
 
-
 Finance also relies heavily on automation and algorithmic trading is rising very fast. Robot advisors are slowly replacing or at least aiding financial advisors to reduce the commissions charged as well as improve the performance of a fund\cite{robot}. For most financial institutions, especially large investment banks, regulators require backtesting to be executed and results sent for analysis\cite{backtesting}. This aims to ensure that trading strategies performing live today can also handle data in extreme environments such as the financial crisis in 2008.
 
-While most of the algorithms used in decision making are currently crunching data to produce a deterministic output, newer types of algorithms within Machine Learning (ML) and Artificial Intelligence (AI) aim to train on historical data to find patterns that are applicable on new test data. From systems that recommend similar items to online shoppers to a virtual Go player that can beat a world champion\cite{alphago}, ML algorithms become increasingly trusted to take decisions that may significantly influence people's life. Huge investments are poured into self driving cars and a large number of big tech companies as well as many start ups\cite{autonomous} claim a share of this funding. These smart algorithms powering the cars may be expected to take the right decisions in noisy environments that have not been part of the training data, or ethical ones with no clear solutions, such as the trolley problem\cite{trolley}. As they are designed by humans, biases are also likely to influence the algorithm design. For such critical systems, especially where different decisions can be regarded as optimal, explainability becomes crucial.
+While most of the algorithms used in decision making are currently crunching data to produce a deterministic output, newer types of algorithms within Machine Learning (ML) and Artificial Intelligence (AI) aim to train on historical data to find patterns that are applicable on new test data. From systems that recommend similar items to online shoppers to a virtual Go player that can beat a world champion\cite{alphago}, ML algorithms become increasingly trusted to take decisions that may significantly influence people's life. Huge investments are poured into self driving cars and a large number of big tech companies as well as many start ups\cite{autonomous} claim a share of this funding. These smart algorithms powering the cars may be expected to take the right decisions in noisy environments that have not been part of the training data, or ethical ones with no clear solutions, such as the trolley problem\cite{trolley}. As they are designed by humans, biases are also likely to influence the algorithm design. For such critical systems, especially where different decisions can be regarded as optimal, explainability becomes crucial, otherwise the adoption of this models will be avoided regardless of their performance. Fig \ref{fig:purposes_of_explainability} details reasons for stakeholder and the motivation for explainable AI (XAI).
+
+\begin{figure}[h!]
+\centering
+  \includegraphics[width=.9\textwidth]{images/purposes_of_explainability.png}
+  \caption{Purposes Of Explainability Source:\cite{BarredoArrietaAlejandro2020EAIX}}
+  \label{fig:purposes_of_explainability}
+\end{figure}
 
 But the main assets of ML companies lie in developing such algorithms and preserving their secrecy. For big tech giants, such as Google, Uber or Waymo, theft of trade secrets is a serious concern and lawsuits are commonplace\cite{stealuber,waymo}. Algorithmic trade secrets, such as trading software, are also crucial in the financial industry, and any attempt for industrial espionage is thoroughly chased\cite{jeopardy}.
 
@@ -97,13 +104,25 @@ novelty of exaplinability -whhy and what that means. models are designed and tra
 
 impaortant areas such as healthcare will avoid using where possible models that cannot explain descisions even when the performance of a deep learning is by far superior to other models.
 
+] J. Angwin, J. Larson, S. Mattu, and L. Kirchner, “Machine bias,”
+https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing
+[Accessed May 24, 2019], 2016
 
+http://opendatascience.com/ai-black-box-horror-stories-when-transparency-was-needed-more-than-ever/
 -not everything need to be explained
 
 \newpage
 \section{Background Literature}
 \subsection{Overview}
-This chapter explores the current landscape of solutions available. Only a handful of papers researched are older than five years, yet the amount of publications available within this time-frame is surprisingly much higher than estimated at the start of this project and new research is published at a lightning speed. This is no doubt a good sign showing that research community and commercial developers are taking indeed taking a step back to ensure that models produced can be trusted. However, the topic of explainability still needs significantly more time to reach maturity: there are no processes or clean patterns that fit most problems. It is also worth noting that many talks and blogs discuss machine learning related topics and while some of them are of questionable value, others have great insights written by experts in this area and worth to be included in this chapter, with a clear priority however for peer reviewed articles.
+This chapter explores the current landscape of solutions available. Only a handful of papers researched are older than five years, yet the amount of publications available within this time-frame is surprisingly much higher than estimated at the start of this project and new research is published at a lightning speed as shown in figure \ref{fig:evolution_publications}. This is no doubt a good sign showing that research community and commercial developers are indeed taking a step back to ensure that models produced can be trusted. However, the topic of explainability still needs significantly more time to reach maturity: there are no processes or clean patterns that fit most problems. It is also worth noting that many talks and blogs discuss machine learning related topics and while some of them are of questionable value, others have great insights written by experts in this area and worth to be included in this chapter, with a clear priority however for peer reviewed articles.
+
+\begin{figure}[h!]
+\centering
+  \includegraphics[scale=0.5]{images/evolution_publications.png}
+  \caption{\textit{"Evolution of the number of total publications whose title, abstract and/or keywords refer to the field of XAI during the last years. Data retrieved from Scopus (December 10th, 2019)"} Source image and text:\cite{BarredoArrietaAlejandro2020EAIX}}
+  \label{fig:evolution_publications}
+\end{figure}
+
 
 As we are interested mainly in Deep Learning models, we will start with a brief introduction to artificial and convolutional neural networks. The next step will be to contain the vague definition of explainability/interpretability. What does "explainable" mean and what metrics are used to measure it? We then move on to provide an overview of the current approaches at an abstract level: do tools/methods need access to the structure of the model or can they treat it as a balckbox? What precesses are available to extract logic from the model and what tools are ready for use now with moderate resources?
 
@@ -112,7 +131,7 @@ We then move to a more in depth discussion with pros and cons of some of these t
 This is by no means an exhaustive overview of tools, such an approach would be well beyond the scope of this project. Neither is the intention to implement new approaches from scratch: it would be challenging to get this right and of little value for the purpose of this project.
 
 \subsection{What is explainability?}
-Explainability is a new filed in AI and the focus is mainly to explain what features in the input significantly influence the model to provide a higher probability to a class than to others. But what can we classify as a well explained decision? What metrics can be used?
+Explainability is a new filed in AI (XAI - eXplainable AI) and the focus is mainly to explain what features in the input significantly influence the model to provide a higher probability to a class than to others. Arrieta, Alejandro Barredo et al.\cite{BarredoArrietaAlejandro2020EAIX} define XAI as: \textit{"Given an audience, an explainable Artificial Intelligence is one that produces details or reasons to make its functioning clear or easy to understand"}  But what can we classify as a well explained decision? What metrics can be used?
 
 In the book Interpretable Machine Learning, Christoper Molnar \cite{molnar2019} identifies several attributes of what makes a useful explanation and we summarise key aspects of these: fidelity relates to "how well the explanation approximates the prediction of the black box model". This is crucial in determining how suitable the technique of extracting the explanation is. If fidelity is low, the explanation should simply not be used.
 
@@ -125,31 +144,46 @@ Molnar identifies comprehensibility as being the "elephant in the room". Explana
 R. Guidotti et al. \cite{guidotti} define interpretability as \textit{"an explanation is an
 “interface” between humans and a decision maker that is at the same time both an accurate proxy of the decision maker and comprehensible to humans"}. Further to accuracy and fidelity, this paper defines further characteristics: it puts a strong empahsis on global vs. local interpretability. If the logic of the model can be deduced to predict any possible outcome, the model is \textit{completely interpretable}, in contrast to reasoning about one single input. 
 
-Interestingly, explanations may also need to have time limitations based how urgent a further action from the user is needed. Thus, explanations should grow from simple and precise to complex ones depending on the requirements. This is directly related to the domain knowledge of the user.
+Interestingly, explanations may also need to have time limitations based on how urgent a further action from the user is needed. Thus, explanations should grow from simple and precise to complex ones depending on the requirements. This is directly related to the domain knowledge of the user.
 
-This shows that no gold standard can be applied to explain any type of models. While thes are general guidelines, different types of models may put a greater emphasis on all or just a selection of these. For example, we may sometimes want to explain only local inputs but other times a thorough understanding of the structure can be required (e.g. a financial audit in an investment bank for a risk team).
+This shows that no gold standard can be applied to explain any type of models. While these are general guidelines, different types of models may put an emphasis on all or just a selection of these depending on the specific goals of the model. For example, we may sometimes want to explain only local inputs but other times a thorough understanding of the structure can be required (e.g. a financial audit in an investment bank for a risk team). 
 
-\subsection{Current approaches}
+Arrieta, Alejandro Barredo et al\cite{BarredoArrietaAlejandro2020EAIX} propose a direct mapping between the goals achieved by explanations and the target audience, some of which we mention and discuss here:
 
-Ideally this process should be incorporated by design and starts at the very beginning when exploratory data analysis is performed. 
+Trustworthiness is the main goal of XAI but is of particular importance for domain experts and end users - they would be unliekly to use a model if they don't trust it. Another goal is causality - this can be of interest primarily to regulators and domain experts. While a model only learns correlations, these can only be inferred as causal relationships when aggregated with vast domain knowledge. Importantly, causality should not be implied by correlations as this could easily lead to unfair biases. This would be related to another goal: fairness. This ensures \textit{a clear visualization of the relations affecting a result...[and] should be considered as a bridge to avoid the unfair or unethical use of algorithm’s outputs}. A further indirect goal is represents by privacy awareness: explainability can ensure that data captured inside the structure of a model is not breaching privacy. Furthermore, the authors also identify types of explanations: these can be either text based, visual or based on examples.
+
+Gilpin, Leilani H. et al.\cite{GilpinLeilaniH} also mention completness as a main goal for explanations:\textit{it must produce descriptions that are simple enough for a person to understand using a vocabulary that is meaningful to the user}. They suggest there is a clear tradoff between accuracy of explanations and completeness, in that complex explanations become hard to interpret, and in turn, simple explanations will not provide predictive skills to a human to mimic the model - which is importnat for making the model trustworthy. Another interesting observation from this paper is the risk that from an ethics perspective, that an accent may be put on making explanations perusaive instead of fair - this raises questions of human factors and ethics that may become challanges in the future.
+
+\subsection{Current approaches towards XAI}
+Ideally, explainability should be incorporated by design and should start at the very beginning when exploratory data analysis is performed. 
 
 Khaleghi \cite{khaleghi} explains the importance of identifying shortcoming of the training data such as class imbalance issues or dealing with missing data. This can be achieved by using different types of charts to plot the data and using statistical analysis to fill in missing values. Importantly, features should also be explainable and meaningful to the end user who should also intuitively asses their importance. When the number of features in a dataset is too large, dimensionality reduction techniques such as principal component analysis can be applied.
 
-At a model implementation stage, many new architectures emerge that incorporate explainability by design, in particular for neural networks which have a significantly harder to explain structure compared to other classifiers. For example, Alvarez-Melis et al (2018)\cite{alvarezmelis2018robust} propose Self-Explaining Neural Networks which work by \textit{"progressively generalizing linear classifiers to complex yet architecturally explicit models"}. Such designs aim to make explanation understandable, faithful and consistent. Similarly, Al-Shedivat et al(2017)\cite{alshedivat2017contextual} propose Contextual Explanation Networks: these \textit{"generate parameters for intermediate graphical models which are further used for prediction and play the role of explanations."} These models do not offer a clear understandable interpretation and more research is needed to develop them further before they can be used commercially. They also can't be applied to existing models.
+At a model implementation stage, many new architectures emerge that incorporate explainability by design, in particular for neural networks which have a significantly harder to explain structure compared to other classifiers. For example, Alvarez-Melis et al (2018)\cite{alvarezmelis2018robust} propose Self-Explaining Neural Networks which work by \textit{"progressively generalizing linear classifiers to complex yet architecturally explicit models"}. Such designs aim to make explanation understandable, faithful and consistent. Similarly, Al-Shedivat et al(2017)\cite{alshedivat2017contextual} propose Contextual Explanation Networks: these \textit{"generate parameters for intermediate graphical models which are further used for prediction and play the role of explanations."} These models do not offer a clear understandable interpretation and more research is needed to develop them further before they can be used commercially. They also can't be applied to existing models. However, there will be classic choices of models that are inherently transparent as long as the complexity is low. 
 
-Currently, explainability is mainly assessed after the model has been created. However, this approach does allow for improved models to be generated after assessment in an iterative process and are not different than other methods used to improve performance such as hyper parameter tuning. 
+One of the classic interpretable models is logistic regression that can perform binary classification assuming the inputs and predictions are linearly dependent. Such models can be easily plotted on a graph for visualisation and are inherently easy to understand. Another example are decision trees: they are used by humans in every day tasks and their output is simple to understand or reproduce - as long as such trees don't grow above our ability to visualise them (e.g. random forests are composed of hundreds of trees and are not interpretable). Other explainable models incdlude K-Nearest Neighbours or rule based learners, both models able to provide explanations thorugh their inherent structure. Probabilistic models using Bayes' theorem are more complex, but powerful and understandable by domain experts especially when the probability for an event to occur is strictly dependent on other prior conditions. For example, in computational neuroscience, The Bayesian brain hypothesis is extensively used to explain different parts of the brain at an abstract level \cite{YairWeiss2002Miao}.
+ 
+The choice of a good model that is interpretable and provides a high performance is challenging: high performance models will encapsulate a large degree of complexity, thus reducing interpretability. Even models described as inherently explainable will become opaque depending on the number of features and the number of layers in their structure. 
 
-In a broad overview, Sheldon Fernandez \cite{fernandez-dark-ai} describes four general approaches currently used to interpret and explain models, which grew from theoretical scenarios into commercial specific use-cases, but usually with limited success and with exaggerated claims about the accuracy of model interpretability. The first approach is to create \textbf{perturbations} of a particular input set and asses the impact of the predicted decisions. \textbf{Backwards propagation} estimates the weight of neurons in each layer to derive an importance score for each feature. Another approach is to use a simple but more explainable model that is trained to imitate the complex one (e.g. a decision tree imitating a deep neural network). The last approach, \textbf{Activation Optimization} searches for input patterns to maximise/minimise the classification probability for an input.
+For black box models such as neural networks, explainability is mainly assessed after the model has been created, mostly with model agnostic techniques. However, this approach does allow for improved models to be generated after assessment in an iterative process and are not different than other methods used to improve performance such as hyper parameter tuning: when issues are found, they can be fixed and the model is retrained.
 
-Each of these techniques has benefits and limitations. In the article mentioned, Fernandez further details some limitations: for example, using a proxy to simplify a model will rather provide hints on how the underlying algorithms performs. While these may be useful, they may not be accurate and should not be relied upon in mission-critical systems.
+In a broad overview, Sheldon Fernandez \cite{fernandez-dark-ai} describes four general approaches currently used to interpret and explain blackbox models, which grew from theoretical scenarios into commercial specific use-cases, but usually as the author claims, with limited success and with exaggerated claims about the accuracy of model interpretability. The first approach is to create \textbf{perturbations} of a particular input set and asses the impact of the predicted decisions. \textbf{Backwards propagation} estimates the weight of neurons in each layer to derive an importance score for each feature. Another approach is to use a simple but more explainable model, \textit{a proxy}, that is trained to imitate the complex one (e.g. a decision tree imitating a deep neural network). The last approach, \textbf{Activation Optimization} searches for input patterns to maximise/minimise the classification probability for an input.  
+
+Arrieta, Alejandro Barredo et al \cite{BarredoArrietaAlejandro2020EAIX} would classify such techniques as \textit{Explanation by simplification} (same concept as using a proxy model) or \textit{Feature relevance explanation}, where the aim is \textit{to describe the functioning of an opaque model by ranking or measuring the influence}. Feature relevance can be achieved by using game theory principles. \textit{Visual explanations} can also be used along with feature relevance to derive explanations. The actual implementations of tools will be using a mix of the approaches.
+
+Any of these techniques has benefits and limitations. In the article mentioned, Fernandez further details some limitations: for example, using a proxy to simplify a model will rather provide hints on how the underlying algorithms performs. While these may be useful, they may not be accurate and should not be relied upon in mission-critical systems. Gilpin, Leilani H. et al.\cite{GilpinLeilaniH} argue however that such models provide a \textit{"quantifiable relationship between
+complexity and faithfulness"} which makes such approaches comparable with one another, although they agree that rule extraction for exmpale will likely not be a faithful representation of the model.
 
 Other techniques will perturb the input to assess the importance of its features. Perturbing such features even slightly can produce opposing results and furthermore, they can only be applied to a number of limited inputs and would not account for global behaviour. Perturbing data with a large number of features would further also increase the computational cost exponentially.
 
 In all cases, the scores attributed to different features will need to be interpreted by the user and models improved accordingly. Inherently, such decisions would be debatable by different users. In healthcare for example, two specialists could have different domain views on weather some features are more important than others.
 
+
 For our purposes, we need to identify solutions that are readily available to developers, easy to implement on current models and understandable by all stakeholders, ideally applicable to any type of model and not exclusive to neural networks.
 
+transparent models
 Model-specific or model-agnostic
+
 focus on explaining after the network is build.
 Local or global?
 -area I am going to consider and why and area I will not consider and ww
@@ -160,17 +194,11 @@ Local or global?
 Perturbation: 
 - treats models as a blackbox, and probes it. the explanation is not a clear verifiable one. they fail to generalise for all classes. only analyses part of networks and are not globally applicable to all classes. not verifaiable 
 
--most of these produce heatmaps and lets the reader decide on the correctness - but what if perople interpret these resutls differently?
 
-Backwards Propagation
-Proxy: 
-Activation Optimization:
 
 split into categories of approaches , not only what the stuff is and educate the reader.
 
 - developers require an deep understanfing of how the models arhitecure learns so they can improve it, whil those using it need to understand how it works as a whole when a decision is taken - fro example a written text on what features are important 
-
-input features are not the only thing - is the dataset imbalanced? what optimization functions were used?
 
 Influence Functions -
 
@@ -185,6 +213,10 @@ For our purposes, we need to find solutions that are available to developers, ea
 The perturbation mechanism methods have two main advantages: they are typically easy to implement, and they are not limited to a specific model architecture but compuytationally expensive if the models are high dimentaional.
 
 Gradient-weighted Class Activation Mapping (Grad-CAM)
+
+responsible AI - fairness, model explainability and accountability at its core
+
+difference between explainable by design and external techniques
 \subsection{LIME}
 what is useful, what I learn, what areas are weak, what can be improved 
 like a critic, this area can be better, waht to take forward

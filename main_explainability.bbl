@@ -104,6 +104,14 @@ David Alvarez-Melis and Tommi~S. Jaakkola.
 \newblock Towards robust interpretability with self-explaining neural networks,
   2018.
 
+\bibitem{BarredoArrietaAlejandro2020EAIX}
+Alejandro Barredo~Arrieta, Natalia Díaz-Rodríguez, Javier Del~Ser, Adrien
+  Bennetot, Siham Tabik, Alberto Barbado, Salvador Garcia, Sergio Gil-Lopez,
+  Daniel Molina, Richard Benjamins, Raja Chatila, and Francisco Herrera.
+\newblock Explainable artificial intelligence (xai): Concepts, taxonomies,
+  opportunities and challenges toward responsible ai.
+\newblock {\em Information Fusion}, 58:82--115, 2020.
+
 \bibitem{rich-caruana}
 Rich Caruana.
 \newblock Intelligible machine learning models for healthcare.
@@ -118,6 +126,19 @@ Sheldon Fernandez.
 \newblock Dark ai and the promise of explainability (part i).
 \newblock
   \url{https://medium.com/@sheldon.fernandez/dark-ai-and-the-promise-of-explainability-part-i-a6b35009a88c}.
+
+\bibitem{GilpinLeilaniH}
+Leilani~H. Gilpin, David Bau, Ben~Z. Yuan, Ayesha Bajwa, Michael Specter, and
+  Lalana Kagal.
+\newblock Explaining explanations: An overview of interpretability of machine
+  learning.
+\newblock 2018.
+
+\bibitem{GoodmanB2017EUro}
+B~Goodman and Seth Flaxman.
+\newblock European union regulations on algorithmic decision-making and a
+  "right to explanation".
+\newblock {\em AI Magazine}, 38, 2017.
 
 \bibitem{guidotti}
 Riccardo Guidotti, Anna Monreale, Salvatore Ruggieri, Franco Turini, Fosca
@@ -170,5 +191,10 @@ S.~Wang, W.~Liu, J.~Wu, L.~Cao, Q.~Meng, and P.J. Kennedy.
 \newblock In {\em Proceedings of the International Joint Conference on Neural
   Networks}, volume 2016-, pages 4368--4374. Institute of Electrical and
   Electronics Engineers Inc., 2016.
+
+\bibitem{YairWeiss2002Miao}
+Yair Weiss, Eero~P. Simoncelli, and Edward~H. Adelson.
+\newblock Motion illusions as optimal percepts.
+\newblock {\em Nature Neuroscience}, 5(6):598, 2002.
 
 \end{thebibliography}

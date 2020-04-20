@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.16)  14 APR 2020 22:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.16)  19 APR 2020 19:02
 entering extended mode
 **./main_explainability.tex
 (main_explainability.tex
@@ -530,122 +530,159 @@ been already used, duplicate ignored
 l.32 \newpage
               [1
 
-]pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has
- been already used, duplicate ignored
+]
+
+LaTeX Warning: Citation `27' on page 2 undefined on input line 46.
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has 
+been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.47 
-      [2] [3] [4] [5] [6] [7] [8] [9]
-<images/simple-neural-network.jpg, id=197, 503.8825pt x 337.26pt>
-File: images/simple-neural-network.jpg Graphic file (type jpg)
-<use images/simple-neural-network.jpg>
-Package pdftex.def Info: images/simple-neural-network.jpg  used on input line 2
-05.
-(pdftex.def)             Requested size: 201.54942pt x 134.9016pt.
+      [2] [3]
+<images/purposes_of_explainability.png, id=149, 771.88374pt x 312.16624pt>
+File: images/purposes_of_explainability.png Graphic file (type png)
+<use images/purposes_of_explainability.png>
+Package pdftex.def Info: images/purposes_of_explainability.png  used on input l
+ine 72.
+(pdftex.def)             Requested size: 407.66833pt x 164.87096pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[10]
-<images/activation_binary_step_1.png, id=209, 2168.1pt x 1084.05pt>
+[4] [5 <./images/purposes_of_explainability.png>]
+Overfull \hbox (73.56334pt too wide) in paragraph at lines 106--109
+[]\OT1/ptm/m/n/12 ] J. Angwin, J. Lar-son, S. Mattu, and L. Kirch-ner, \Ma-chin
+e bias," https://www.propublica.org/article/machine-
+ []
+
+
+Overfull \hbox (24.00314pt too wide) in paragraph at lines 110--112
+[]\OT1/ptm/m/n/12 http://opendatascience.com/ai-black-box-horror-stories-when-t
+ransparency-was-needed-more-than-
+ []
+
+[6]
+<images/evolution_publications.png, id=180, 691.08188pt x 346.79562pt>
+File: images/evolution_publications.png Graphic file (type png)
+<use images/evolution_publications.png>
+Package pdftex.def Info: images/evolution_publications.png  used on input line 
+120.
+(pdftex.def)             Requested size: 345.54008pt x 173.39738pt.
+ [7 <./images/evolution_publications.png>] [8] [9] [10] [11]
+<images/simple-neural-network.jpg, id=227, 503.8825pt x 337.26pt>
+File: images/simple-neural-network.jpg Graphic file (type jpg)
+<use images/simple-neural-network.jpg>
+Package pdftex.def Info: images/simple-neural-network.jpg  used on input line 2
+36.
+(pdftex.def)             Requested size: 201.54942pt x 134.9016pt.
+ [12 <./images/simple-neural-network.jpg>]
+<images/activation_binary_step_1.png, id=245, 2168.1pt x 1084.05pt>
 File: images/activation_binary_step_1.png Graphic file (type png)
 <use images/activation_binary_step_1.png>
 Package pdftex.def Info: images/activation_binary_step_1.png  used on input lin
-e 227.
+e 258.
 (pdftex.def)             Requested size: 130.08621pt x 65.04019pt.
-<images/activation_rectified_linear.png, id=211, 2168.1pt x 1084.05pt>
+<images/activation_rectified_linear.png, id=247, 2168.1pt x 1084.05pt>
 File: images/activation_rectified_linear.png Graphic file (type png)
 <use images/activation_rectified_linear.png>
 Package pdftex.def Info: images/activation_rectified_linear.png  used on input 
-line 233.
+line 264.
 (pdftex.def)             Requested size: 130.08621pt x 65.04019pt.
-<images/activation_sigmoid.png, id=212, 2168.1pt x 1084.05pt>
+<images/activation_sigmoid.png, id=248, 2168.1pt x 1084.05pt>
 File: images/activation_sigmoid.png Graphic file (type png)
 <use images/activation_sigmoid.png>
-Package pdftex.def Info: images/activation_sigmoid.png  used on input line 238.
+Package pdftex.def Info: images/activation_sigmoid.png  used on input line 269.
 
 (pdftex.def)             Requested size: 130.08621pt x 65.04019pt.
- [11 <./images/simple-neural-network.jpg> <./images/activation_binary_step_1.pn
-g> <./images/activation_rectified_linear.png> <./images/activation_sigmoid.png>
-]
-<images/A-graph-of-a-cost-function-modified-from.png, id=237, 853.1875pt x 589.
+<images/A-graph-of-a-cost-function-modified-from.png, id=253, 853.1875pt x 589.
 20125pt>
 File: images/A-graph-of-a-cost-function-modified-from.png Graphic file (type pn
 g)
 <use images/A-graph-of-a-cost-function-modified-from.png>
 Package pdftex.def Info: images/A-graph-of-a-cost-function-modified-from.png  u
-sed on input line 256.
+sed on input line 287.
 (pdftex.def)             Requested size: 170.63448pt x 117.83815pt.
- [12 <./images/A-graph-of-a-cost-function-modified-from.png>]
-<images/building_ann/age_bmi_scatterplot.png, id=256, 361.35pt x 361.35pt>
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[13 <./images/activation_binary_step_1.png> <./images/activation_rectified_line
+ar.png> <./images/activation_sigmoid.png>] [14 <./images/A-graph-of-a-cost-func
+tion-modified-from.png>]
+<images/building_ann/age_bmi_scatterplot.png, id=287, 361.35pt x 361.35pt>
 File: images/building_ann/age_bmi_scatterplot.png Graphic file (type png)
 <use images/building_ann/age_bmi_scatterplot.png>
 Package pdftex.def Info: images/building_ann/age_bmi_scatterplot.png  used on i
-nput line 281.
+nput line 312.
 (pdftex.def)             Requested size: 181.18439pt x 181.18182pt.
-<images/building_ann/stroke_age_distplot.png, id=257, 722.7pt x 578.16pt>
+<images/building_ann/stroke_age_distplot.png, id=288, 722.7pt x 578.16pt>
 File: images/building_ann/stroke_age_distplot.png Graphic file (type png)
 <use images/building_ann/stroke_age_distplot.png>
 Package pdftex.def Info: images/building_ann/stroke_age_distplot.png  used on i
-nput line 287.
+nput line 318.
 (pdftex.def)             Requested size: 226.48395pt x 181.18623pt.
- [13 <./images/building_ann/age_bmi_scatterplot.png> <./images/building_ann/str
-oke_age_distplot.png>]
-<images/building_ann/heatmap.png, id=272, 1084.05pt x 1084.05pt>
+<images/building_ann/heatmap.png, id=293, 1084.05pt x 1084.05pt>
 File: images/building_ann/heatmap.png Graphic file (type png)
 <use images/building_ann/heatmap.png>
-Package pdftex.def Info: images/building_ann/heatmap.png  used on input line 29
-9.
+Package pdftex.def Info: images/building_ann/heatmap.png  used on input line 33
+0.
 (pdftex.def)             Requested size: 330.66463pt x 330.65958pt.
-<images/building_ann/gender_smoking_percentage.png, id=274, 361.35pt x 361.35pt
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/building_ann/gender_smoking_percentage.png, id=295, 361.35pt x 361.35pt
 >
 File: images/building_ann/gender_smoking_percentage.png Graphic file (type png)
 
 <use images/building_ann/gender_smoking_percentage.png>
 Package pdftex.def Info: images/building_ann/gender_smoking_percentage.png  use
-d on input line 308.
+d on input line 339.
 (pdftex.def)             Requested size: 181.18439pt x 181.18182pt.
-
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[14 <./images/building_ann/heatmap.png>] [15 <./images/building_ann/gender_smok
-ing_percentage.png>]
+[15 <./images/building_ann/age_bmi_scatterplot.png> <./images/building_ann/stro
+ke_age_distplot.png>] [16 <./images/building_ann/heatmap.png> <./images/buildin
+g_ann/gender_smoking_percentage.png>] [17]
 LaTeX Font Info:    Trying to load font information for OMS+ptm on input line 3
-38.
- ("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\omsptm.fd"
+69.
+
+("C:\Program Files\MiKTeX 2.9\tex/latex/psnfss\omsptm.fd"
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 338.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 369.
 
-LaTeX Warning: Reference `fig:val_loss_weighted' on page 16 undefined on input 
-line 338.
+
+LaTeX Warning: Reference `fig:val_loss_weighted' on page 18 undefined on input 
+line 369.
 
 (images/building_ann/weighted.tex)
-<images/building_ann/weighted.png, id=290, 1228.59pt x 433.62pt>
+<images/building_ann/weighted.png, id=321, 1228.59pt x 433.62pt>
 File: images/building_ann/weighted.png Graphic file (type png)
 <use images/building_ann/weighted.png>
 Package pdftex.def Info: images/building_ann/weighted.png  used on input line 3
-55.
+86.
 (pdftex.def)             Requested size: 505.89pt x 178.55286pt.
 
-Overfull \hbox (58.9221pt too wide) in paragraph at lines 349--356
+Overfull \hbox (58.9221pt too wide) in paragraph at lines 380--387
  [][] 
  []
 
 (images/building_ann/weighted.tex)
 File: images/building_ann/weighted.png Graphic file (type png)
 <use images/building_ann/weighted.png>
-Package pdftex.def Info: images/building_ann/weighted.png  used on input line 3
-74.
+Package pdftex.def Info: images/building_ann/weighted.png  used on input line 4
+05.
 (pdftex.def)             Requested size: 505.89pt x 178.55286pt.
 
-Overfull \hbox (58.9221pt too wide) in paragraph at lines 368--375
+Overfull \hbox (58.9221pt too wide) in paragraph at lines 399--406
  [][] 
  []
 
-[16] [17 <./images/building_ann/weighted.png>] (main_explainability.bbl
+[18 <./images/building_ann/weighted.png>] (main_explainability.bbl [19]
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 5
 .
 
@@ -717,46 +754,46 @@ Underfull \hbox (badness 10000) in paragraph at lines 94--97
 10 https : / / www . imveurope . com / news /
  []
 
-[18
+[20
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 117--121
+Underfull \hbox (badness 10000) in paragraph at lines 125--129
 []\OT1/ptm/m/n/10 Sheldon Fer-nan-dez.  Dark ai and the promise of ex-plain-abi
 l-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 117--121
+Underfull \hbox (badness 10000) in paragraph at lines 125--129
 \OT1/ptm/m/n/10 ity (part i).  []$\OT1/pcr/m/n/10 https : / / medium . com / @s
 heldon . fernandez /
  []
 
 
-Underfull \hbox (badness 2229) in paragraph at lines 156--160
+Underfull \hbox (badness 2229) in paragraph at lines 177--181
 []\OT1/ptm/m/n/10 Information Comis-sioner's Of-fice.  Rights re-lated to au-to
 -mated de-ci-sion mak-ing in-clud-ing pro-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 156--160
+Underfull \hbox (badness 10000) in paragraph at lines 177--181
 \OT1/ptm/m/n/10 fil-ing.  []$\OT1/pcr/m/n/10 https : / / ico . org . uk / for-[
 ]organisations / guide-[]to-[]data-[]protection /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 156--160
+Underfull \hbox (badness 10000) in paragraph at lines 177--181
 \OT1/pcr/m/n/10 guide-[]to-[]the-[]general-[]data-[]protection-[]regulation-[]g
 dpr / individual-[]rights /
  []
 
-) [19]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 388.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 388.
+) [21]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 419.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 419.
  (main_explainability.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 388.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 388.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 419.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 419.
 Package rerunfilecheck Info: File `main_explainability.out' has not changed.
-(rerunfilecheck)             Checksum: 9A236B3D4660F329246E368C787A2CDF;1276.
+(rerunfilecheck)             Checksum: 19D51D1B7A0EDF821D10646BA07358C9;1288.
 
 
 LaTeX Warning: There were undefined references.
@@ -764,16 +801,16 @@ LaTeX Warning: There were undefined references.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 388.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 419.
  ) 
 Here is how much of TeX's memory you used:
- 8830 strings out of 481565
- 134309 string characters out of 2923924
- 403931 words of memory out of 3000000
- 23772 multiletter control sequences out of 15000+200000
+ 8857 strings out of 481565
+ 135058 string characters out of 2923924
+ 404486 words of memory out of 3000000
+ 23789 multiletter control sequences out of 15000+200000
  557523 words of font info for 75 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,11n,42p,1193b,423s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,11n,42p,1412b,423s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Program Files/Mi
 KTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9
 /fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Files/MiKTeX 2.9/fonts/t
@@ -784,9 +821,9 @@ ts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy
 ram Files/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 
 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/u
 rw/times/utmri8a.pfb>
-Output written on main_explainability.pdf (22 pages, 1101718 bytes).
+Output written on main_explainability.pdf (24 pages, 1282706 bytes).
 PDF statistics:
- 422 PDF objects out of 1000 (max. 8388607)
- 92 named destinations out of 1000 (max. 500000)
- 200 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 452 PDF objects out of 1000 (max. 8388607)
+ 100 named destinations out of 1000 (max. 500000)
+ 210 words of extra memory for PDF output out of 10000 (max. 10000000)
 
