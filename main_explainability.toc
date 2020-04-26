@@ -15,5 +15,5 @@
 \contentsline {subsection}{\numberline {4.1}Building an ANN}{17}{subsection.0.4.1}%
 \contentsline {subsection}{\numberline {4.2}Choosing a Dataset}{17}{subsection.0.4.2}%
 \contentsline {subsection}{\numberline {4.3}Exploratory Data Analysis}{17}{subsection.0.4.3}%
-\contentsline {subsection}{\numberline {4.4}Categorical and Missing Data}{18}{subsection.0.4.4}%
+\contentsline {subsection}{\numberline {4.4}Categorical and Missing Data}{19}{subsection.0.4.4}%
 \contentsline {subsection}{\numberline {4.5}Architecture of the ANN with Keras}{20}{subsection.0.4.5}%
