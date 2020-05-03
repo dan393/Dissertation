@@ -5,6 +5,11 @@ Ai is sending people to jail—and getting it wrong - mit.
 \newblock
   \url{https://www.technologyreview.com/s/612775/algorithms-criminal-justice-ai/}.
 
+\bibitem{machine-bias}
+Machine Bias.
+\newblock
+  \url{https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing}.
+
 \bibitem{DarwinAI}
 DarwinAI.
 \newblock \url{https://www.darwinai.com/index.html}.
@@ -105,17 +110,17 @@ The triple jeopardy of ke xu, a chinese hedge fund quant ....
 \newblock
   \url{https://www.bloomberg.com/news/features/2018-11-19/the-triple-jeopardy-of-ke-xu-a-chinese-hedge-fund-quant}.
 
-\bibitem{molnar2019}
-Christoph Molnar.
-\newblock {\em Interpretable Machine Learning}.
-\newblock 2019.
-\newblock \url{https://christophm.github.io/interpretable-ml-book/}.
-
 \bibitem{guidotti}
 Riccardo Guidotti, Anna Monreale, Salvatore Ruggieri, Franco Turini, Fosca
   Giannotti, and Dino Pedreschi.
 \newblock A survey of methods for explaining black box models.
 \newblock {\em ACM Comput. Surv.}, 51(5), August 2018.
+
+\bibitem{molnar2019}
+Christoph Molnar.
+\newblock {\em Interpretable Machine Learning}.
+\newblock 2019.
+\newblock \url{https://christophm.github.io/interpretable-ml-book/}.
 
 \bibitem{GilpinLeilaniH}
 Leilani~H. Gilpin, David Bau, Ben~Z. Yuan, Ayesha Bajwa, Michael Specter, and
@@ -148,6 +153,27 @@ David Alvarez-Melis and Tommi~S. Jaakkola.
 \bibitem{alshedivat2017contextual}
 Maruan Al-Shedivat, Avinava Dubey, and Eric~P. Xing.
 \newblock Contextual explanation networks, 2017.
+
+\bibitem{RibeiroMarcoTulio2016WSIT}
+Marco~Tulio Ribeiro, Sameer Singh, and Carlos Guestrin.
+\newblock "why should i trust you?": Explaining the predictions of any
+  classifier.
+\newblock 2016.
+
+\bibitem{LundbergScott2017AUAt}
+Scott Lundberg and Su-In Lee.
+\newblock A unified approach to interpreting model predictions.
+\newblock 2017.
+
+\bibitem{shapley-value}
+Wikipedia.
+\newblock Shapley value.
+\newblock \url{https://en.wikipedia.org/wiki/Shapley_value}.
+
+\bibitem{Lundberg}
+Scott lundberg, microsoft research - explainable machine learning with shapley
+  values.
+\newblock \url{https://www.youtube.com/watch?v=ngOBhhINWb8}.
 
 \bibitem{bibal2019user}
 Adrien Bibal, Bruno Dumas, and Beno{\^\i}t Fr{\'e}nay.
