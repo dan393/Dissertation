@@ -173,7 +173,8 @@ def load_keras_model(base_file_name, load_dir=os.path.join('.', 'keras_models'))
     # model structure is loaded $(load_dir)/base_file_name.json
     # weights are loaded from $(load_dir)/base_file_name.h5
 
-    from keras.models import model_from_json
+    # from keras.models import model_from_json
+    import tensorflow as tf
 
     # load model from save_path
     loaded_model = None
@@ -182,8 +183,13 @@ def load_keras_model(base_file_name, load_dir=os.path.join('.', 'keras_models'))
 
     if os.path.exists(json_file_path) and os.path.exists(h5_file_path):
         with open(json_file_path, "r") as json_file:
+            # loaded_model_json = json_file.read()
+            # loaded_model = model_from_json(loaded_model_json)
+            # loaded_model.load_weights(h5_file_path)
+
+            # json_file = open(json_file_path, "r")
             loaded_model_json = json_file.read()
-            loaded_model = model_from_json(loaded_model_json)
+            loaded_model = tf.keras.models.model_from_json(loaded_model_json)
             loaded_model.load_weights(h5_file_path)
         print("Loaded model from files %s and %s" % (json_file_path, h5_file_path))
     else:

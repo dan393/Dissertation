@@ -14,7 +14,6 @@ from tensorflow.python.client import device_lib
 print('tensorflow' + tf.__version__)
 print('tensorboard' + tensorboard.__version__)
 print('seaborn' + seaborn.__version__)
-
 tf.config.list_physical_devices('GPU')
 tf.test.is_built_with_cuda
 print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))

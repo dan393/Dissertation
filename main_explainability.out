@@ -14,7 +14,7 @@
 \BOOKMARK [3][-]{subsubsection.0.3.4.1}{LIME - Local interpretable model-agnostic explanations}{subsection.0.3.4}% 14
 \BOOKMARK [3][-]{subsubsection.0.3.4.2}{SHAP \(SHapley Additive exPlanations\)}{subsection.0.3.4}% 15
 \BOOKMARK [2][-]{subsection.0.3.5}{Evaluation Strategies for XAI methods}{section.0.3}% 16
-\BOOKMARK [2][-]{subsection.0.3.6}{Selection of methods - reflection on why these are best to be compared}{section.0.3}% 17
+\BOOKMARK [2][-]{subsection.0.3.6}{ selection of methods - a reflection on why these are best to be compared}{section.0.3}% 17
 \BOOKMARK [2][-]{subsection.0.3.7}{Artificial Neural Networks}{section.0.3}% 18
 \BOOKMARK [1][-]{section.0.4}{Exploratory work}{}% 19
 \BOOKMARK [2][-]{subsection.0.4.1}{Building an ANN}{section.0.4}% 20
