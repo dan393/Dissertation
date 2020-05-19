@@ -52,18 +52,18 @@ train_datagen = ImageDataGenerator(rescale = 1./255,
 
 test_datagen = ImageDataGenerator(rescale = 1./255)
 
-training_set = train_datagen.flow_from_directory('../input/dataset/training_set',
+training_set = train_datagen.flow_from_directory('../input/pets/train',
                                                  target_size = (64, 64),
                                                  batch_size = 32,
                                                  class_mode = 'binary')
 
-test_set = test_datagen.flow_from_directory('../input/dataset/test_set',
+test_set = test_datagen.flow_from_directory('../input/pets/test',
                                             target_size = (64, 64),
                                             batch_size = 32,
                                             class_mode = 'binary')
 
 classifier.fit_generator(training_set,
-#                          steps_per_epoch = 8000,
+#                          steps_per_epoch = 4000,
                          epochs = 25,
                          verbose = 1,
                          validation_data = test_set)
@@ -71,14 +71,14 @@ classifier.fit_generator(training_set,
 
 # Part 3 - Making new predictions
 
-import numpy as np
-from tensorflow.keras.preprocessing import image
-test_image = image.load_img('../input/dataset/single_prediction/cat_or_dog_1.jpg', target_size = (64, 64))
-test_image = image.img_to_array(test_image)
-test_image = np.expand_dims(test_image, axis = 0)
-result = classifier.predict(test_image)
-training_set.class_indices
-if result[0][0] == 1:
-    prediction = 'dog'
-else:
-    prediction = 'cat'
+# import numpy as np
+# from tensorflow.keras.preprocessing import image
+# test_image = image.load_img('../input/dataset/single_prediction/cat_or_dog_1.jpg', target_size = (64, 64))
+# test_image = image.img_to_array(test_image)
+# test_image = np.expand_dims(test_image, axis = 0)
+# result = classifier.predict(test_image)
+# training_set.class_indices
+# if result[0][0] == 1:
+#     prediction = 'dog'
+# else:
+#     prediction = 'cat'
