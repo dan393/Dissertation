@@ -11,10 +11,10 @@ Usage:
 # imports & tweaks
 import numpy as np
 import matplotlib.pyplot as plt
-# import seaborn as sns
+import seaborn as sns
 import os
 import itertools
-
+from sklearn.metrics import classification_report, confusion_matrix
 seed = 123
 np.random.seed(seed)
 
@@ -43,6 +43,17 @@ def progbar_msg(curr_tick, max_tick, head_msg, tail_msg, final=False):
         print('\r%s' % prog_msg, end='', flush=True)
 
 
+def plot_cm(labels, predictions, classes, p=0.5):
+      cm = confusion_matrix(labels, predictions > p)
+      plt.figure(figsize=(5,5))
+      tick_marks = np.arange(len(classes))
+      sns.heatmap(cm, annot=True, fmt="d", xticklabels=classes, yticklabels=classes)
+      plt.title('Confusion matrix @{:.2f}'.format(p))
+      plt.ylabel('Actual label')
+      plt.xlabel('Predicted label')
+      plt.tight_layout()
+
+    
 def show_plots(history, plot_title=None, fig_size=None):
     """ Useful function to view plot of loss values & accuracies across the various epochs
         Works with the history object returned by the train_model(...) call """
@@ -52,11 +63,13 @@ def show_plots(history, plot_title=None, fig_size=None):
     # val_loss & val_acc for validation data
     loss_vals = history['loss']
     val_loss_vals = history['val_loss'] if 'val_loss' in history.keys() else None
-    epochs = range(1, len(history['accuracy']) + 1)
+    epochs = list(range(1, len(history['accuracy']) + 1))
 
     f, ax = plt.subplots(nrows=1, ncols=2, figsize=((16, 4) if fig_size is None else fig_size))
 
     # plot losses on ax[0]
+    print(epochs)
+    print(loss_vals)
     ax[0].plot(epochs, loss_vals, color='navy', marker='o', linestyle=' ', label='Training Loss')
     if val_loss_vals is not None:
         ax[0].plot(epochs, val_loss_vals, color='firebrick', marker='*', label='Validation Loss')
@@ -71,7 +84,7 @@ def show_plots(history, plot_title=None, fig_size=None):
 
     # plot accuracies
     acc_vals = history['accuracy']
-    val_acc_vals = history['val_acc'] if 'val_acc' in history.keys() else None
+    val_acc_vals = history['val_accuracy'] if 'val_accuracy' in history.keys() else None
 
     ax[1].plot(epochs, acc_vals, color='navy', marker='o', ls=' ', label='Training Accuracy')
     if val_acc_vals is not None:
@@ -99,14 +112,14 @@ def show_plots(history, plot_title=None, fig_size=None):
         del val_acc_vals
 
 
-def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix',
+def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix', p=0.5,
                           cmap=plt.cm.Blues):
     """
     This function prints and plots the confusion matrix.
     Normalization can be applied by setting `normalize=True`.
     """
     plt.imshow(cm, interpolation='nearest', cmap=cmap)
-    plt.title(title)
+    plt.title('Confusion matrix @{:.2f}'.format(p))
     plt.colorbar()
     tick_marks = np.arange(len(classes))
     plt.xticks(tick_marks, classes, rotation=45)
@@ -173,7 +186,8 @@ def load_keras_model(base_file_name, load_dir=os.path.join('.', 'keras_models'))
     # model structure is loaded $(load_dir)/base_file_name.json
     # weights are loaded from $(load_dir)/base_file_name.h5
 
-    from keras.models import model_from_json
+    # from keras.models import model_from_json
+    import tensorflow as tf
 
     # load model from save_path
     loaded_model = None
@@ -182,8 +196,13 @@ def load_keras_model(base_file_name, load_dir=os.path.join('.', 'keras_models'))
 
     if os.path.exists(json_file_path) and os.path.exists(h5_file_path):
         with open(json_file_path, "r") as json_file:
+            # loaded_model_json = json_file.read()
+            # loaded_model = model_from_json(loaded_model_json)
+            # loaded_model.load_weights(h5_file_path)
+
+            # json_file = open(json_file_path, "r")
             loaded_model_json = json_file.read()
-            loaded_model = model_from_json(loaded_model_json)
+            loaded_model = tf.keras.models.model_from_json(loaded_model_json)
             loaded_model.load_weights(h5_file_path)
         print("Loaded model from files %s and %s" % (json_file_path, h5_file_path))
     else:
