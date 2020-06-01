@@ -53,6 +53,17 @@ def plot_cm(labels, predictions, classes, p=0.5):
       plt.xlabel('Predicted label')
       plt.tight_layout()
 
+
+def plot_cm_categorical(labels, predictions, classes):
+    cm = confusion_matrix(labels, predictions)
+    plt.figure(figsize=(5, 5))
+    tick_marks = np.arange(len(classes))
+    sns.heatmap(cm, annot=True, fmt="d", xticklabels=classes, yticklabels=classes)
+    plt.title('Confusion matrix')
+    plt.ylabel('Actual label')
+    plt.xlabel('Predicted label')
+    plt.tight_layout()
+
     
 def show_plots(history, plot_title=None, fig_size=None):
     """ Useful function to view plot of loss values & accuracies across the various epochs
