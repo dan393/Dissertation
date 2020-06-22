@@ -1306,7 +1306,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 early_stop = EarlyStopping(monitor='val_loss', patience=5)
 model.fit(x=X_train, 
           y=y_train, 
-          epochs=2,
+          epochs=25,
 #           class_weight=class_weight,
           batch_size=256,
           validation_data=(X_test, y_test), 
@@ -1317,6 +1317,9 @@ import kr_helper_funcs as kr
 kr.show_plots(model.history.history)
 
 
+from tensorflow.keras.models import load_model
+model.save('lending-club.h5')
+pd.DataFrame.from_dict(model.history.history).to_csv('lending-club-history.csv',index=False)
 # **TASK: Fit the model to the training data for at least 25 epochs. Also add in the validation data for later plotting. Optional: add in a batch_size of 256.**
 
 # In[ ]:
@@ -1405,6 +1408,8 @@ exp.show_in_notebook(show_table=True, show_all=False)
 
 # In[ ]:
 
+prev_scaled_row = None
+cached_map_values = None
 
 def predict_fn(x):
     preds = model.predict(x).reshape(-1, 1)
@@ -1413,9 +1418,9 @@ def predict_fn(x):
 
 def explain_row_lime(scaled_row, explainer, nsamples = 100, verbose = 0):
     if nsamples == "auto":
-        exp = explainer.explain_instance(scaled_row, predict_fn, num_features=10, top_labels=30) #labels=list(df.columns)
+        exp = explainer.explain_instance(scaled_row, predict_fn, num_features=30, top_labels=30) #labels=list(df.columns)
     else:
-        exp = explainer.explain_instance(scaled_row, predict_fn, num_features=10, top_labels=30, num_samples=nsamples) #labels=list(df.columns)
+        exp = explainer.explain_instance(scaled_row, predict_fn, num_features=30, top_labels=30, num_samples=nsamples) #labels=list(df.columns)
 
     if (verbose == 1):
         exp.show_in_notebook(show_table=True, show_all=False)
@@ -1469,7 +1474,7 @@ def recreate_row(neutral_points, unscaled_row, map_values, predicted_class, no_e
 
 def calculate_probability_diff(row_number,neutral_points, explainer, no_exp=3, verbose = 0, which_explainer = 'lime', nsamples=100):
     scaled_row = X_test[row_number]
-    unscaled_row = X_test_unscaled[row_number]
+    unscaled_row = X_test_unscaled[row_number].copy()
 
     reshaped_scaled_row = pd.DataFrame(scaled_row).values.reshape(1,78)
     original_class = model.predict_classes(reshaped_scaled_row)[0][0]
@@ -1477,15 +1482,23 @@ def calculate_probability_diff(row_number,neutral_points, explainer, no_exp=3, v
     original_predict_fn = predict_fn(reshaped_scaled_row)
 
     if(original_class != y_test[row_number]):
+        print ("Something went wrong! Original class is different than y_test")
         return
 
-    if (which_explainer == 'lime'):
+    global prev_scaled_row
+    global cached_map_values
+    if ((scaled_row == prev_scaled_row).all()):
+        # print("Hit cache!")
+        map_values = cached_map_values;
+    elif (which_explainer == 'lime'):
         map_values = explain_row_lime(scaled_row, explainer, nsamples = nsamples, verbose = verbose)
     elif (which_explainer == 'shap'):
         map_values = explain_row_shap(scaled_row, explainer, nsamples = nsamples, verbose = verbose)
     elif (which_explainer == 'random'):
         map_values = explain_row_random(scaled_row, explainer, nsamples = nsamples, verbose = verbose)
 
+    prev_scaled_row = scaled_row
+    cached_map_values = map_values
     if (verbose == 1):
         print(map_values)
 
@@ -1493,7 +1506,10 @@ def calculate_probability_diff(row_number,neutral_points, explainer, no_exp=3, v
     new_class = model.predict_classes(new_row)[0][0]
     new_probability = model.predict_proba(new_row)
     new_predict_fn = predict_fn(new_row)
-    
+
+    if (no_exp == 0 and (scaled_row != new_row).all()):
+        print("Something went wrong! no_exp is 0 but scaled_row is not equal to new_row")
+
     if (verbose == 1):
         print ("Probability: {} Predict_fn: {} Predicted class:{} Actual class:{}"
                .format(original_probability, original_predict_fn, original_class, y_test[row_number]))
@@ -1520,10 +1536,10 @@ def calculate_values(number_of_rows = 100, number_of_exaplanations = 11, which_e
     predicted_classes = model.predict_classes(X_test[:number_of_rows])
 
     for nsamples in nsampleslist:
-        for no_exp in range (number_of_exaplanations):
-            print ("Explanation number:---------------------------{}---------------------------".format(no_exp))
-            for row_number in range(number_of_rows):
-                print ("Row Number {}".format(row_number))
+        for row_number in range(number_of_rows):
+            print("Row Number {}".format(row_number))
+            for no_exp in range(number_of_exaplanations):
+                print ("Explanation number:{}---Exaplainer:{}----NSamples:{}".format(no_exp, which_explainer, nsamples))
                 if (predicted_classes[row_number][0] != y_test[row_number]):
                     print ("Predicted and actual classes are different, skip")
                     continue;
@@ -1532,7 +1548,7 @@ def calculate_values(number_of_rows = 100, number_of_exaplanations = 11, which_e
                 confidence_diff, original_class, class_change = calculate_probability_diff(row_number,neutral_points, explainer = explainer, no_exp= no_exp, verbose = verbose, which_explainer = which_explainer, nsamples=nsamples)
                 total_time = time.time() - start_time
                 results.append((confidence_diff, original_class, class_change, no_exp, nsamples, which_explainer, total_time))
-                with open('lending-club-values.csv', 'a',  newline='') as fd:
+                with open('lending-club-values.csv', 'a', newline='') as fd:
                     writer = csv.writer(fd)
                     writer.writerow([confidence_diff, original_class, class_change, no_exp ,nsamples, which_explainer,total_time])
                     # fd.write(
@@ -1548,17 +1564,17 @@ import os
 #add headers
 if os.path.exists("lending-club-values.csv"):
     os.remove('lending-club-values.csv')
-with open('lending-club-values.csv', 'a',  newline='') as fd:
+with open('lending-club-values.csv', 'a', newline='') as fd:
     writer = csv.writer(fd)
     writer.writerow(["confidence_diff", "original_class", "class_change", "no_features", "nsamples", "explainer", "time"])
-
-res_shap = calculate_values(number_of_rows = 1, number_of_exaplanations = 2, which_explainer = 'shap', nsampleslist = [100, 1000, "auto"]);
-res_lime = calculate_values(number_of_rows = 1, number_of_exaplanations = 2, which_explainer = 'lime', nsampleslist = [100, 1000, "auto"]);
-res_random = calculate_values(number_of_rows = 1, number_of_exaplanations = 2, which_explainer = 'random', nsampleslist = [100, 1000, "auto"]);
 
 res_shap = calculate_values(number_of_rows = 200, number_of_exaplanations = 11, which_explainer = 'shap', nsampleslist = [100, 1000, "auto"]);
 res_lime = calculate_values(number_of_rows = 200, number_of_exaplanations = 11, which_explainer = 'lime', nsampleslist = [100, 1000, "auto"]);
 res_random = calculate_values(number_of_rows = 200, number_of_exaplanations = 11, which_explainer = 'random', nsampleslist = [100, 1000, "auto"]);
+
+
+
+
 
 import pandas as pd
 pd.DataFrame.from_dict(res_shap).to_csv('shap_values.csv',index=False)
@@ -1650,8 +1666,6 @@ shap.initjs()
 # In[ ]:
 
 
-from tensorflow.keras.models import load_model
-model.save('lending-club.h5')  
 
 
 # In[ ]:
