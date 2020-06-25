@@ -1082,7 +1082,7 @@ df['zip_code'] = df['address'].apply(lambda address:address[-5:])
 dummies = pd.get_dummies(df['zip_code'],drop_first=True)
 df = df.drop(['zip_code','address'],axis=1)
 df = pd.concat([df,dummies],axis=1)
-
+# df = df.drop(['zip_code','address'],axis=1)
 
 # ### issue_d 
 # 
@@ -1301,25 +1301,31 @@ model.compile(loss='binary_crossentropy', optimizer='adam', metrics =['accuracy'
 #     class_weight = {0: weight_for_0, 1: weight_for_1}
 #     print('Weight for class 0: {:.2f}'.format(weight_for_0))
 #     print('Weight for class 1: {:.2f}'.format(weight_for_1))
-        
+
+
 from tensorflow.keras.callbacks import EarlyStopping
 early_stop = EarlyStopping(monitor='val_loss', patience=5)
-model.fit(x=X_train, 
-          y=y_train, 
+model.fit(x=X_train,
+          y=y_train,
           epochs=25,
 #           class_weight=class_weight,
           batch_size=256,
-          validation_data=(X_test, y_test), 
+          validation_data=(X_test, y_test),
           callbacks = [early_stop]
           )
 
 import kr_helper_funcs as kr
+from sklearn.metrics import classification_report,confusion_matrix
 kr.show_plots(model.history.history)
 
-
+predictions = model.predict_classes(X_test)
+print(classification_report(y_test,predictions))
+kr.plot_cm(y_test,predictions, ["unpaid", "paid"])
+plt.show()
 from tensorflow.keras.models import load_model
-model.save('lending-club.h5')
-pd.DataFrame.from_dict(model.history.history).to_csv('lending-club-history.csv',index=False)
+# model = tf.keras.models.load_model('lending-club.h5')
+# pd.DataFrame.from_dict(model.history.history).to_csv('lending-club-history.csv',index=False)
+
 # **TASK: Fit the model to the training data for at least 25 epochs. Also add in the validation data for later plotting. Optional: add in a batch_size of 256.**
 
 # In[ ]:
@@ -1343,57 +1349,7 @@ exp = explainer.explain_instance(X_test[4], model.predict, num_features=20, top_
 exp.show_in_notebook(show_table=True, show_all=False)
 
 
-# **TASK: OPTIONAL: Save your model.**
 
-# In[ ]:
-
-
-# def flatten_predict(i):
-#     predictions = model.predict_proba(i)
-#     x = np.zeros((predictions.shape[0], 1))
-#     probability = (x+1) - predictions
-#     return np.append(predictions, probability, axis = 1)
-
-# def predict_fn(x):
-#     preds = model.predict(x).reshape(-1, 1)
-#     p0= 1- preds
-#     return np.hstack((p0, preds))
-
-# def explain_row(row, actual_prediction):
-# #     print (row)
-#     scaled_row = scaler.transform(row.values.reshape(1,78))
-# #     print(scaled_row)
-
-    
-#     prediction = (model.predict_classes(scaled_row))[0][0]
-#     probability =(model.predict_proba(scaled_row))
-    
-#     print ("Probability: {} Predict_fn: {} flatten_predict: {} Predicted class:{} Actual class:{}"
-#            .format(probability, predict_fn(scaled_row), flatten_predict(scaled_row), prediction, actual_prediction))
-    
-#     explainer = lime_tabular.LimeTabularExplainer(X_train, training_labels=['paid', 'unpaid'])       
-#     exp = explainer.explain_instance(scaled_row[0], predict_fn, num_features=10, 
-#                                       top_labels=10) #labels=list(df.columns)
-#     exp.show_in_notebook(show_table=True, show_all=False)
-#     return exp.as_map()
-
-# def recreate_row(row, map_values, no_exp):
-#     scaled_row = scaler.transform(row.values.reshape(1,78))
-#     predicted_class = (model.predict_classes(scaled_row))[0][0]
-#     tuple_list = map_values[predicted_class]
-#     important_columns = [a for (a,b) in tuple_list if b>0][:no_exp]
-# #     if (predicted_class == 0):
-# #         important_columns = [a for (a,b) in tuple_list if b<=0][:no_exp]
-# #         print(important_columns)
-# #     else:
-# #         important_columns = [a for (a,b) in tuple_list if b>0][:no_exp]
-# #         print(important_columns)
-    
-#     for c in important_columns:
-#         row[c] = df[df['loan_repaid'] != predicted_class].mean()[c]
-# #         row[c] = df.mean()[c]
-# #     print(row)
-#     return row
         
 
     
@@ -1410,7 +1366,7 @@ exp.show_in_notebook(show_table=True, show_all=False)
 
 prev_scaled_row = None
 cached_map_values = None
-
+shape_size=69
 def predict_fn(x):
     preds = model.predict(x).reshape(-1, 1)
     p0= 1- preds
@@ -1428,7 +1384,7 @@ def explain_row_lime(scaled_row, explainer, nsamples = 100, verbose = 0):
     return exp.as_map()
 
 def explain_row_shap(scaled_row, explainer, nsamples = 100, verbose = 0):
-    shap_values = explainer.shap_values(scaled_row.reshape(1,78), nsamples=nsamples, l1_reg = "num_features(30)")
+    shap_values = explainer.shap_values(scaled_row.reshape(1,shape_size), nsamples=nsamples, l1_reg = "num_features(30)")
     
     if (verbose == 1):
         shap.decision_plot(explainer.expected_value[0], shap_values[0][0,:], scaled_row ,feature_names = list(df.drop('loan_repaid',axis=1).columns), link="logit")
@@ -1445,8 +1401,8 @@ def explain_row_shap(scaled_row, explainer, nsamples = 100, verbose = 0):
 
 def explain_row_random(scaled_row, explainer, nsamples=100, verbose=0):
     random_list = {}
-    random_list[0]=[(i, random.uniform(0.0, 1.0)) for i in range(78)]
-    random_list[1]=[(i, random.uniform(0.0, 1.0)) for i in range(78)]
+    random_list[0]=[(i, random.uniform(0.0, 1.0)) for i in range(shape_size)]
+    random_list[1]=[(i, random.uniform(0.0, 1.0)) for i in range(shape_size)]
 
     map_values = {}
     for class_value in range(len(random_list)):
@@ -1470,13 +1426,13 @@ def recreate_row(neutral_points, unscaled_row, map_values, predicted_class, no_e
     if (verbose == 1):
         print(pd.DataFrame(unscaled_row))
         
-    return scaler.transform(pd.DataFrame(unscaled_row).values.reshape(1,78))
+    return scaler.transform(pd.DataFrame(unscaled_row).values.reshape(1,shape_size))
 
 def calculate_probability_diff(row_number,neutral_points, explainer, no_exp=3, verbose = 0, which_explainer = 'lime', nsamples=100):
     scaled_row = X_test[row_number]
     unscaled_row = X_test_unscaled[row_number].copy()
 
-    reshaped_scaled_row = pd.DataFrame(scaled_row).values.reshape(1,78)
+    reshaped_scaled_row = pd.DataFrame(scaled_row).values.reshape(1,shape_size)
     original_class = model.predict_classes(reshaped_scaled_row)[0][0]
     original_probability =model.predict_proba(reshaped_scaled_row)
     original_predict_fn = predict_fn(reshaped_scaled_row)
@@ -1518,8 +1474,8 @@ def calculate_probability_diff(row_number,neutral_points, explainer, no_exp=3, v
                .format(new_probability, new_predict_fn, new_class, y_test[row_number]))
 
 #     map_values = explain_row(new_row[0], verbose)
-
-    return ((original_predict_fn - new_predict_fn)[0][original_class], original_class, original_class!=new_class)
+    important_columns =[a for (a,b) in map_values[original_class]  if b>0]
+    return (original_probability[0][0], new_probability[0][0], (original_predict_fn - new_predict_fn)[0][original_class], original_class, original_class!=new_class, important_columns )
 
 
 def calculate_values(number_of_rows = 100, number_of_exaplanations = 11, which_explainer = 'random', nsampleslist = [100], verbose = 0):
@@ -1545,14 +1501,14 @@ def calculate_values(number_of_rows = 100, number_of_exaplanations = 11, which_e
                     continue;
 
                 start_time = time.time()
-                confidence_diff, original_class, class_change = calculate_probability_diff(row_number,neutral_points, explainer = explainer, no_exp= no_exp, verbose = verbose, which_explainer = which_explainer, nsamples=nsamples)
+                original_probability, new_probability, confidence_diff, original_class, class_change, important_columns = calculate_probability_diff(row_number,neutral_points, explainer = explainer, no_exp= no_exp, verbose = verbose, which_explainer = which_explainer, nsamples=nsamples)
                 total_time = time.time() - start_time
-                results.append((confidence_diff, original_class, class_change, no_exp, nsamples, which_explainer, total_time))
+                results.append((original_probability, new_probability, confidence_diff, original_class, class_change, no_exp, nsamples, which_explainer, total_time))
                 with open('lending-club-values.csv', 'a', newline='') as fd:
                     writer = csv.writer(fd)
-                    writer.writerow([confidence_diff, original_class, class_change, no_exp ,nsamples, which_explainer,total_time])
-                    # fd.write(
-                    #     confidence_diff + ',' + class_change + ',' + no_exp + ',' + nsamples + ',' + which_explainer + ',' + total_time)
+                    result = [original_probability, new_probability, confidence_diff, original_class, class_change, no_exp ,nsamples, which_explainer,total_time]
+                    result.extend(important_columns[0:11])
+                    writer.writerow(result)
 
     print (results)
     return results
@@ -1566,7 +1522,8 @@ if os.path.exists("lending-club-values.csv"):
     os.remove('lending-club-values.csv')
 with open('lending-club-values.csv', 'a', newline='') as fd:
     writer = csv.writer(fd)
-    writer.writerow(["confidence_diff", "original_class", "class_change", "no_features", "nsamples", "explainer", "time"])
+    writer.writerow(["original_probability", "new_probability", "confidence_diff", "original_class", "class_change", "no_features", "nsamples", "explainer", "time", "important_columns",
+                     "i1", "i2", "i3", "i4", "i5", "i6", "i7" ,"i8" ,"i9" ,"i10"])
 
 res_shap = calculate_values(number_of_rows = 200, number_of_exaplanations = 11, which_explainer = 'shap', nsampleslist = [100, 1000, "auto"]);
 res_lime = calculate_values(number_of_rows = 200, number_of_exaplanations = 11, which_explainer = 'lime', nsampleslist = [100, 1000, "auto"]);
@@ -1580,11 +1537,11 @@ import pandas as pd
 pd.DataFrame.from_dict(res_shap).to_csv('shap_values.csv',index=False)
 pd.DataFrame.from_dict(res_shap).to_csv('lime_values.csv',index=False)
 
-# compare lime with random feature replacement
+
 # instead of mean of two sides, use an standard deviation
 # create plots specific for each individual class
 # no of samples created for explanations
-# only use points correctly predicted by the model
+
 # plot values that are negative - where the change increased the prediction instead of decreasing it
 
 # In[ ]:
@@ -1695,7 +1652,7 @@ shap.decision_plot(explainer.expected_value[0], shap_values[0][3, :])
 
 
 explainer = shap.KernelExplainer(predict_fn, X_train[0:1000])
-shap_values = explainer.shap_values(X_test[0].reshape(1,78), nsamples=100)
+shap_values = explainer.shap_values(X_test[0].reshape(1,shape_size), nsamples=100)
 
 
 # In[ ]:
@@ -1709,7 +1666,7 @@ shap.force_plot(explainer.expected_value[0], shap_values[0][3,:], df.drop('loan_
 
 nsamples = 100
 row_num = 10
-shap_values = explainer.shap_values(X_test[row_num].reshape(1,78), nsamples=nsamples, l1_reg = "num_features(10)",)
+shap_values = explainer.shap_values(X_test[row_num].reshape(1,shape_size), nsamples=nsamples, l1_reg = "num_features(10)",)
 print(shap_values)
 shap.decision_plot(explainer.expected_value[0], shap_values[0][0,:], X_test[row_num,:],feature_names = list(df.drop('loan_repaid',axis=1).columns), link="logit")
 
@@ -1742,7 +1699,7 @@ explain_row_shap(X[10], 1)
 # In[ ]:
 
 
-from sklearn.metrics import classification_report,confusion_matrix
+
 
 
 # In[ ]:
@@ -1786,7 +1743,7 @@ new_customer
 # In[ ]:
 
 
-model.predict_classes(new_customer.values.reshape(1,78))
+model.predict_classes(new_customer.values.reshape(1,shape_size))
 
 
 # **TASK: Now check, did this person actually end up paying back their loan?**
