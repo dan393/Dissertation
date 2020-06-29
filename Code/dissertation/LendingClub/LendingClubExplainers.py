@@ -6,6 +6,9 @@ import random
 import pandas as pd
 import time
 from sklearn.preprocessing import MinMaxScaler
+from keras.wrappers.scikit_learn import KerasClassifier, KerasRegressor
+import eli5
+from eli5.sklearn import PermutationImportance
 
 name = 'with_postcode'
 fileName = "{}/lending-club-values.csv".format(name)
@@ -21,6 +24,7 @@ X_test = scaler.transform(X_test_unscaled)
 
 prev_scaled_row = None
 cached_map_values = None
+map_values_eli5 = None
 scaler = MinMaxScaler()
 X_train = scaler.fit_transform(X_train_unscaled)
 X_test = scaler.transform(X_test_unscaled)
@@ -84,6 +88,32 @@ def explain_row_random(scaled_row, explainer, nsamples=100, verbose=0):
     return map_values
 
 
+def explain_row_eli5(scaled_row, explainer, nsamples=100, verbose=0):
+    global map_values_eli5
+    if map_values_eli5 != None:
+        return map_values_eli5
+
+    copy_model = tf.keras.models.load_model('{}/lending-club.h5'.format(name))
+    def base_model():
+        return copy_model
+
+    # X_train_unscaled, X_test_unscaled, y_train, y_test
+    # train_x, val_x, train_y, val_y
+    my_model = KerasRegressor(build_fn=base_model)
+    my_model.fit(X_test.copy(), y_test.copy())
+
+    perm = PermutationImportance(my_model).fit(X_test[0:1000].copy(), y_test[0:1000].copy())
+    # eli5.show_weights(perm, feature_names=list(df.drop('loan_repaid', axis=1).columns))
+
+    s = perm.feature_importances_
+    sorted_indices = sorted(range(len(s)), key=lambda k: s[k], reverse=True)
+    class_1 = [(a, s[a]) for a in sorted_indices if s[a] > 0]
+    sorted_indices = sorted(range(len(s)), key=lambda k: s[k])
+    class_0 = [(a, s[a] * -1) for a in sorted_indices if s[a] <= 0]
+    map_values_eli5 = {0: class_0, 1: class_1}
+
+    return map_values_eli5
+
 def recreate_row(neutral_points, unscaled_row, map_values, predicted_class, no_exp=3, verbose=0):
     tuple_list = map_values[predicted_class]
     important_columns = [a for (a, b) in tuple_list if b > 0][:no_exp]
@@ -99,7 +129,7 @@ def recreate_row(neutral_points, unscaled_row, map_values, predicted_class, no_e
 
 def calculate_probability_diff(row_number, neutral_points, explainer, no_exp=3, verbose=0, which_explainer='lime',
                                nsamples=100):
-    scaled_row = X_test[row_number]
+    scaled_row = X_test[row_number].copy()
     unscaled_row = X_test_unscaled[row_number].copy()
 
     reshaped_scaled_row = pd.DataFrame(scaled_row).values.reshape(1, shape_size)
@@ -122,6 +152,8 @@ def calculate_probability_diff(row_number, neutral_points, explainer, no_exp=3, 
         map_values = explain_row_shap(scaled_row, explainer, nsamples=nsamples, verbose=verbose)
     elif (which_explainer == 'random'):
         map_values = explain_row_random(scaled_row, explainer, nsamples=nsamples, verbose=verbose)
+    elif (which_explainer == 'eli5'):
+        map_values = explain_row_eli5(scaled_row, explainer, nsamples=nsamples, verbose=verbose)
 
     prev_scaled_row = scaled_row
     cached_map_values = map_values
@@ -152,12 +184,12 @@ def calculate_probability_diff(row_number, neutral_points, explainer, no_exp=3, 
 
 def calculate_values(number_of_rows=100, number_of_exaplanations=11, which_explainer='random', nsampleslist=[100],
                      verbose=0):
+    explainer = None
     if which_explainer == 'lime':
         explainer = lime_tabular.LimeTabularExplainer(X_train, training_labels=['paid', 'unpaid'])
     elif which_explainer == 'shap':
         explainer = shap.KernelExplainer(predict_fn, X_train[0:1000])
-    elif which_explainer == 'random':
-        explainer = None
+
 
     neutral_points = ((df[df['loan_repaid'] != 0].mean() + df[df['loan_repaid'] != 1].mean()) / 2).drop('loan_repaid')
     results = []
@@ -201,12 +233,18 @@ with open(fileName, 'a', newline='') as fd:
     writer = csv.writer(fd)
     writer.writerow(
         ["original_probability", "new_probability", "confidence_diff", "original_class", "class_change", "no_features",
-         "nsamples", "explainer", "time", "important_columns",
+         "nsamples", "explainer", "time", "i0",
          "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10"])
 
-res_shap = calculate_values(number_of_rows=200, number_of_exaplanations=11, which_explainer='shap',
-                            nsampleslist=[100, 1000, "auto"]);
-res_lime = calculate_values(number_of_rows=200, number_of_exaplanations=11, which_explainer='lime',
-                            nsampleslist=[100, 1000, "auto"]);
-res_random = calculate_values(number_of_rows=200, number_of_exaplanations=11, which_explainer='random',
-                              nsampleslist=[100, 1000, "auto"]);
+res_eli5 = calculate_values(number_of_rows=200, number_of_exaplanations=11, which_explainer='eli5',
+                            nsampleslist=["auto"]);
+# res_random = calculate_values(number_of_rows=200, number_of_exaplanations=11, which_explainer='random',
+#                               nsampleslist=["auto"]);
+# res_shap = calculate_values(number_of_rows=200, number_of_exaplanations=11, which_explainer='shap',
+#                             nsampleslist=[100, 1000, "auto"]);
+# res_lime = calculate_values(number_of_rows=200, number_of_exaplanations=11, which_explainer='lime',
+#                             nsampleslist=[100, 1000, "auto"]);
+# res_random = calculate_values(number_of_rows=200, number_of_exaplanations=11, which_explainer='random',
+#                               nsampleslist=[100, 1000, "auto"]);
+
+

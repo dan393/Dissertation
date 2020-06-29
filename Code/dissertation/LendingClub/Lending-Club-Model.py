@@ -193,7 +193,7 @@ import pandas as pd
 import time
 import random
 # In[2]:
-
+from imblearn.under_sampling import RandomUnderSampler
 
 data_info = pd.read_csv('lending_club_info.csv', index_col='LoanStatNew')
 
@@ -1078,10 +1078,10 @@ df['zip_code'] = df['address'].apply(lambda address:address[-5:])
 # In[ ]:
 
 
-dummies = pd.get_dummies(df['zip_code'],drop_first=True)
-df = df.drop(['zip_code','address'],axis=1)
-df = pd.concat([df,dummies],axis=1)
+# dummies = pd.get_dummies(df['zip_code'],drop_first=True)
 # df = df.drop(['zip_code','address'],axis=1)
+# df = pd.concat([df,dummies],axis=1)
+df = df.drop(['zip_code','address'],axis=1)
 
 # ### issue_d 
 # 
@@ -1256,6 +1256,8 @@ from tensorflow.keras.constraints import max_norm
 
 # In[ ]:
 
+rus = RandomUnderSampler()
+X_train_rus, y_train_rus = rus.fit_sample(X_train, y_train)
 
 model = Sequential()
 
@@ -1263,10 +1265,10 @@ model = Sequential()
 
 # model.add(Dense(512,  activation='relu'))
 # model.add(Dropout(0.2))
-
+#
 # model.add(Dense(256,  activation='relu'))
 # model.add(Dropout(0.2))
-
+#
 # model.add(Dense(128,  activation='relu'))
 # model.add(Dropout(0.2))
 
@@ -1283,31 +1285,32 @@ model.add(Dense(19, activation='relu'))
 model.add(Dropout(0.2))
 
 # output layer
-model.add(Dense(units=2,activation='softmax'))
+model.add(Dense(units=1,activation='sigmoid'))
 
 # Compile model
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics =['accuracy'])
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics =['accuracy'])
 
-class_weight= {0:1, 1:1}
-with_weigths=True
-if (with_weigths):
-    neg, pos = np.bincount(y_train)
-    total = neg + pos
-    print('Examples:\n    Total: {}\n    Positive: {} ({:.2f}% of total)\n'.format(
-    total, pos, 100 * pos / total))
-    weight_for_0 = (1 / neg)*(total)/2.0
-    weight_for_1 = (1 / pos)*(total)/2.0
-    class_weight = {0: weight_for_0, 1: weight_for_1}
-    print('Weight for class 0: {:.2f}'.format(weight_for_0))
-    print('Weight for class 1: {:.2f}'.format(weight_for_1))
+# class_weight= {0:1, 1:1}
+# with_weigths=True
+# if (with_weigths):
+#     neg, pos = np.bincount(y_train)
+#     total = neg + pos
+#     print('Examples:\n    Total: {}\n    Positive: {} ({:.2f}% of total)\n'.format(
+#     total, pos, 100 * pos / total))
+#     weight_for_0 = (1 / neg)*(total)/2.0
+#     weight_for_1 = (1 / pos)*(total)/2.0
+#     class_weight = {0: weight_for_0, 1: weight_for_1}
+#     print('Weight for class 0: {:.2f}'.format(weight_for_0))
+#     print('Weight for class 1: {:.2f}'.format(weight_for_1))
 
 
 from tensorflow.keras.callbacks import EarlyStopping
 early_stop = EarlyStopping(monitor='val_loss', patience=5)
-model.fit(x=X_train,
-          y=y_train,
-          epochs=2,
-          class_weight=class_weight,
+
+model.fit(x=X_train_rus,
+          y=y_train_rus,
+          epochs=25,
+          # class_weight=class_weight,
           batch_size=256,
           validation_data=(X_test, y_test),
           callbacks = [early_stop]
@@ -1325,7 +1328,7 @@ from tensorflow.keras.models import load_model
 
 # model = tf.keras.models.load_model('lending-club.h5')
 import os
-name = 'with_postcode'
+name = 'without_postcode'
 if not os.path.exists(name):
     os.mkdir(name)
 tf.keras.models.save_model(model, '{}/lending-club.h5'.format(name))
