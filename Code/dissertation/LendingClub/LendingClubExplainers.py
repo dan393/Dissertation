@@ -7,12 +7,13 @@ import pandas as pd
 import time
 from sklearn.preprocessing import MinMaxScaler
 from keras.wrappers.scikit_learn import KerasClassifier, KerasRegressor
+import kr_helper_funcs as kr
 import eli5
 from eli5.sklearn import PermutationImportance
 
-name = 'with_postcode'
+name = 'without_postcode'
 fileName = "{}/lending-club-values.csv".format(name)
-model = tf.keras.models.load_model('{}/lending-club.h5'.format(name))
+model = tf.keras.models.load_model('{}/lending-club.h5'.format(name), custom_objects={"f1": kr.f1})
 X_train_unscaled = np.load("{}/X_train_unscaled.npy".format(name))
 X_test_unscaled = np.load("{}/X_test_unscaled.npy".format(name))
 y_train = np.load("{}/y_test.npy".format(name))
@@ -93,14 +94,15 @@ def explain_row_eli5(scaled_row, explainer, nsamples=100, verbose=0):
     if map_values_eli5 != None:
         return map_values_eli5
 
-    copy_model = tf.keras.models.load_model('{}/lending-club.h5'.format(name))
+    copy_model = tf.keras.models.load_model('{}/lending-club.h5'.format(name), custom_objects={"f1": kr.f1})
+
     def base_model():
         return copy_model
 
     # X_train_unscaled, X_test_unscaled, y_train, y_test
     # train_x, val_x, train_y, val_y
     my_model = KerasRegressor(build_fn=base_model)
-    my_model.fit(X_test.copy(), y_test.copy())
+    my_model.fit(X_test.copy(), y_test.copy()  )
 
     perm = PermutationImportance(my_model).fit(X_test[0:1000].copy(), y_test[0:1000].copy())
     # eli5.show_weights(perm, feature_names=list(df.drop('loan_repaid', axis=1).columns))
@@ -114,9 +116,13 @@ def explain_row_eli5(scaled_row, explainer, nsamples=100, verbose=0):
 
     return map_values_eli5
 
-def recreate_row(neutral_points, unscaled_row, map_values, predicted_class, no_exp=3, verbose=0):
+
+def recreate_row(neutral_points, unscaled_row, map_values, predicted_class, no_exp=3, verbose=0, reverse_order=False):
     tuple_list = map_values[predicted_class]
-    important_columns = [a for (a, b) in tuple_list if b > 0][:no_exp]
+    if reverse_order:
+        important_columns = [a for (a, b) in tuple_list if b > 0][:no_exp]
+    else:
+        important_columns = [a for (a, b) in tuple_list if b > 0][-no_exp:]
 
     for c in important_columns:
         unscaled_row[c] = neutral_points[c]
@@ -128,7 +134,7 @@ def recreate_row(neutral_points, unscaled_row, map_values, predicted_class, no_e
 
 
 def calculate_probability_diff(row_number, neutral_points, explainer, no_exp=3, verbose=0, which_explainer='lime',
-                               nsamples=100):
+                               nsamples=100, reverse_order=False):
     scaled_row = X_test[row_number].copy()
     unscaled_row = X_test_unscaled[row_number].copy()
 
@@ -160,7 +166,7 @@ def calculate_probability_diff(row_number, neutral_points, explainer, no_exp=3, 
     if (verbose == 1):
         print(map_values)
 
-    new_row = recreate_row(neutral_points, unscaled_row, map_values, original_class, no_exp, verbose)
+    new_row = recreate_row(neutral_points, unscaled_row, map_values, original_class, no_exp, verbose, reverse_order)
     new_class = model.predict_classes(new_row)[0][0]
     new_probability = model.predict_proba(new_row)
     new_predict_fn = predict_fn(new_row)
@@ -182,14 +188,33 @@ def calculate_probability_diff(row_number, neutral_points, explainer, no_exp=3, 
         original_class, original_class != new_class, important_columns)
 
 
+def calculate_values_datapoint(explainer, neutral_points, no_exp, nsamples, results, row_number, verbose,
+                               which_explainer, reverse_order=False):
+    start_time = time.time()
+    original_probability, new_probability, confidence_diff, original_class, class_change, important_columns = calculate_probability_diff(
+        row_number, neutral_points, explainer=explainer, no_exp=no_exp, verbose=verbose,
+        which_explainer=which_explainer, nsamples=nsamples, reverse_order=reverse_order)
+    total_time = time.time() - start_time
+
+    # write results to file
+    results.append((original_probability, new_probability, confidence_diff, original_class, class_change,
+                    no_exp, nsamples, which_explainer, total_time, reverse_order))
+    with open(fileName, 'a', newline='') as fd:
+        writer = csv.writer(fd)
+        result = [original_probability, new_probability, confidence_diff, original_class, class_change,
+                  no_exp, nsamples, which_explainer, total_time, reverse_order]
+        result.extend(important_columns[0:11])
+        writer.writerow(result)
+
+
 def calculate_values(number_of_rows=100, number_of_exaplanations=11, which_explainer='random', nsampleslist=[100],
+                     reverse_order=False,
                      verbose=0):
     explainer = None
     if which_explainer == 'lime':
         explainer = lime_tabular.LimeTabularExplainer(X_train, training_labels=['paid', 'unpaid'])
     elif which_explainer == 'shap':
         explainer = shap.KernelExplainer(predict_fn, X_train[0:1000])
-
 
     neutral_points = ((df[df['loan_repaid'] != 0].mean() + df[df['loan_repaid'] != 1].mean()) / 2).drop('loan_repaid')
     results = []
@@ -205,19 +230,12 @@ def calculate_values(number_of_rows=100, number_of_exaplanations=11, which_expla
                     print("Predicted and actual classes are different, skip")
                     continue;
 
-                start_time = time.time()
-                original_probability, new_probability, confidence_diff, original_class, class_change, important_columns = calculate_probability_diff(
-                    row_number, neutral_points, explainer=explainer, no_exp=no_exp, verbose=verbose,
-                    which_explainer=which_explainer, nsamples=nsamples)
-                total_time = time.time() - start_time
-                results.append((original_probability, new_probability, confidence_diff, original_class, class_change,
-                                no_exp, nsamples, which_explainer, total_time))
-                with open(fileName, 'a', newline='') as fd:
-                    writer = csv.writer(fd)
-                    result = [original_probability, new_probability, confidence_diff, original_class, class_change,
-                              no_exp, nsamples, which_explainer, total_time]
-                    result.extend(important_columns[0:11])
-                    writer.writerow(result)
+                calculate_values_datapoint(explainer, neutral_points, no_exp, nsamples, results, row_number, verbose,
+                                           which_explainer)
+
+                if reverse_order:
+                    calculate_values_datapoint(explainer, neutral_points, no_exp, nsamples, results, row_number,
+                                               verbose, which_explainer, reverse_order=True)
 
     print(results)
     return results
@@ -228,23 +246,19 @@ import os
 
 if os.path.exists(fileName):
     os.remove(fileName)
-# add headers
+# create file and add headers
 with open(fileName, 'a', newline='') as fd:
     writer = csv.writer(fd)
     writer.writerow(
         ["original_probability", "new_probability", "confidence_diff", "original_class", "class_change", "no_features",
-         "nsamples", "explainer", "time", "i0",
+         "nsamples", "explainer", "time", "reverse_order", "i0",
          "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10"])
 
-res_eli5 = calculate_values(number_of_rows=200, number_of_exaplanations=11, which_explainer='eli5',
-                            nsampleslist=["auto"]);
-# res_random = calculate_values(number_of_rows=200, number_of_exaplanations=11, which_explainer='random',
-#                               nsampleslist=["auto"]);
-# res_shap = calculate_values(number_of_rows=200, number_of_exaplanations=11, which_explainer='shap',
-#                             nsampleslist=[100, 1000, "auto"]);
-# res_lime = calculate_values(number_of_rows=200, number_of_exaplanations=11, which_explainer='lime',
-#                             nsampleslist=[100, 1000, "auto"]);
-# res_random = calculate_values(number_of_rows=200, number_of_exaplanations=11, which_explainer='random',
-#                               nsampleslist=[100, 1000, "auto"]);
-
-
+res_shap = calculate_values(number_of_rows=1, number_of_exaplanations=11, which_explainer='shap',
+                            nsampleslist=[100, 1000, "auto"], reverse_order=True);
+res_lime = calculate_values(number_of_rows=1, number_of_exaplanations=11, which_explainer='lime',
+                            nsampleslist=[1, 1000, "auto"],reverse_order=True);
+res_random = calculate_values(number_of_rows=1, number_of_exaplanations=11, which_explainer='random',
+                              nsampleslist=["auto"], reverse_order=True);
+res_eli5 = calculate_values(number_of_rows=1, number_of_exaplanations=11, which_explainer='eli5',
+                            nsampleslist=["auto"], reverse_order=True);

@@ -192,34 +192,18 @@
 import pandas as pd
 import time
 import random
-# In[2]:
 from imblearn.under_sampling import RandomUnderSampler
 
 data_info = pd.read_csv('lending_club_info.csv', index_col='LoanStatNew')
 
-
-# In[3]:
-
 print(data_info.loc['revol_util']['Description'])
-
-
-# In[4]:
-
 
 def feat_info(col_name):
     print(data_info.loc[col_name]['Description'])
 
-
-# In[5]:
-
-
 feat_info('mort_acc')
 
-
 # ## Loading the data and other imports
-
-# In[6]:
-
 
 import pandas as pd
 import numpy as np
@@ -229,19 +213,8 @@ import seaborn as sns
 # might be needed depending on your version of Jupyter
 # get_ipython().run_line_magic('matplotlib', 'inline')
 
-
-# In[7]:
-
-
 df = pd.read_csv('lending_club_loan_two.csv')
-
-
-# In[8]:
-
-
 df.info()
-
-
 # # Project Tasks
 # 
 # **Complete the tasks below! Keep in mind is usually more than one way to complete the task! Enjoy**
@@ -257,45 +230,14 @@ df.info()
 # ----
 
 # **TASK: Since we will be attempting to predict loan_status, create a countplot as shown below.**
-
-# In[9]:
-
-
-# CODE HERE
-
-
-# In[10]:
-
-
 sns.countplot(x='loan_status',data=df)
-
-
 # **TASK: Create a histogram of the loan_amnt column.**
-
-# In[11]:
-
-
-# CODE HERE
-
-
-# In[12]:
-
-
 plt.figure(figsize=(12,4))
 sns.distplot(df['loan_amnt'],kde=False,bins=40)
 plt.xlim(0,45000)
 
 
 # **TASK: Let's explore correlation between the continuous feature variables. Calculate the correlation between all continuous numeric variables using .corr() method.**
-
-# In[13]:
-
-
-# CODE HERE
-
-
-# In[14]:
-
 
 df.corr()
 
@@ -321,110 +263,35 @@ plt.ylim(10, 0)
 
 # **TASK: You should have noticed almost perfect correlation with the "installment" feature. Explore this feature further. Print out their descriptions and perform a scatterplot between them. Does this relationship make sense to you? Do you think there is duplicate information here?**
 
-# In[17]:
-
-
-# CODE HERE
-
-
-# In[18]:
-
-
 feat_info('installment')
 
-
-# In[19]:
-
-
 feat_info('loan_amnt')
-
-
-# In[20]:
-
 
 sns.scatterplot(x='installment',y='loan_amnt',data=df,)
 
 
 # **TASK: Create a boxplot showing the relationship between the loan_status and the Loan Amount.**
 
-# In[21]:
-
-
-# CODE HERE
-
-
-# In[22]:
-
-
 sns.boxplot(x='loan_status',y='loan_amnt',data=df)
 
 
 # **TASK: Calculate the summary statistics for the loan amount, grouped by the loan_status.**
-
-# In[23]:
-
-
-# CODE HERE
-
-
-# In[24]:
-
-
 df.groupby('loan_status')['loan_amnt'].describe()
 
 
 # **TASK: Let's explore the Grade and SubGrade columns that LendingClub attributes to the loans. What are the unique possible grades and subgrades?**
 
-# In[25]:
-
-
-# CODE HERE
-
-
-# In[26]:
-
-
 sorted(df['grade'].unique())
-
-
-# In[27]:
-
-
 sorted(df['sub_grade'].unique())
-
 
 # **TASK: Create a countplot per grade. Set the hue to the loan_status label.**
 
-# In[28]:
-
-
 sns.countplot(x='grade',data=df,hue='loan_status')
-
-
 # **TASK: Display a count plot per subgrade. You may need to resize for this plot and reorder the x axis. Feel free to edit the color palette. Explore both all loans made per subgrade as well being separated based on the loan_status**
-
-# In[29]:
-
-
-#CODE HERE
-
-
-# In[30]:
-
 
 plt.figure(figsize=(12,4))
 subgrade_order = sorted(df['sub_grade'].unique())
 sns.countplot(x='sub_grade',data=df,order = subgrade_order,palette='coolwarm' )
-
-
-# In[31]:
-
-
-# CODE HERE
-
-
-# In[32]:
-
 
 plt.figure(figsize=(12,4))
 subgrade_order = sorted(df['sub_grade'].unique())
@@ -432,16 +299,6 @@ sns.countplot(x='sub_grade',data=df,order = subgrade_order,palette='coolwarm' ,h
 
 
 # **TASK: It looks like F and G subgrades don't get paid back that often. Isloate those and recreate the countplot just for those subgrades.**
-
-# In[33]:
-
-
-# CODE HERE
-
-
-# In[34]:
-
-
 f_and_g = df[(df['grade']=='G') | (df['grade']=='F')]
 
 plt.figure(figsize=(12,4))
@@ -451,58 +308,22 @@ sns.countplot(x='sub_grade',data=f_and_g,order = subgrade_order,hue='loan_status
 
 # **TASK: Create a new column called 'load_repaid' which will contain a 1 if the loan status was "Fully Paid" and a 0 if it was "Charged Off".**
 
-# In[35]:
-
-
-# CODE HERE
-
-
-# In[ ]:
-
-
 # get_ipython().run_line_magic('debug', '')
 df['loan_status'].unique()
 
-
-# In[37]:
-
-
 df['loan_repaid'] = df['loan_status'].map({'Fully Paid':1,'Charged Off':0})
-
-
-# In[38]:
-
 
 df[['loan_repaid','loan_status']]
 
-
 # **CHALLENGE TASK: (Note this is hard, but can be done in one line!) Create a bar plot showing the correlation of the numeric features to the new loan_repaid column. [Helpful Link](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.plot.bar.html)**
 
-# In[39]:
-
-
-#CODE HERE
-
-
-# In[40]:
-
-
 df.corr()['loan_repaid'].sort_values().drop('loan_repaid').plot(kind='bar')
-
-
-# ---
 # ---
 # # Section 2: Data PreProcessing
 # 
 # **Section Goals: Remove or fill any missing data. Remove unnecessary or repetitive features. Convert categorical string features to dummy variables.**
 # 
-# 
-
-# In[ ]:
-
-
 df.head()
-
 
 # # Missing Data
 # 
@@ -510,56 +331,17 @@ df.head()
 
 # **TASK: What is the length of the dataframe?**
 
-# In[ ]:
-
-
-# CODE HERE
-
-
-# In[ ]:
-
-
 len(df)
-
 
 # **TASK: Create a Series that displays the total count of missing values per column.**
 
-# In[ ]:
-
-
-# CODE HERE
-
-
-# In[ ]:
-
-
 df.isnull().sum()
 
-
 # **TASK: Convert this Series to be in term of percentage of the total DataFrame**
-
-# In[ ]:
-
-
-# CODE HERE
-
-
-# In[ ]:
-
-
 100* df.isnull().sum()/len(df)
 
 
 # **TASK: Let's examine emp_title and emp_length to see whether it will be okay to drop them. Print out their feature information using the feat_info() function from the top of this notebook.**
-
-# In[ ]:
-
-
-# CODE HERE
-
-
-# In[ ]:
-
 
 feat_info('emp_title')
 print('\n')
@@ -568,54 +350,19 @@ feat_info('emp_length')
 
 # **TASK: How many unique employment job titles are there?**
 
-# In[ ]:
-
-
-# CODE HERE
-
-
-# In[ ]:
-
-
 df['emp_title'].nunique()
-
-
-# In[ ]:
-
 
 df['emp_title'].value_counts()
 
 
 # **TASK: Realistically there are too many unique job titles to try to convert this to a dummy variable feature. Let's remove that emp_title column.**
 
-# In[ ]:
-
-
-# CODE HERE
-
-
-# In[ ]:
-
-
 df = df.drop('emp_title',axis=1)
 
 
 # **TASK: Create a count plot of the emp_length feature column. Challenge: Sort the order of the values.**
 
-# In[ ]:
-
-
-# CODE HERE
-
-
-# In[ ]:
-
-
 sorted(df['emp_length'].dropna().unique())
-
-
-# In[ ]:
-
 
 emp_length_order = [ '< 1 year',
                       '1 year',
@@ -629,10 +376,6 @@ emp_length_order = [ '< 1 year',
                      '9 years',
                      '10+ years']
 
-
-# In[ ]:
-
-
 plt.figure(figsize=(12,4))
 
 sns.countplot(x='emp_length',data=df,order=emp_length_order)
@@ -640,188 +383,51 @@ sns.countplot(x='emp_length',data=df,order=emp_length_order)
 
 # **TASK: Plot out the countplot with a hue separating Fully Paid vs Charged Off**
 
-# In[ ]:
-
-
-# CODE HERE
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
 # **CHALLENGE TASK: This still doesn't really inform us if there is a strong relationship between employment length and being charged off, what we want is the percentage of charge offs per category. Essentially informing us what percent of people per employment category didn't pay back their loan. There are a multitude of ways to create this Series. Once you've created it, see if visualize it with a [bar plot](https://pandas.pydata.org/pandas-docs/version/0.23.4/generated/pandas.DataFrame.plot.html). This may be tricky, refer to solutions if you get stuck on creating this Series.**
 
-# In[ ]:
-
-
-# CODE HERE
-
-
-# In[ ]:
-
-
 emp_co = df[df['loan_status']=="Charged Off"].groupby("emp_length").count()['loan_status']
-
-
-# In[ ]:
-
 
 emp_fp = df[df['loan_status']=="Fully Paid"].groupby("emp_length").count()['loan_status']
 
 
-# In[ ]:
-
-
 emp_len = emp_co/emp_fp
 
-
-# In[ ]:
-
-
 emp_len
-
-
-# In[ ]:
-
-
 emp_len.plot(kind='bar')
 
-
 # **TASK: Charge off rates are extremely similar across all employment lengths. Go ahead and drop the emp_length column.**
-
-# In[ ]:
-
-
-# CODE HERE
-
-
-# In[ ]:
-
-
 df = df.drop('emp_length',axis=1)
 
-
 # **TASK: Revisit the DataFrame to see what feature columns still have missing data.**
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
 
 df.isnull().sum()
 
 
 # **TASK: Review the title column vs the purpose column. Is this repeated information?**
-
-# In[ ]:
-
-
-# CODE HERE
-
-
-# In[ ]:
-
-
 df['purpose'].head(10)
-
-
-# In[ ]:
-
-
 df['title'].head(10)
 
-
 # **TASK: The title column is simply a string subcategory/description of the purpose column. Go ahead and drop the title column.**
-
-# In[ ]:
-
-
-# CODE HERE
-
-
-# In[ ]:
-
-
 df = df.drop('title',axis=1)
-
-
-# ---
 # **NOTE: This is one of the hardest parts of the project! Refer to the solutions video if you need guidance, feel free to fill or drop the missing values of the mort_acc however you see fit! Here we're going with a very specific approach.**
 # 
 # 
 # ---
 # **TASK: Find out what the mort_acc feature represents**
-
-# In[ ]:
-
-
-# CODE HERE
-
-
-# In[ ]:
-
-
 feat_info('mort_acc')
 
 
 # **TASK: Create a value_counts of the mort_acc column.**
-
-# In[ ]:
-
-
-# CODE HERE
-
-
-# In[ ]:
-
-
 df['mort_acc'].value_counts()
 
 
 # **TASK: There are many ways we could deal with this missing data. We could attempt to build a simple model to fill it in, such as a linear model, we could just fill it in based on the mean of the other columns, or you could even bin the columns into categories and then set NaN as its own category. There is no 100% correct approach! Let's review the other columsn to see which most highly correlates to mort_acc**
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
 
 print("Correlation with the mort_acc column")
 df.corr()['mort_acc'].sort_values()
 
 
 # **TASK: Looks like the total_acc feature correlates with the mort_acc , this makes sense! Let's try this fillna() approach. We will group the dataframe by the total_acc and calculate the mean value for the mort_acc per total_acc entry. To get the result below:**
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
 
 print("Mean of mort_acc column per total_acc")
 df.groupby('total_acc').mean()['mort_acc']
@@ -975,13 +581,14 @@ df = df.drop('grade',axis=1)
 # In[ ]:
 
 
-subgrade_dummies = pd.get_dummies(df['sub_grade'],drop_first=True)
+# subgrade_dummies = pd.get_dummies(df['sub_grade'],drop_first=True)
 
+df['sub_grade'] = df['sub_grade'].apply(lambda grade: ["A", "B", "C", "D", "E", "F", "G"].index(grade[:1]) * 5 + int(grade[1:]))
 
 # In[ ]:
 
 
-df = pd.concat([df.drop('sub_grade',axis=1),subgrade_dummies],axis=1)
+# df = pd.concat([df.drop('sub_grade',axis=1),subgrade_dummies],axis=1)
 
 
 # In[ ]:
@@ -1007,9 +614,12 @@ df.select_dtypes(['object']).columns
 
 # In[ ]:
 
+df['verification_status']= df['verification_status'].apply(lambda verified: 0 if verified == "Not Verified" else 1)
+df['application_type']= df['application_type'].apply(lambda application: 1 if application == "JOINT" else 0)
+df['initial_list_status']= df['initial_list_status'].apply(lambda status: 1 if status == "f" else 0)
 
-dummies = pd.get_dummies(df[['verification_status', 'application_type','initial_list_status','purpose' ]],drop_first=True)
-df = df.drop(['verification_status', 'application_type','initial_list_status','purpose'],axis=1)
+dummies = pd.get_dummies(df[['purpose']],drop_first=True)
+df = df.drop(['purpose'],axis=1)
 df = pd.concat([df,dummies],axis=1)
 
 
@@ -1044,13 +654,7 @@ df['home_ownership'].value_counts()
 
 # In[ ]:
 
-
-df['home_ownership']=df['home_ownership'].replace(['NONE', 'ANY'], 'OTHER')
-
-dummies = pd.get_dummies(df['home_ownership'],drop_first=True)
-df = df.drop('home_ownership',axis=1)
-df = pd.concat([df,dummies],axis=1)
-
+df['home_ownership']= df['home_ownership'].apply(lambda ownership: 1 if ownership == "OWN" or ownership == "MORTGAGE" else 0)
 
 # ### address
 # **TASK: Let's feature engineer a zip code column from the address in the data set. Create a column called 'zip_code' that extracts the zip code from the address column.**
@@ -1256,6 +860,7 @@ from tensorflow.keras.constraints import max_norm
 
 
 # In[ ]:
+import kr_helper_funcs as kr
 
 rus = RandomUnderSampler()
 X_train_rus, y_train_rus = rus.fit_sample(X_train, y_train)
@@ -1289,12 +894,12 @@ model.add(Dropout(0.2))
 model.add(Dense(units=1,activation='sigmoid'))
 
 # Compile model
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics =['accuracy'])
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics =['accuracy', kr.f1])
 
 class_weight= {0:2, 1:1}
 with_weigths=True
 if (with_weigths):
-    neg, pos = np.bincount(y_train_rus)
+    neg, pos = np.bincount(y_train)
     total = neg + pos
     print('Examples:\n    Total: {}\n    Positive: {} ({:.2f}% of total)\n'.format(
     total, pos, 100 * pos / total))
@@ -1308,13 +913,13 @@ plt.show()
 from tensorflow.keras.callbacks import EarlyStopping
 early_stop = EarlyStopping(monitor='val_loss', patience=5)
 
-model.fit(x=X_train_rus,
-          y=y_train_rus,
+model.fit(x=X_train,
+          y=y_train,
           epochs=25,
           class_weight=class_weight,
           batch_size=256,
           validation_data=(X_test, y_test),
-          callbacks = [early_stop]
+          callbacks=[EarlyStopping(monitor="val_f1", mode='max', patience=5, restore_best_weights=True)]
           )
 
 import kr_helper_funcs as kr
@@ -1449,29 +1054,6 @@ import shap
 # use Kernel SHAP to explain test set predictions
 explainer = shap.KernelExplainer(model.predict_proba, X_train, link="logit")
 shap.initjs()
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-c
 
 
 # # Section 3: Evaluating Model Performance.
