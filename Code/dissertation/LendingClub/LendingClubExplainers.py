@@ -32,6 +32,11 @@ X_test = scaler.transform(X_test_unscaled)
 
 shape_size = X_train.shape[1]
 
+# y_test_zero = [y_test.index(a) for a in y_test if a ==0]
+# y_test_one = [y_test.index(a) for a in y_test if a ==1]
+
+y_test_zero = np.array(np.where(y_test==0))
+y_test_one = np.array(np.where(y_test==1))
 
 def predict_fn(x):
     preds = model.predict(x).reshape(-1, 1)
@@ -132,11 +137,32 @@ def recreate_row(neutral_points, unscaled_row, map_values, predicted_class, no_e
 
     return scaler.transform(pd.DataFrame(unscaled_row).values.reshape(1, shape_size))
 
+def recreate_row_from_distribution(scaled_row, which_side, map_values, predicted_class, no_exp=3, verbose=0, reverse_order=False):
+    tuple_list = map_values[predicted_class]
+    important_columns =[]
+    if reverse_order==False:
+        important_columns = [a for (a, b) in tuple_list if b > 0][:no_exp]
+    elif no_exp>0:
+        important_columns = [a for (a, b) in tuple_list if b > 0][-no_exp:]
+
+    for c in important_columns:
+        if (which_side == 1) :
+            index = y_test_one[0][random.randint(0, y_test_one.shape[1]-1)]
+        else:
+            index = y_test_zero[0][random.randint(0, y_test_zero.shape[1]-1)]
+        scaled_row[c] = X_test[index][c]
+
+    # return scaled_row
+    # if (verbose == 1):
+    #     print(pd.DataFrame(unscaled_row))
+
+    return pd.DataFrame(scaled_row).values.reshape(1, shape_size)
+
 
 def calculate_probability_diff(row_number, neutral_points, explainer, no_exp=3, verbose=0, which_explainer='lime',
-                               nsamples=100, reverse_order=False):
+                               nsamples=100, reverse_order=False, number_of_elimination = 10):
     scaled_row = X_test[row_number].copy()
-    unscaled_row = X_test_unscaled[row_number].copy()
+    # unscaled_row = X_test_unscaled[row_number].copy()
 
     reshaped_scaled_row = pd.DataFrame(scaled_row).values.reshape(1, shape_size)
     original_class = model.predict_classes(reshaped_scaled_row)[0][0]
@@ -166,12 +192,20 @@ def calculate_probability_diff(row_number, neutral_points, explainer, no_exp=3, 
     if (verbose == 1):
         print(map_values)
 
-    new_row = recreate_row(neutral_points, unscaled_row, map_values, original_class, no_exp, verbose, reverse_order)
-    new_class = model.predict_classes(new_row)[0][0]
-    new_probability = model.predict_proba(new_row)
-    new_predict_fn = predict_fn(new_row)
+    # new_row = recreate_row(neutral_points, X_test_unscaled[row_number].copy() , map_values, original_class, no_exp, verbose, reverse_order)
+    new_probability_list =[]
+    new_predict_fn_list = []
+    for i in range(0, number_of_elimination):
+        new_row = recreate_row_from_distribution(scaled_row.copy(), i%2, map_values, original_class, no_exp, verbose, reverse_order)
+        # new_class = model.predict_classes(new_row)[0][0]
+        new_probability_list.append( model.predict_proba(new_row))
+        new_predict_fn_list.append(predict_fn(new_row))
 
-    if (no_exp == 0 and (scaled_row != new_row).all()):
+    new_probability = sum(new_probability_list) / len(new_probability_list)
+    new_predict_fn = sum(new_predict_fn_list) / len(new_predict_fn_list)
+    new_class =  1 if new_probability >0.5 else 0;
+
+    if (no_exp == 0 and not (scaled_row == new_row[0]).all()):
         print("Something went wrong! no_exp is 0 but scaled_row is not equal to new_row")
 
     if (verbose == 1):
@@ -254,11 +288,13 @@ with open(fileName, 'a', newline='') as fd:
          "nsamples", "explainer", "time", "reverse_order", "i0",
          "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10"])
 
-res_shap = calculate_values(number_of_rows=1, number_of_exaplanations=11, which_explainer='shap',
+
+number_of_rows=20
+res_shap = calculate_values(number_of_rows=number_of_rows, number_of_exaplanations=11, which_explainer='shap',
                             nsampleslist=[100, 1000, "auto"], reverse_order=True);
-res_lime = calculate_values(number_of_rows=1, number_of_exaplanations=11, which_explainer='lime',
-                            nsampleslist=[1, 1000, "auto"],reverse_order=True);
-res_random = calculate_values(number_of_rows=1, number_of_exaplanations=11, which_explainer='random',
+res_lime = calculate_values(number_of_rows=number_of_rows, number_of_exaplanations=11, which_explainer='lime',
+                            nsampleslist=[100, 1000, "auto"],reverse_order=True);
+res_random = calculate_values(number_of_rows=number_of_rows, number_of_exaplanations=11, which_explainer='random',
                               nsampleslist=["auto"], reverse_order=True);
-res_eli5 = calculate_values(number_of_rows=1, number_of_exaplanations=11, which_explainer='eli5',
+res_eli5 = calculate_values(number_of_rows=number_of_rows, number_of_exaplanations=11, which_explainer='eli5',
                             nsampleslist=["auto"], reverse_order=True);
