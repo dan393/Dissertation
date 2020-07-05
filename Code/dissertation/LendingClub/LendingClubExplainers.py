@@ -298,3 +298,15 @@ res_random = calculate_values(number_of_rows=number_of_rows, number_of_exaplanat
                               nsampleslist=["auto"], reverse_order=True);
 res_eli5 = calculate_values(number_of_rows=number_of_rows, number_of_exaplanations=11, which_explainer='eli5',
                             nsampleslist=["auto"], reverse_order=True);
+
+
+# class Animal(object):
+#     def __init__(self):
+#         pass
+#
+#     def go_pee(self):
+#         print("p")
+#
+#
+#
+# a = Animal()
