@@ -524,9 +524,9 @@ hyperparameter_space = {
     "data": tune.sample_from(list(["default", "rus", "smte"]))
 }
 
-num_samples = 5
+num_samples = 4
 ray.shutdown()  # Restart Ray defensively in case the ray connection is lost.
-ray.init(log_to_driver=False)
+ray.init(num_cpus=8, memory=10000000000, log_to_driver=False)
 # We clean out the logs before running for a clean visualization later.
 # ! rm -rf ~/ray_results/tune_iris
 
