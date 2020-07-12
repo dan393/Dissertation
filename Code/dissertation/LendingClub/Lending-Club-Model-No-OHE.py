@@ -254,7 +254,7 @@ df['initial_list_status']= df['initial_list_status'].apply(lambda status: 1 if s
 
 dummies = pd.get_dummies(df[['purpose']],drop_first=True)
 df = df.drop(['purpose'],axis=1)
-df = pd.concat([df,dummies],axis=1)
+# df = pd.concat([df,dummies],axis=1)
 
 df['home_ownership'].value_counts()
 
@@ -348,7 +348,7 @@ early_stop = EarlyStopping(monitor='val_loss', patience=5)
 
 history = model.fit(x=X_train,
           y=y_train,
-          epochs=1,
+          epochs=30,
           class_weight=class_weight,
           batch_size=256,
           validation_data=(X_test, y_test),
