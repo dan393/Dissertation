@@ -10,10 +10,13 @@ from keras.wrappers.scikit_learn import KerasClassifier, KerasRegressor
 import kr_helper_funcs as kr
 import eli5
 from eli5.sklearn import PermutationImportance
+import tensorflow_addons as tfa
 
 name = 'without_postcode'
 fileName = "{}/lending-club-values.csv".format(name)
-model = tf.keras.models.load_model('{}/lending-club.h5'.format(name), custom_objects={"f1": kr.f1})
+radam = tfa.optimizers.RectifiedAdam()
+ranger = tfa.optimizers.Lookahead(radam, sync_period=6, slow_step_size=0.5)
+model = tf.keras.models.load_model('{}/lending-club.h5'.format(name), custom_objects={"f1": kr.f1, "optimizer": ranger})
 X_train_unscaled = np.load("{}/X_train_unscaled.npy".format(name))
 X_test_unscaled = np.load("{}/X_test_unscaled.npy".format(name))
 y_train = np.load("{}/y_test.npy".format(name))
@@ -31,9 +34,6 @@ X_train = scaler.fit_transform(X_train_unscaled)
 X_test = scaler.transform(X_test_unscaled)
 
 shape_size = X_train.shape[1]
-
-# y_test_zero = [y_test.index(a) for a in y_test if a ==0]
-# y_test_one = [y_test.index(a) for a in y_test if a ==1]
 
 y_test_zero = np.array(np.where(y_test==0))
 y_test_one = np.array(np.where(y_test==1))
@@ -78,6 +78,7 @@ def explain_row_shap(scaled_row, explainer, nsamples=100, verbose=0):
 
 
 def explain_row_random(scaled_row, explainer, nsamples=100, verbose=0):
+    # generate map of random explanations for a row
     random_list = {}
     random_list[0] = [(i, random.uniform(0.0, 1.0)) for i in range(shape_size)]
     random_list[1] = [(i, random.uniform(0.0, 1.0)) for i in range(shape_size)]
@@ -93,9 +94,11 @@ def explain_row_random(scaled_row, explainer, nsamples=100, verbose=0):
     #     print(map_values)
     return map_values
 
-
-def explain_row_eli5(scaled_row, explainer, nsamples=100, verbose=0):
+#explain rows using PermutationImportance. This provides a set of global explanation computed once only
+def explain_row_eli5():
     global map_values_eli5
+
+    # compute explanations only once
     if map_values_eli5 != None:
         return map_values_eli5
 
@@ -104,8 +107,6 @@ def explain_row_eli5(scaled_row, explainer, nsamples=100, verbose=0):
     def base_model():
         return copy_model
 
-    # X_train_unscaled, X_test_unscaled, y_train, y_test
-    # train_x, val_x, train_y, val_y
     my_model = KerasRegressor(build_fn=base_model)
     my_model.fit(X_test.copy(), y_test.copy()  )
 
@@ -122,15 +123,8 @@ def explain_row_eli5(scaled_row, explainer, nsamples=100, verbose=0):
     return map_values_eli5
 
 
-def recreate_row(neutral_points, unscaled_row, map_values, predicted_class, no_exp=3, verbose=0, reverse_order=False):
-    tuple_list = map_values[predicted_class]
-    if reverse_order:
-        important_columns = [a for (a, b) in tuple_list if b > 0][:no_exp]
-    else:
-        important_columns = [a for (a, b) in tuple_list if b > 0][-no_exp:]
-        midpoint = int(len(important_columns) / 2)
-        start_middle = midpoint - int(no_exp / 2)
-        important_columns= important_columns[start_middle:start_middle + no_exp]
+def recreate_row_mean(neutral_points, unscaled_row, map_values, predicted_class, no_exp=3, verbose=0, feature_ranking='first'):
+    important_columns = extract_important_columns(feature_ranking, map_values, no_exp, predicted_class)
 
     for c in important_columns:
         unscaled_row[c] = neutral_points[c]
@@ -141,18 +135,7 @@ def recreate_row(neutral_points, unscaled_row, map_values, predicted_class, no_e
     return scaler.transform(pd.DataFrame(unscaled_row).values.reshape(1, shape_size)), important_columns
 
 def recreate_row_from_distribution(scaled_row, which_side, map_values, predicted_class, no_exp=3, verbose=0, feature_ranking='first'):
-    tuple_list = map_values[predicted_class]
-    important_columns =[]
-    if no_exp>0:
-        if feature_ranking == 'first':
-            important_columns = [a for (a, b) in tuple_list if b > 0][:no_exp]
-        elif feature_ranking == "middle":
-            important_columns = [a for (a, b) in tuple_list if b > 0][-no_exp:]
-            midpoint = int(len(important_columns) / 2)
-            start_middle = midpoint - int(no_exp / 2)
-            important_columns = important_columns[start_middle:start_middle + no_exp]
-        elif feature_ranking == "last":
-            important_columns = [a for (a, b) in tuple_list if b > 0][-no_exp:]
+    important_columns = extract_important_columns(feature_ranking, map_values, no_exp, predicted_class)
 
     for c in important_columns:
         if (which_side == 1) :
@@ -167,8 +150,24 @@ def recreate_row_from_distribution(scaled_row, which_side, map_values, predicted
     return pd.DataFrame(scaled_row).values.reshape(1, shape_size), important_columns
 
 
+def extract_important_columns(feature_ranking, map_values, no_exp, predicted_class):
+    tuple_list = map_values[predicted_class]
+    important_columns = []
+    if no_exp > 0:
+        if feature_ranking == 'first':
+            important_columns = [a for (a, b) in tuple_list if b > 0][:no_exp]
+        elif feature_ranking == "middle":
+            important_columns = [a for (a, b) in tuple_list if b > 0]
+            midpoint = int(len(important_columns) / 2)
+            start_middle = midpoint - int(no_exp / 2)
+            important_columns = important_columns[start_middle:start_middle + no_exp]
+        elif feature_ranking == "last":
+            important_columns = [a for (a, b) in tuple_list if b > 0][-no_exp:]
+    return important_columns
+
+
 def calculate_probability_diff(row_number, neutral_points, explainer, no_exp=3, verbose=0, which_explainer='lime',
-                               nsamples=100, feature_ranking='first', number_of_elimination = 10):
+                               nsamples=100, feature_ranking='first', number_of_elimination = 10, strategy="distribution"):
     scaled_row = X_test[row_number].copy()
     # unscaled_row = X_test_unscaled[row_number].copy()
 
@@ -193,25 +192,24 @@ def calculate_probability_diff(row_number, neutral_points, explainer, no_exp=3, 
     elif (which_explainer == 'random'):
         map_values = explain_row_random(scaled_row, explainer, nsamples=nsamples, verbose=verbose)
     elif (which_explainer == 'eli5'):
-        map_values = explain_row_eli5(scaled_row, explainer, nsamples=nsamples, verbose=verbose)
+        map_values = explain_row_eli5(); # get global explanations
 
     prev_scaled_row = scaled_row
     cached_map_values = map_values
     if (verbose == 1):
         print(map_values)
 
-    # new_row = recreate_row(neutral_points, X_test_unscaled[row_number].copy() , map_values, original_class, no_exp, verbose, reverse_order)
-    new_probability_list =[]
-    new_predict_fn_list = []
-    for i in range(0, number_of_elimination):
-        new_row, important_columns = recreate_row_from_distribution(scaled_row.copy(), i%2, map_values, original_class, no_exp, verbose, feature_ranking)
-        # new_class = model.predict_classes(new_row)[0][0]
-        new_probability_list.append( model.predict_proba(new_row))
-        new_predict_fn_list.append(predict_fn(new_row))
-
-    new_probability = sum(new_probability_list) / len(new_probability_list)
-    new_predict_fn = sum(new_predict_fn_list) / len(new_predict_fn_list)
-    new_class =  1 if new_probability >0.5 else 0;
+    important_columns=None
+    new_class = None
+    new_predict_fn = None
+    new_probability = None
+    new_row = None
+    if strategy == 'distribution':
+        important_columns, new_class, new_predict_fn, new_probability, new_row = recreate_row_and_get_new_probabilities_ditribution(
+            feature_ranking, map_values, no_exp, number_of_elimination, original_class, scaled_row, verbose)
+    elif strategy == 'mean':
+        important_columns, new_class, new_predict_fn, new_probability, new_row = recreate_row_and_get_new_probabilities_mean(
+            feature_ranking, map_values, neutral_points, no_exp, original_class, row_number, verbose)
 
     if (no_exp == 0 and not (scaled_row == new_row[0]).all()):
         print("Something went wrong! no_exp is 0 but scaled_row is not equal to new_row")
@@ -230,12 +228,40 @@ def calculate_probability_diff(row_number, neutral_points, explainer, no_exp=3, 
         original_class, original_class != new_class, important_columns)
 
 
+def recreate_row_and_get_new_probabilities_mean(feature_ranking, map_values, neutral_points, no_exp, original_class,
+                                                row_number, verbose):
+    new_row, important_columns = recreate_row_mean(neutral_points, X_test_unscaled[row_number].copy(), map_values,
+                                                   original_class, no_exp, verbose, feature_ranking)
+    new_class = model.predict_classes(new_row)[0][0]
+    new_probability = model.predict_proba(new_row)
+    new_predict_fn = predict_fn(new_row)
+    return important_columns, new_class, new_predict_fn, new_probability, new_row
+
+
+def recreate_row_and_get_new_probabilities_ditribution(feature_ranking, map_values, no_exp, number_of_elimination, original_class,
+                                           scaled_row, verbose):
+    new_probability_list = []
+    new_predict_fn_list = []
+    for i in range(0, number_of_elimination):
+        new_row, important_columns = recreate_row_from_distribution(scaled_row.copy(), i % 2, map_values,
+                                                                    original_class, no_exp, verbose, feature_ranking)
+        # new_class = model.predict_classes(new_row)[0][0]
+        new_probability_list.append(model.predict_proba(new_row))
+        new_predict_fn_list.append(predict_fn(new_row))
+    new_probability = sum(new_probability_list) / len(new_probability_list)
+    new_predict_fn = sum(new_predict_fn_list) / len(new_predict_fn_list)
+    new_class = 1 if new_probability > 0.5 else 0;
+    return important_columns, new_class, new_predict_fn, new_probability, new_row
+
+
+
+
 def calculate_values_datapoint(explainer, neutral_points, no_exp, nsamples, results, row_number, verbose,
-                               which_explainer, feature_ranking='first'):
+                               which_explainer, feature_ranking='first', strategy="distribution"):
     start_time = time.time()
     original_probability, new_probability, confidence_diff, original_class, class_change, important_columns = calculate_probability_diff(
         row_number, neutral_points, explainer=explainer, no_exp=no_exp, verbose=verbose,
-        which_explainer=which_explainer, nsamples=nsamples, feature_ranking=feature_ranking)
+        which_explainer=which_explainer, nsamples=nsamples, feature_ranking=feature_ranking, strategy=strategy)
     total_time = time.time() - start_time
 
     # write results to file
@@ -244,13 +270,13 @@ def calculate_values_datapoint(explainer, neutral_points, no_exp, nsamples, resu
     with open(fileName, 'a', newline='') as fd:
         writer = csv.writer(fd)
         result = [original_probability, new_probability, confidence_diff, original_class, class_change,
-                  no_exp, nsamples, which_explainer, total_time, feature_ranking]
+                  no_exp, nsamples, which_explainer, total_time, feature_ranking, strategy]
         result.extend(important_columns[0:11])
         writer.writerow(result)
 
 
 def calculate_values(number_of_rows=100, number_of_exaplanations=11, which_explainer='random', nsampleslist=[100],
-                     feature_rankings=['first', 'middle', 'last'], verbose=0):
+                     feature_rankings=['first', 'middle', 'last'], strategies = ["mean", "distribution"], verbose=0):
     explainer = None
     if which_explainer == 'lime':
         explainer = lime_tabular.LimeTabularExplainer(X_train, training_labels=['paid', 'unpaid'])
@@ -266,14 +292,16 @@ def calculate_values(number_of_rows=100, number_of_exaplanations=11, which_expla
         for row_number in range(number_of_rows):
             print("Row Number {}".format(row_number))
             for no_exp in range(number_of_exaplanations):
-                print("Explanation number:{}---Exaplainer:{}----NSamples:{}".format(no_exp, which_explainer, nsamples))
                 if (predicted_classes[row_number][0] != y_test[row_number]):
                     print("Predicted and actual classes are different, skip")
                     continue;
 
                 for feature_ranking in feature_rankings:
-                    calculate_values_datapoint(explainer, neutral_points, no_exp, nsamples, results, row_number, verbose,
-                                           which_explainer, feature_ranking)
+                    for strategy in strategies:
+                        print("Explanation number:{}---Exaplainer:{}----NSamples:{}---no_exp:{} --feature_ranking:{}---strategy:{}".format(no_exp, which_explainer,
+                                                                                            nsamples, no_exp, feature_ranking, strategy))
+                        calculate_values_datapoint(explainer, neutral_points, no_exp, nsamples, results, row_number, verbose,
+                                           which_explainer, feature_ranking, strategy)
 
     print(results)
     return results
@@ -289,19 +317,19 @@ with open(fileName, 'a', newline='') as fd:
     writer = csv.writer(fd)
     writer.writerow(
         ["original_probability", "new_probability", "confidence_diff", "original_class", "class_change", "no_features",
-         "nsamples", "explainer", "time", "reverse_order", "i0",
+         "nsamples", "explainer", "time", "feature_rankings", "strategy", "i0",
          "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10"])
 
 
-number_of_rows=20
+number_of_rows=200
 res_shap = calculate_values(number_of_rows=number_of_rows, number_of_exaplanations=11, which_explainer='shap',
-                            nsampleslist=[100, 1000, "auto"], feature_rankings=['first', 'middle', 'last']);
+                            nsampleslist=[100, 1000, "auto"], feature_rankings=['first', 'middle', 'last'], strategies = ["mean", "distribution"]);
 res_lime = calculate_values(number_of_rows=number_of_rows, number_of_exaplanations=11, which_explainer='lime',
-                            nsampleslist=[100, 1000, "auto"], order=True);
+                            nsampleslist=[100, 1000, "auto"],feature_rankings=['first', 'middle', 'last'], strategies = ["mean", "distribution"]);
 res_random = calculate_values(number_of_rows=number_of_rows, number_of_exaplanations=11, which_explainer='random',
-                              nsampleslist=["auto"], order=True);
+                              nsampleslist=["auto"], feature_rankings=['first', 'middle', 'last'], strategies = ["mean", "distribution"]);
 res_eli5 = calculate_values(number_of_rows=number_of_rows, number_of_exaplanations=11, which_explainer='eli5',
-                            nsampleslist=["auto"], order=True);
+                            nsampleslist=["auto"], feature_rankings=['first', 'middle', 'last'], strategies = ["mean", "distribution"]);
 
 
 # class Animal(object):

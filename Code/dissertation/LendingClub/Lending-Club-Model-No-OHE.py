@@ -369,24 +369,24 @@ plt.show()
 
 # from threading import Lock
 # lock = Lock()
-#
-# import os
-# def save_model(name = 'without_postcode', model = model):
-#     lock.aquire()
-#     try:
-#         import tensorflow as tf
-#         if not os.path.exists(name):
-#             os.mkdir(name)
-#         tf.keras.models.save_model(model, '{}/lending-club.h5'.format(name))
-#         pd.DataFrame.from_dict(model.history.history).to_csv(name+"/"+'lending-club-history.csv'.format(name), index=False)
-#         np.save("{}/X_train_unscaled.npy".format(name), X_train_unscaled)
-#         np.save("{}/X_test_unscaled.npy".format(name), X_test_unscaled)
-#         np.save("{}/y_train.npy".format(name), y_train)
-#         np.save("{}/y_test.npy".format(name), y_test)
-#         df.to_csv(name+"/"+'lending-club-df.csv'.format(name), index=False)
-#     finally:
-#         lock.release()
-# save_model()
+
+import os
+def save_model(name = 'without_postcode', model = model):
+    # lock.aquire()
+    # try:
+    import tensorflow as tf
+    if not os.path.exists(name):
+        os.mkdir(name)
+    tf.keras.models.save_model(model, '{}/lending-club.h5'.format(name))
+    pd.DataFrame.from_dict(history.history).to_csv(name+"/"+'lending-club-history.csv'.format(name), index=False)
+    np.save("{}/X_train_unscaled.npy".format(name), X_train_unscaled)
+    np.save("{}/X_test_unscaled.npy".format(name), X_test_unscaled)
+    np.save("{}/y_train.npy".format(name), y_train)
+    np.save("{}/y_test.npy".format(name), y_test)
+    df.to_csv(name+"/"+'lending-club-df.csv'.format(name), index=False)
+    # finally:
+    #     lock.release()
+save_model()
 
 
 
