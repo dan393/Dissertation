@@ -386,7 +386,7 @@ def save_model(name = 'without_postcode', model = model):
     df.to_csv(name+"/"+'lending-club-df.csv'.format(name), index=False)
     # finally:
     #     lock.release()
-save_model()
+# save_model()
 
 
 
