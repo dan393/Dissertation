@@ -222,7 +222,7 @@ def extract_important_columns(feature_ranking, map_values, no_exp, predicted_cla
 
 
 def calculate_probability_diff(row_number, neutral_points, explainer, no_exp=3, verbose=0, which_explainer='lime',
-                               nsamples=100, feature_ranking='first', number_of_elimination = 40, strategy="distribution"):
+                               nsamples=100, feature_ranking='first', number_of_elimination = 20, strategy="distribution"):
     scaled_row = X_test[row_number].copy()
     # unscaled_row = X_test_unscaled[row_number].copy()
 
@@ -343,7 +343,7 @@ def calculate_values(number_of_rows=200, number_of_exaplanations=11, which_expla
     neutral_points = ((df[df['loan_repaid'] != 0].mean() + df[df['loan_repaid'] != 1].mean()) / 2).drop('loan_repaid')
     results = []
 
-    predicted_classes = model.predict_classes(X_test[:number_of_rows])
+    predicted_classes = model.predict_classes(X_test)
 
     correctly_predicted_indices = get_correctly_predicted_indices(number_of_rows)
 
@@ -381,7 +381,7 @@ with open(fileName, 'a', newline='') as fd:
          "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10"])
 
 
-number_of_rows=200
+number_of_rows=100
 strategies =["mean", "distribution", "distribution_others"] #["mean", "distribution", "distribution_others"]
 feature_rankings = ['first', 'middle', 'last']
 
