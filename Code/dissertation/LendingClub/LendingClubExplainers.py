@@ -157,7 +157,7 @@ def explain_row_eli5():
     class_1 = [(a, s[a]) for a in sorted_indices if s[a] > 0]
     sorted_indices = sorted(range(len(s)), key=lambda k: s[k])
     class_0 = [(a, s[a] * -1) for a in sorted_indices if s[a] <= 0]
-    map_values_eli5 = {0: class_0, 1: class_1}
+    map_values_eli5 = {0: class_1, 1: class_1}
 
     return map_values_eli5
 
@@ -304,6 +304,8 @@ def recreate_row_and_get_new_probabilities_ditribution(feature_ranking, map_valu
         elif strategy == "distribution_others":
             new_row, important_columns = recreate_row_from_distribution_other_features(scaled_row.copy(), i % 2, map_values,
                                                                     original_class, no_exp, verbose, feature_ranking)
+
+        # print ("new prediction for {}: {}".format(i%2, model.predict_proba(new_row)))
         # new_class = model.predict_classes(new_row)[0][0]
         new_probability_list.append(model.predict_proba(new_row))
         new_predict_fn_list.append(predict_fn(new_row))
@@ -322,8 +324,8 @@ def calculate_values_datapoint(explainer, neutral_points, no_exp, nsamples, resu
     total_time = time.time() - start_time
 
     # write results to file
-    results.append((original_probability, new_probability, confidence_diff, original_class, class_change,
-                    no_exp, nsamples, which_explainer, total_time, feature_ranking))
+    # results.append((original_probability, new_probability, confidence_diff, original_class, class_change,
+    #                 no_exp, nsamples, which_explainer, total_time, feature_ranking))
     with open(fileName, 'a', newline='') as fd:
         writer = csv.writer(fd)
         result = [original_probability, new_probability, confidence_diff, original_class, class_change,
@@ -381,7 +383,7 @@ with open(fileName, 'a', newline='') as fd:
          "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10"])
 
 
-number_of_rows=100
+number_of_rows=200
 strategies =["mean", "distribution", "distribution_others"] #["mean", "distribution", "distribution_others"]
 feature_rankings = ['first', 'middle', 'last']
 
