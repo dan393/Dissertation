@@ -105,7 +105,7 @@ def explain_row_random(scaled_row, explainer, nsamples=100, verbose=0):
     # random_list[1] = [(i, random.uniform(0.0, 1.0)) for i in range(shape_size)]
 
     map_values = {}
-    for class_value in range(max(y_test)):
+    for class_value in range(max(y_test)+1):
         s = random_list
         sorted_indices = sorted(range(len(s)), key=lambda k: s[k][1], reverse=True)
         #         print(sorted_indices)
@@ -121,7 +121,7 @@ def explain_row_eli5():
     global map_values_eli5
 
     # compute explanations only once
-    if map_values_eli5 != None:
+    if bool(map_values_eli5):
         return map_values_eli5
 
     copy_model = tf.keras.models.load_model('{}/{}.h5'.format(name,name), custom_objects={"f1": kr.f1})
@@ -275,7 +275,7 @@ def recreate_row_and_get_new_probabilities_mean(feature_ranking, map_values, neu
 
 
 def save_row(row_num, new_class, new_row):
-    pass
+    return
     with open(newrows_filename, 'a', newline='') as fd:
         writer = csv.writer(fd)
         r = [row_num, new_class]
