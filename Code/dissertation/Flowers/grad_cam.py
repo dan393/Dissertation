@@ -17,7 +17,6 @@ Adapted from Deep Learning with Python (2017).
 
 ## Setup
 """
-
 import numpy as np
 import tensorflow as tf
 from ipython_genutils.py3compat import xrange
@@ -41,18 +40,22 @@ img_size = (250, 250)
 preprocess_input = keras.applications.xception.preprocess_input
 decode_predictions = keras.applications.xception.decode_predictions
 
-last_conv_layer_name = "conv2d_2"
-classifier_layer_names = [
-    "max_pooling2d_2",
-    "flatten",
-]
+# last_conv_layer_name = "conv2d_2"
+# classifier_layer_names = [
+#     "max_pooling2d_2",
+#     "flatten",
+# ]
+
+
+last_conv_layer_name = "conv2d"
+classifier_layer_names = ["global_average_pooling2d", "dense_1", ]
 
 # The local path to our target image
-img_path = keras.utils.get_file(
-    "african_elephant.jpg", " https://i.imgur.com/Bvro0YD.png"
-)
+# img_path = keras.utils.get_file(
+#     "african_elephant.jpg", " https://i.imgur.com/Bvro0YD.png"
+# )
 
-display(Image(img_path))
+# display(Image(img_path))
 
 """## The Grad-CAM algorithm"""
 
@@ -117,24 +120,7 @@ def make_gradcam_heatmap(
     heatmap = np.maximum(heatmap, 0) / np.max(heatmap)
     return heatmap
 
-# """## Let's test-drive it"""
-#
-# # Prepare image
-# img_array = preprocess_input(get_img_array(img_path, size=img_size))
-#
-# # Make model
-# model = tf.keras.models.load_model('flowers')
-#
-# # Print what the top predicted class is
-# preds = model.predict(img_array)
-# print("Predicted:", preds)
-#
-# # Generate class activation heatmap
-# heatmap = make_gradcam_heatmap(
-#     img_array, model, last_conv_layer_name, classifier_layer_names
-# )
-
-def shrink(data, rows, cols):
+def shrink_shap(data, rows, cols):
     shrunk = np.zeros((rows,cols))
     for i in xrange(0,rows):
         for j in xrange(0,cols):
@@ -142,37 +128,69 @@ def shrink(data, rows, cols):
             col_sp = int (data.shape[1]/cols)
             zz = data[i*row_sp : i*row_sp + row_sp, j*col_sp : j*col_sp + col_sp]
             shrunk[i,j] = np.sum(zz)
-    return np.array([(item) for sublist in shrunk/np.max(shrunk) for item in sublist])
+    values =  np.array([(item) for sublist in shrunk/np.max(shrunk) for item in sublist])
+    shap_values = []
+    for i in range(5):
+        shap_values.append([[item for sublist in values for item in sublist]])
+    shap_values = np.array(shap_values)
+    shap_values = shap_values / np.max(shap_values)
 
-#
-# """## Create a superimposed visualization"""
-#
-# # We load the original image
-# img = keras.preprocessing.image.load_img(img_path)
-# img = keras.preprocessing.image.img_to_array(img)
-#
-# # We rescale heatmap to a range 0-255
-# heatmap = np.uint8(255 * heatmap)
-#
-# # We use jet colormap to colorize heatmap
-# jet = cm.get_cmap("jet")
-#
-# # We use RGB values of the colormap
-# jet_colors = jet(np.arange(256))[:, :3]
-# jet_heatmap = jet_colors[heatmap]
-#
-# # We create an image with RGB colorized heatmap
-# jet_heatmap = keras.preprocessing.image.array_to_img(jet_heatmap)
-# jet_heatmap = jet_heatmap.resize((img.shape[1], img.shape[0]))
-# jet_heatmap = keras.preprocessing.image.img_to_array(jet_heatmap)
-#
-# # Superimpose the heatmap on original image
-# superimposed_img = jet_heatmap * 0.4 + img
-# superimposed_img = keras.preprocessing.image.array_to_img(superimposed_img)
-#
-# # Save the superimposed image
-# save_path = "elephant_cam.jpg"
-# superimposed_img.save(save_path)
-#
-# # Display Grad CAM
-# display(Image(save_path))
+def test_drive_grad(img_array):
+    """## Let's test-drive it"""
+
+    # Prepare image
+    # img_array = preprocess_input(get_img_array(img_path, size=img_size))
+
+    # Make model
+    model = tf.keras.models.load_model('flowers-vgg')
+
+    # Print what the top predicted class is
+    # preds = model.predict(img_array.reshape(1,250, 250, 3))
+    # print("Predicted:", preds)
+
+    # last_conv_layer_name = "conv2d"
+    # classifier_layer_names = ["global_average_pooling2d", "dense_1", ]
+    # Generate class activation heatmap
+    heatmap = make_gradcam_heatmap(
+        img_array.reshape(1,250, 250, 3), model, last_conv_layer_name, classifier_layer_names
+    )
+
+    # Display heatmap
+    plt.matshow(heatmap)
+    plt.show()
+    """## Create a superimposed visualization"""
+
+    # We load the original image
+    # img = keras.preprocessing.image.load_img(img_path)
+    # img = keras.preprocessing.image.img_to_array(img)
+    img = img_array
+
+    # We rescale heatmap to a range 0-255
+    heatmap = np.uint8(255 * heatmap)
+
+    # We use jet colormap to colorize heatmap
+    jet = cm.get_cmap("binary")
+
+    # We use RGB values of the colormap
+    jet_colors = jet(np.arange(256))[:, :3]
+    jet_heatmap = jet_colors[heatmap]
+
+    # We create an image with RGB colorized heatmap
+    jet_heatmap = keras.preprocessing.image.array_to_img(jet_heatmap)
+    print(heatmap.shape[1] + heatmap.shape[0])
+    jet_heatmap = jet_heatmap.resize((img.shape[1], img.shape[0]))
+    jet_heatmap = keras.preprocessing.image.img_to_array(jet_heatmap)
+
+    # Superimpose the heatmap on original image
+    superimposed_img = jet_heatmap * 0.015 + img
+    superimposed_img = keras.preprocessing.image.array_to_img(superimposed_img)
+
+    # Save the superimposed image
+    save_path = "elephant_cam.jpg"
+    superimposed_img.save(save_path)
+
+    plt.imshow(superimposed_img)
+    plt.show()
+    plt.close()
+    # Display Grad CAM
+    # display(Image(save_path))
