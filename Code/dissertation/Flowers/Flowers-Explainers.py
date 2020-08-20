@@ -9,13 +9,13 @@ import tensorboard as tensorboard
 import seaborn as seaborn
 from tensorflow.python.client import device_lib
 import tensorflow as tf
-config = tf.compat.v1.ConfigProto(gpu_options = 
-                         tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=0.2)
-# device_count = {'GPU': 1}
-)
-config.gpu_options.allow_growth = True
-session = tf.compat.v1.Session(config=config)
-tf.compat.v1.keras.backend.set_session(session)
+gpus = tf.config.experimental.list_physical_devices('GPU')
+if gpus:
+  try:
+    for gpu in gpus:
+      tf.config.experimental.set_memory_growth(gpu, True)
+  except RuntimeError as e:
+    print(e)
 import os
 import pandas as pd
 import shap
@@ -85,7 +85,7 @@ background = X_test[0:5]
 # explain predictions of the model on three images
 # e = shap.DeepExplainer(tf.keras.models.load_model('flowers'), background)
 
-model =tf.keras.models.load_model('flowers-vgg')
+model =tf.keras.models.load_model('flowers-vgg1')
 # tulip_image_path = test_path + '/tulip/' + os.listdir(test_path + '/tulip/')[5]
 tulip_image_path = test_path + '/tulip/' + os.listdir(test_path + '/tulip/')[5]
 # plt.imshow(imread(dog_image))
@@ -428,6 +428,7 @@ def mask_image_with_noise(zs, segmentation, image, sigma):
 prev_shap_values=None
 prev_img_orig =None
 prev_explanation = None
+prev_num_features = None
 def calculate_predictions(img_orig, original_class, explainer_name, num_features, strategy, sigma, verbose = 0):
     # segment the image so we don't have to explain every pixel
     segments_slic = slic(img_orig, n_segments=49, compactness=1000, sigma=3)
@@ -440,8 +441,10 @@ def calculate_predictions(img_orig, original_class, explainer_name, num_features
     global prev_shap_values
     global prev_img_orig
     global prev_explanation
+    global prev_num_features
     if ((explainer_name =='shap' or explainer_name =='random' or explainer_name =='grad') & (img_orig == prev_img_orig).all()):
-        print ("Hitting cache, returning prev values")
+        if verbose:
+            print ("Hitting cache, returning prev values")
         shap_values = prev_shap_values
     elif explainer_name =='shap':
         # use Kernel SHAP to explain the network's predictions
@@ -470,24 +473,30 @@ def calculate_predictions(img_orig, original_class, explainer_name, num_features
     elif explainer_name == 'lime':
         if ((img_orig == prev_img_orig).all()):
             explanation = prev_explanation
-            print ("Hitting LIME cache, returning prev values")
+            if verbose:
+                print ("Hitting LIME cache, returning prev values")
         else :
             explainer = lime_image.LimeImageExplainer()
             explanation = explainer.explain_instance(img_orig.astype("double"), model.predict, num_samples = 1000)
             prev_explanation = explanation
             prev_img_orig =img_orig
-        
-        if strategy == "top":
-            lime_img, _ = explanation.get_image_and_mask(explanation.top_labels[original_class] , positive_only=True, negative_only=False, hide_rest=True, num_features = num_features, min_weight=0)
+
+        if (num_features == prev_num_features):
+            new_class_lime = None
+            new_prediction_lime = None
         else:
-            lime_img, _ = explanation.get_image_and_mask(explanation.top_labels[original_class], positive_only=False, negative_only=True, num_features=1000, hide_rest=True)
-        
-        if verbose :
-            plt.matshow(lime_img)
-            plt.show()
-        
-        new_class_lime = model.predict_classes(lime_img.reshape(1,250,250,3))[0]
-        new_prediction_lime = model.predict(lime_img.reshape(1,250,250,3))[0][original_class]
+            if strategy == "top":
+                lime_img, _ = explanation.get_image_and_mask(explanation.top_labels[original_class] , positive_only=True, negative_only=False, hide_rest=True, num_features = num_features, min_weight=0)
+            else:
+                lime_img, _ = explanation.get_image_and_mask(explanation.top_labels[original_class], positive_only=False, negative_only=True, num_features=1000, hide_rest=True)
+
+            if verbose :
+                plt.matshow(lime_img)
+                plt.show()
+
+            new_class_lime = model.predict_classes(lime_img.reshape(1,250,250,3))[0]
+            new_prediction_lime = model.predict(lime_img.reshape(1,250,250,3))[0][original_class]
+        prev_num_features = num_features
         
         _, mask = explanation.get_image_and_mask(explanation.top_labels[original_class] , positive_only=True, negative_only=False, hide_rest=True, num_features = num_features, min_weight=0)
         shap_values = convert_to_shap_values(mask, verbose)
@@ -528,6 +537,7 @@ def start(explainer_name, num_features_list, verbose = 0):
             original_class = model.predict_classes(img.reshape(1,250,250,3))[0]
             original_confidence = model.predict(img.reshape(1,250,250,3))[0][original_class]
             if original_class == np.argmax(batch[1][j]):
+                print("Explainer name: {} Image number: {} batch {}".format(explainer_name, counter, i))
                 if verbose:
                     plt.imshow((img))
                     plt.show()
@@ -536,25 +546,30 @@ def start(explainer_name, num_features_list, verbose = 0):
                     for strategy in ["top", "rest"]:
                         for sigma in [0.1, 0.2, 0.3, 0.5, 0.8]:
                             if explainer_name == 'lime':
-                                print ("Explainer name: {} Image number: {} num_features {} batch {} number {} strategy {}".format(explainer_name, counter, num_features, i, j, strategy))
+                                if verbose:
+                                    print ("Explainer name: {} Image number: {} num_features {} batch {} number {} strategy {}".format(explainer_name, counter, num_features, i, j, strategy))
                                 start_time = time.time()
                                 new_class, new_prediction, new_class_lime, new_prediction_lime = calculate_predictions(img, original_class, explainer_name, num_features, strategy, sigma, verbose)
                                 total_time = time.time() - start_time
-                                print ("Lime Standard Original Class: {} original confidence:{} new class top:{} new confidence {}: {} "
-                                       .format(original_class, original_confidence, new_class, strategy, new_prediction) )
+                                if verbose:
+                                    print ("Lime Standard Original Class: {} original confidence:{} new class top:{} new confidence {}: {} "
+                                           .format(original_class, original_confidence, new_class, strategy, new_prediction) )
 
-                                print ("Lime Original: Original Class: {} original confidence:{} new class top:{} new confidence {}: {} "
-                                       .format(original_class, original_confidence, new_class_lime, strategy, new_prediction_lime) )
+                                    print ("Lime Original: Original Class: {} original confidence:{} new class top:{} new confidence {}: {} "
+                                           .format(original_class, original_confidence, new_class_lime, strategy, new_prediction_lime) )
 
                                 save_row(original_class, original_confidence, new_prediction,original_confidence - new_prediction ,original_class != new_class, new_class, "lime-standard", strategy, sigma, total_time, num_features)
-                                save_row(original_class, original_confidence, new_prediction_lime,original_confidence - new_prediction_lime ,original_class != new_class_lime, new_class_lime, "lime", strategy, sigma, total_time, num_features)
+                                if (new_prediction_lime != None):
+                                    save_row(original_class, original_confidence, new_prediction_lime,original_confidence - new_prediction_lime ,original_class != new_class_lime, new_class_lime, "lime", strategy, sigma, total_time, num_features)
                             else:
-                                print ("Explainer name: {} Image number: {} num_features {} batch {} number {} strategy {}".format(explainer_name, counter, num_features, i, j, strategy))
+                                if verbose:
+                                    print ("Explainer name: {} Image number: {} num_features {} batch {} number {} strategy {}".format(explainer_name, counter, num_features, i, j, strategy))
                                 start_time = time.time()
                                 new_class, new_prediction, _, _ = calculate_predictions(img, original_class, explainer_name, num_features, strategy, sigma, verbose)
                                 total_time = time.time() - start_time
-                                print ("Original Class: {} original confidence:{} new class top:{} new confidence {}: {} "
-                                       .format(original_class, original_confidence, new_class, strategy, new_prediction) )
+                                if verbose:
+                                    print ("Original Class: {} original confidence:{} new class top:{} new confidence {}: {} "
+                                           .format(original_class, original_confidence, new_class, strategy, new_prediction) )
 
                                 save_row(original_class, original_confidence, new_prediction,original_confidence - new_prediction ,original_class != new_class, new_class, explainer_name, strategy, sigma, total_time, num_features)
 

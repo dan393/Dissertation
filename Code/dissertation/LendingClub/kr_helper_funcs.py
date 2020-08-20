@@ -54,7 +54,6 @@ def plot_cm(labels, predictions, classes, p=0.5):
       plt.xlabel('Predicted label')
       plt.tight_layout()
 
-
 def plot_cm_categorical(labels, predictions, classes):
     cm = confusion_matrix(labels, predictions)
     plt.figure(figsize=(5, 5))
@@ -65,7 +64,7 @@ def plot_cm_categorical(labels, predictions, classes):
     plt.xlabel('Predicted label')
     plt.tight_layout()
 
-def show_plots(history, plot_title=None, fig_size=None):
+def show_plots(history, plot_title=None, fig_size=None, path = None):
     """ Useful function to view plot of loss values & accuracies across the various epochs
         Works with the history object returned by the train_model(...) call """
     assert type(history) is dict
@@ -112,6 +111,7 @@ def show_plots(history, plot_title=None, fig_size=None):
     if plot_title is not None:
         plt.suptitle(plot_title)
 
+    plt.savefig(path)
     plt.show()
     plt.close()
 

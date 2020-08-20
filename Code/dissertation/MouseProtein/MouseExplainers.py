@@ -407,7 +407,6 @@ calculate_values(number_of_rows=number_of_rows, number_of_exaplanations=11, whic
 
 
 
-
 # class Animal(object):
 #     def __init__(self):
 #         pass
