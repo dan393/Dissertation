@@ -194,3 +194,63 @@ def test_drive_grad(img_array):
     plt.close()
     # Display Grad CAM
     # display(Image(save_path))
+
+def test_drive_grad_original(img_array):
+    """## Let's test-drive it"""
+
+    # Prepare image
+    # img_array = preprocess_input(get_img_array(img_path, size=img_size))
+
+    # Make model
+    model = tf.keras.models.load_model('flowers-vgg')
+
+    # Print what the top predicted class is
+    # preds = model.predict(img_array.reshape(1,250, 250, 3))
+    # print("Predicted:", preds)
+
+    # last_conv_layer_name = "conv2d"
+    # classifier_layer_names = ["global_average_pooling2d", "dense_1", ]
+    # Generate class activation heatmap
+    heatmap = make_gradcam_heatmap(
+        img_array.reshape(1,250, 250, 3), model, last_conv_layer_name, classifier_layer_names
+    )
+
+    # Display heatmap
+    plt.matshow(heatmap)
+    plt.show()
+    """## Create a superimposed visualization"""
+
+    # We load the original image
+    # img = keras.preprocessing.image.load_img(img_path)
+    # img = keras.preprocessing.image.img_to_array(img)
+    img = img_array
+
+    # We rescale heatmap to a range 0-255
+    heatmap = np.uint8(255 * heatmap)
+
+    # We use jet colormap to colorize heatmap
+    jet = cm.get_cmap("jet")
+
+    # We use RGB values of the colormap
+    jet_colors = jet(np.arange(256))[:, :3]
+    jet_heatmap = jet_colors[heatmap]
+
+    # We create an image with RGB colorized heatmap
+    jet_heatmap = keras.preprocessing.image.array_to_img(jet_heatmap)
+    print(heatmap.shape[1] + heatmap.shape[0])
+    jet_heatmap = jet_heatmap.resize((img.shape[1], img.shape[0]))
+    jet_heatmap = keras.preprocessing.image.img_to_array(jet_heatmap)
+
+    # Superimpose the heatmap on original image
+    superimposed_img = jet_heatmap * 0.0015 + img
+    superimposed_img = keras.preprocessing.image.array_to_img(superimposed_img)
+
+    # Save the superimposed image
+    save_path = "elephant_cam.jpg"
+    superimposed_img.save(save_path)
+
+    plt.imshow(superimposed_img)
+    plt.show()
+    plt.close()
+    # Display Grad CAM
+    # display(Image(save_path))
