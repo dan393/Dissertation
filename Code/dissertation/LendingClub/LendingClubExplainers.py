@@ -14,7 +14,8 @@ import sys
 import csv
 import os
 
-
+physical_devices = tf.config.list_physical_devices('GPU')
+tf.config.experimental.set_memory_growth(physical_devices[0], True)
 # load values specific to saved model using the saved name
 name = 'without_postcode'
 fileName = "{}/{}_lending-club-values.csv".format(name, sys.argv[1])
@@ -84,7 +85,7 @@ def get_correctly_predicted_indices(num_rows):
 #return a map of immportant column indices specific to a datapoint
 def explain_row_lime(scaled_row, explainer, nsamples=100, verbose=0):
     if nsamples == "auto":
-        exp = explainer.explain_instance(scaled_row, predict_fn, num_features=30,
+        exp = explainer.explain_instance(scaled_row, predict_fn, num_features=32,
                                          top_labels=30)  # labels=list(df.columns)
     else:
         exp = explainer.explain_instance(scaled_row, predict_fn, num_features=30, top_labels=30,
@@ -94,10 +95,20 @@ def explain_row_lime(scaled_row, explainer, nsamples=100, verbose=0):
         exp.show_in_notebook(show_table=True, show_all=False)
 
     return exp.as_map()
+    # map_values = {}
+    # for class_value in range(len(values)):
+    #     s = values[class_value]
+    #     sorted_indices = sorted(range(len(s)), key=lambda k: s[k], reverse=True)
+    #     #         print(sorted_indices)
+    #     ordered_list = [(a, values[class_value][a][1]) for a in sorted_indices if
+    #                     values[class_value][a][1] > 0]
+    #     map_values[class_value] = ordered_list
+    #
+    # return map_values
 
 #return a map of immportant column indices specific to a datapoint
 def explain_row_shap(scaled_row, explainer, nsamples=100, verbose=0):
-    shap_values = explainer.shap_values(scaled_row.reshape(1, shape_size), nsamples=nsamples, l1_reg="num_features(30)")
+    shap_values = explainer.shap_values(scaled_row.reshape(1, shape_size), nsamples=nsamples, l1_reg="num_features(32)")
 
     if (verbose == 1):
         shap.decision_plot(explainer.expected_value[0], shap_values[0][0, :], scaled_row,
@@ -194,10 +205,12 @@ def recreate_row_from_distribution_other_features(scaled_row, which_side, map_va
     important_columns = extract_important_columns(feature_ranking, map_values, no_exp, predicted_class)
 
     for i in range(0, len(scaled_row)):
-        if (which_side == 0 and i not in important_columns) :
-            scaled_row[i] = X_test_sets_zero[i][random.randint(0, len(X_test_sets_zero[i])-1)]
-        elif (which_side == 1 and i not in important_columns):
-            scaled_row[i] = X_test_sets_one[i][random.randint(0, len(X_test_sets_one[i])-1)]
+        if i not in important_columns:
+            if (which_side == 0) :
+                index = y_test_one[0][random.randint(0, y_test_one.shape[1]-1)]
+            else:
+                index = y_test_zero[0][random.randint(0, y_test_zero.shape[1]-1)]
+            scaled_row[i] = X_test[index][i]
 
     if (verbose == 1):
         print(pd.DataFrame(scaled_row))
@@ -363,8 +376,8 @@ def calculate_values(number_of_rows=200, number_of_exaplanations=11, which_expla
 
                 for feature_ranking in feature_rankings:
                     for strategy in strategies:
-                        print("Explanation number:{}---Exaplainer:{}----NSamples:{}---no_exp:{} --feature_ranking:{}---strategy:{}".format(no_exp, which_explainer,
-                                                                                            nsamples, no_exp, feature_ranking, strategy))
+                        # print("Explanation number:{}---Exaplainer:{}----NSamples:{}---no_exp:{} --feature_ranking:{}---strategy:{}".format(no_exp, which_explainer,
+                        #                                                                     nsamples, no_exp, feature_ranking, strategy))
                         calculate_values_datapoint(explainer, neutral_points, no_exp, nsamples, results, row_number, verbose,
                                            which_explainer, feature_ranking, strategy)
 
@@ -384,8 +397,8 @@ with open(fileName, 'a', newline='') as fd:
 
 
 number_of_rows=200
-strategies =["mean", "distribution", "distribution_others"] #["mean", "distribution", "distribution_others"]
-feature_rankings = ['first', 'middle', 'last']
+strategies =["distribution", "distribution_others"] #["mean", "distribution", "distribution_others"]
+feature_rankings = ['first', 'last']
 
 print ("Strating script with explainer: {}".format(sys.argv[1]))
 

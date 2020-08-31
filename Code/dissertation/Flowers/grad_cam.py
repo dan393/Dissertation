@@ -202,7 +202,9 @@ def test_drive_grad_original(img_array):
     # img_array = preprocess_input(get_img_array(img_path, size=img_size))
 
     # Make model
-    model = tf.keras.models.load_model('flowers-vgg')
+    last_conv_layer_name = "conv2d_2"
+    classifier_layer_names = [            "global_average_pooling2d_2",            "dense_5",        ]
+    model = tf.keras.models.load_model('flowers-vgg-new')
 
     # Print what the top predicted class is
     # preds = model.predict(img_array.reshape(1,250, 250, 3))
