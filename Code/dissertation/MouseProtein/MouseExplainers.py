@@ -177,7 +177,9 @@ def recreate_row_from_distribution_other_features(scaled_row, which_side, map_va
 
     for i in range(0, len(scaled_row)):
         if (i not in important_columns) :
-            scaled_row[i] = X_test_map[which_side][i][random.randint(0, len(X_test_map[which_side][i])-1)]
+            index = y_test_map[which_side][random.randint(0, y_test_map[which_side].shape[0] - 1)]
+            scaled_row[i] = X_test[index][i]
+            # scaled_row[i] = X_test_map[which_side][i][random.randint(0, len(X_test_map[which_side][i])-1)]
 
     if (verbose == 1):
         print(pd.DataFrame(scaled_row))
@@ -321,7 +323,7 @@ def calculate_values_datapoint(explainer, neutral_points, no_exp, nsamples, resu
     # write results to file
     # results.append((original_probability, new_probability, confidence_diff, original_class, class_change,
     #                 no_exp, nsamples, which_explainer, total_time, feature_ranking))
-    with open(fileName, 'a', newline='') as fd:
+    with open(newrows_filename, 'a', newline='') as fd:
         writer = csv.writer(fd)
         result = [original_probability, new_probability, confidence_diff, original_class, class_change,
                   no_exp, nsamples, which_explainer, total_time, feature_ranking, strategy]
@@ -367,10 +369,10 @@ def calculate_values(number_of_rows=200, number_of_exaplanations=11, which_expla
     return results
 
 
-if os.path.exists(fileName):
-    os.remove(fileName)
+if os.path.exists(newrows_filename):
+    os.remove(newrows_filename)
 # create file and add headers
-with open(fileName, 'a', newline='') as fd:
+with open(newrows_filename, 'a', newline='') as fd:
     writer = csv.writer(fd)
     writer.writerow(
         ["original_probability", "new_probability", "confidence_diff", "original_class", "class_change", "no_features",
@@ -378,18 +380,18 @@ with open(fileName, 'a', newline='') as fd:
          "i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10"])
 
 
-if os.path.exists(newrows_filename):
-    os.remove(newrows_filename)
-# create file and add headers
-with open(newrows_filename, 'a', newline='') as fd:
-    writer = csv.writer(fd)
-    header = ["row_number", "new_probability"]
-    header.extend(["{:02d}".format(x) for x in [*range(shape_size)]])
-    writer.writerow(header)
+# if os.path.exists(newrows_filename):
+#     os.remove(newrows_filename)
+# # create file and add headers
+# with open(newrows_filename, 'a', newline='') as fd:
+#     writer = csv.writer(fd)
+#     header = ["row_number", "new_probability"]
+#     header.extend(["{:02d}".format(x) for x in [*range(shape_size)]])
+#     writer.writerow(header)
 
 number_of_rows=len(X_test)
-strategies =["mean", "distribution", "distribution_others"] #["mean", "distribution", "distribution_others"]
-feature_rankings = ['first', 'middle', 'last']
+strategies =["distribution", "distribution_others"] #["mean", "distribution", "distribution_others"]
+feature_rankings = ['first', 'last']
 
 print ("Strating script with explainer: {}".format(sys.argv[1]))
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[1]:
 
 
 import numpy
@@ -9,13 +9,13 @@ import tensorboard as tensorboard
 import seaborn as seaborn
 from tensorflow.python.client import device_lib
 import tensorflow as tf
-gpus = tf.config.experimental.list_physical_devices('GPU')
-if gpus:
-  try:
-    for gpu in gpus:
-      tf.config.experimental.set_memory_growth(gpu, True)
-  except RuntimeError as e:
-    print(e)
+config = tf.compat.v1.ConfigProto(gpu_options = 
+                         tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=0.2)
+# device_count = {'GPU': 1}
+)
+config.gpu_options.allow_growth = True
+session = tf.compat.v1.Session(config=config)
+tf.compat.v1.keras.backend.set_session(session)
 import os
 import pandas as pd
 import shap
@@ -53,7 +53,7 @@ display(HTML("<style>.container { width:80% !important; }</style>"))
 
 
 
-# In[ ]:
+# In[2]:
 
 
 data_dir="../../input/kaggle-flowers"
@@ -62,7 +62,7 @@ test_path= os.path.join(data_dir, 'test')
 os.listdir(test_path)
 
 
-# In[ ]:
+# In[3]:
 
 
 image_shape =(250, 250, 3)
@@ -74,7 +74,7 @@ test_image_gen= test_gen.flow_from_directory(test_path, target_size=image_shape[
 test_image_gen.class_indices
 
 
-# In[ ]:
+# In[4]:
 
 
 import shap
@@ -85,7 +85,7 @@ background = X_test[0:5]
 # explain predictions of the model on three images
 # e = shap.DeepExplainer(tf.keras.models.load_model('flowers'), background)
 
-model =tf.keras.models.load_model('flowers-vgg1')
+model =tf.keras.models.load_model('flowers-resnet')
 # tulip_image_path = test_path + '/tulip/' + os.listdir(test_path + '/tulip/')[5]
 tulip_image_path = test_path + '/tulip/' + os.listdir(test_path + '/tulip/')[5]
 # plt.imshow(imread(dog_image))
@@ -93,10 +93,10 @@ img = image.load_img(tulip_image_path, target_size=(250, 250, 3))
 # plt.imshow(imread(tulip_image_path))
 img_orig = image.img_to_array(img)
 standardized_image = test_gen.standardize(img_orig)
-# plt.imshow((standardized_image))
+plt.imshow((standardized_image))
 
 
-# In[ ]:
+# In[5]:
 
 
 os.listdir(test_path + '/sunflower/')
@@ -113,7 +113,8 @@ os.listdir(test_path + '/sunflower/')
 
 
 
-# In[ ]:
+
+# In[6]:
 
 
 # segment the image so we don't have to explain every pixel
@@ -139,7 +140,7 @@ def f(z):
     return model.predict(mask_image(z, segments_slic, img_orig, 250))
 
 
-# In[ ]:
+# In[7]:
 
 
 # use Kernel SHAP to explain the network's predictions
@@ -147,13 +148,13 @@ explainer = shap.KernelExplainer(f, np.zeros((1,50)))
 shap_values = explainer.shap_values(np.ones((1,50)) , nsamples=1000) # runs VGG16 1000 times
 
 
-# In[ ]:
+# In[8]:
 
 
 list(test_image_gen.class_indices.keys())
 
 
-# In[ ]:
+# In[9]:
 
 
 # get the top predictions from the model
@@ -161,19 +162,19 @@ preds = model.predict(np.expand_dims(img_orig.copy(), axis=0))
 top_preds = np.argsort(-preds)
 
 
-# In[ ]:
+# In[10]:
 
 
 model.predict(np.expand_dims(img_orig.copy(), axis=0))
 
 
-# In[ ]:
+# In[11]:
 
 
 plt.imshow(img_orig.copy())
 
 
-# In[ ]:
+# In[12]:
 
 
 # make a color map
@@ -186,7 +187,7 @@ for l in np.linspace(0,1,100):
 cm = LinearSegmentedColormap.from_list("shap", colors)
 
 
-# In[ ]:
+# In[13]:
 
 
 def fill_segmentation(values, segmentation):
@@ -209,16 +210,16 @@ for i in range(5):
     axes[i+1].axis('off')
 cb = fig.colorbar(im, ax=axes.ravel().tolist(), label="SHAP value", orientation="horizontal", aspect=60)
 cb.outline.set_visible(False)
-# plt.show()
+plt.show()
 
 
-# In[ ]:
+# In[14]:
 
 
 list(test_image_gen.class_indices.keys())
 
 
-# In[ ]:
+# In[21]:
 
 
 def extract_top_ten(shap_values, num_features=10):
@@ -234,7 +235,7 @@ def extract_top_ten(shap_values, num_features=10):
     
 def show_cut_image(shap_values, img_orig, num_features=1000):
 # segment the image so we don't have to explain every pixel
-    segments_slic = slic(img_orig, n_segments=49, compactness=100, sigma=3)
+    segments_slic = slic(img_orig, n_segments=49, compactness=1000, sigma=3)
 
     # define a function that depends on a binary mask representing if an image region is hidden
     def mask_image(zs, segmentation, image, background=None):
@@ -248,12 +249,15 @@ def show_cut_image(shap_values, img_orig, num_features=1000):
                     out[i][segmentation == j,:] = background
         return out
     def f(z):
-        print(model.predict(mask_image(z, segments_slic, img_orig, 250)))
+#         for img in mask_image(z, segments_slic, img_orig, 250):
+#             plt.imshow(img)
+#             plt.show()
+#         print(model.predict(mask_image(z, segments_slic, img_orig, 250)))
         return model.predict((mask_image(z, segments_slic, img_orig, 250)))
 
     # # use Kernel SHAP to explain the network's predictions
-#     explainer = shap.KernelExplainer(f, np.zeros((1,50)))
-#     shap_values = explainer.shap_values(np.ones((1,50)), nsamples=5000) # runs model 1000 times
+    explainer = shap.KernelExplainer(f, np.zeros((1,50)))
+    shap_values = explainer.shap_values(np.ones((1,50)), nsamples=5000) # runs model 1000 times
 
     shap_values = extract_top_ten(shap_values, num_features)
 
@@ -291,12 +295,12 @@ def show_cut_image(shap_values, img_orig, num_features=1000):
         axes[i+1].axis('off')
     cb = fig.colorbar(im, ax=axes.ravel().tolist(), label="SHAP value", orientation="horizontal", aspect=60)
     cb.outline.set_visible(False)
-    # plt.show()
+    plt.show()
     
 show_cut_image(shap_values, img_orig)
 
 
-# In[ ]:
+# In[17]:
 
 
 np.argsort(-preds)
@@ -305,11 +309,17 @@ np.argsort(-preds)
 # In[ ]:
 
 
+
+
+
+# In[19]:
+
+
 import grad_cam as grad
 from importlib import reload
 
 
-# In[ ]:
+# In[27]:
 
 
 # make a color map
@@ -419,7 +429,7 @@ def mask_image_with_noise(zs, segmentation, image, sigma):
     mask= np.zeros((zs.shape[0], image.shape[0], image.shape[1], image.shape[2]))
     for i in range(zs.shape[0]):
         out[i,:,:,:] = image
-        mask[i,:,:,:] = random_noise(image, mode='gaussian', seed=42, var=sigma**2) # tf.keras.preprocessing.image.img_to_array(random_noise(image))
+        mask[i,:,:,:] = random_noise(image, mode='s&p', seed=42, amount=1)#, var=sigma**2) # tf.keras.preprocessing.image.img_to_array(random_noise(image))
         for j in range(zs.shape[1]):
             if zs[i,j] == 0:
                 out[i][segmentation == j,:] = mask[i][segmentation == j,:]
@@ -428,7 +438,6 @@ def mask_image_with_noise(zs, segmentation, image, sigma):
 prev_shap_values=None
 prev_img_orig =None
 prev_explanation = None
-prev_num_features = None
 def calculate_predictions(img_orig, original_class, explainer_name, num_features, strategy, sigma, verbose = 0):
     # segment the image so we don't have to explain every pixel
     segments_slic = slic(img_orig, n_segments=49, compactness=1000, sigma=3)
@@ -441,10 +450,8 @@ def calculate_predictions(img_orig, original_class, explainer_name, num_features
     global prev_shap_values
     global prev_img_orig
     global prev_explanation
-    global prev_num_features
     if ((explainer_name =='shap' or explainer_name =='random' or explainer_name =='grad') & (img_orig == prev_img_orig).all()):
-        if verbose:
-            print ("Hitting cache, returning prev values")
+        print ("Hitting cache, returning prev values")
         shap_values = prev_shap_values
     elif explainer_name =='shap':
         # use Kernel SHAP to explain the network's predictions
@@ -454,11 +461,13 @@ def calculate_predictions(img_orig, original_class, explainer_name, num_features
         # use Kernel SHAP to explain the network's predictions
         last_conv_layer_name = "conv2d"
         classifier_layer_names = [            "global_average_pooling2d",            "dense_1",        ]
+#         last_conv_layer_name = "conv2d_2"
+#         classifier_layer_names = [            "global_average_pooling2d_2",            "dense_5",        ]
         
         heatmap = grad.make_gradcam_heatmap(img_orig.reshape(1,250, 250, 3), model, last_conv_layer_name, classifier_layer_names)
         
         if verbose:
-            grad.test_drive_grad(img_orig)
+            grad.test_drive_grad_original(img_orig)
             plt.imshow(heatmap)
             plt.show()
             
@@ -473,30 +482,24 @@ def calculate_predictions(img_orig, original_class, explainer_name, num_features
     elif explainer_name == 'lime':
         if ((img_orig == prev_img_orig).all()):
             explanation = prev_explanation
-            if verbose:
-                print ("Hitting LIME cache, returning prev values")
+            print ("Hitting LIME cache, returning prev values")
         else :
             explainer = lime_image.LimeImageExplainer()
             explanation = explainer.explain_instance(img_orig.astype("double"), model.predict, num_samples = 1000)
             prev_explanation = explanation
             prev_img_orig =img_orig
-
-        if (num_features == prev_num_features):
-            new_class_lime = None
-            new_prediction_lime = None
+        
+        if strategy == "top":
+            lime_img, _ = explanation.get_image_and_mask(explanation.top_labels[original_class] , positive_only=True, negative_only=False, hide_rest=True, num_features = num_features, min_weight=0)
         else:
-            if strategy == "top":
-                lime_img, _ = explanation.get_image_and_mask(explanation.top_labels[original_class] , positive_only=True, negative_only=False, hide_rest=True, num_features = num_features, min_weight=0)
-            else:
-                lime_img, _ = explanation.get_image_and_mask(explanation.top_labels[original_class], positive_only=False, negative_only=True, num_features=1000, hide_rest=True)
-
-            if verbose :
-                plt.matshow(lime_img)
-                plt.show()
-
-            new_class_lime = model.predict_classes(lime_img.reshape(1,250,250,3))[0]
-            new_prediction_lime = model.predict(lime_img.reshape(1,250,250,3))[0][original_class]
-        prev_num_features = num_features
+            lime_img, _ = explanation.get_image_and_mask(explanation.top_labels[original_class], positive_only=False, negative_only=True, num_features=1000, hide_rest=True)
+        
+        if verbose :
+            plt.matshow(lime_img)
+            plt.show()
+        
+        new_class_lime = model.predict_classes(lime_img.reshape(1,250,250,3))[0]
+        new_prediction_lime = model.predict(lime_img.reshape(1,250,250,3))[0][original_class]
         
         _, mask = explanation.get_image_and_mask(explanation.top_labels[original_class] , positive_only=True, negative_only=False, hide_rest=True, num_features = num_features, min_weight=0)
         shap_values = convert_to_shap_values(mask, verbose)
@@ -508,7 +511,7 @@ def calculate_predictions(img_orig, original_class, explainer_name, num_features
     top_preds = np.argsort(-preds)
     inds = top_preds[0]
 
-#     show_cut_image(shap_values, img_orig, num_features)
+#     show_cut_image(shap_values, img_orig, 20)
     
     shap_values = [np.where(a<0, 0, a) for a in shap_values]
     shap_values = extract_top_ten(shap_values, num_features)
@@ -537,44 +540,38 @@ def start(explainer_name, num_features_list, verbose = 0):
             original_class = model.predict_classes(img.reshape(1,250,250,3))[0]
             original_confidence = model.predict(img.reshape(1,250,250,3))[0][original_class]
             if original_class == np.argmax(batch[1][j]):
-                print("Explainer name: {} Image number: {} batch {}".format(explainer_name, counter, i))
                 if verbose:
                     plt.imshow((img))
                     plt.show()
                     plt.close()
                 for num_features in num_features_list:
                     for strategy in ["top", "rest"]:
-                        for sigma in [0.1, 0.2, 0.3, 0.5, 0.8]:
+                        for sigma in [1]:
                             if explainer_name == 'lime':
-                                if verbose:
-                                    print ("Explainer name: {} Image number: {} num_features {} batch {} number {} strategy {}".format(explainer_name, counter, num_features, i, j, strategy))
+                                print ("Explainer name: {} Image number: {} num_features {} batch {} number {} strategy {}".format(explainer_name, counter, num_features, i, j, strategy))
                                 start_time = time.time()
                                 new_class, new_prediction, new_class_lime, new_prediction_lime = calculate_predictions(img, original_class, explainer_name, num_features, strategy, sigma, verbose)
                                 total_time = time.time() - start_time
-                                if verbose:
-                                    print ("Lime Standard Original Class: {} original confidence:{} new class top:{} new confidence {}: {} "
-                                           .format(original_class, original_confidence, new_class, strategy, new_prediction) )
+                                print ("Lime Standard Original Class: {} original confidence:{} new class top:{} new confidence {}: {} "
+                                       .format(original_class, original_confidence, new_class, strategy, new_prediction) )
 
-                                    print ("Lime Original: Original Class: {} original confidence:{} new class top:{} new confidence {}: {} "
-                                           .format(original_class, original_confidence, new_class_lime, strategy, new_prediction_lime) )
+                                print ("Lime Original: Original Class: {} original confidence:{} new class top:{} new confidence {}: {} "
+                                       .format(original_class, original_confidence, new_class_lime, strategy, new_prediction_lime) )
 
                                 save_row(original_class, original_confidence, new_prediction,original_confidence - new_prediction ,original_class != new_class, new_class, "lime-standard", strategy, sigma, total_time, num_features)
-                                if (new_prediction_lime != None):
-                                    save_row(original_class, original_confidence, new_prediction_lime,original_confidence - new_prediction_lime ,original_class != new_class_lime, new_class_lime, "lime", strategy, sigma, total_time, num_features)
+                                save_row(original_class, original_confidence, new_prediction_lime,original_confidence - new_prediction_lime ,original_class != new_class_lime, new_class_lime, "lime", strategy, sigma, total_time, num_features)
                             else:
-                                if verbose:
-                                    print ("Explainer name: {} Image number: {} num_features {} batch {} number {} strategy {}".format(explainer_name, counter, num_features, i, j, strategy))
+                                print ("Explainer name: {} Image number: {} num_features {} batch {} number {} strategy {}".format(explainer_name, counter, num_features, i, j, strategy))
                                 start_time = time.time()
                                 new_class, new_prediction, _, _ = calculate_predictions(img, original_class, explainer_name, num_features, strategy, sigma, verbose)
                                 total_time = time.time() - start_time
-                                if verbose:
-                                    print ("Original Class: {} original confidence:{} new class top:{} new confidence {}: {} "
-                                           .format(original_class, original_confidence, new_class, strategy, new_prediction) )
+                                print ("Original Class: {} original confidence:{} new class top:{} new confidence {}: {} "
+                                       .format(original_class, original_confidence, new_class, strategy, new_prediction) )
 
                                 save_row(original_class, original_confidence, new_prediction,original_confidence - new_prediction ,original_class != new_class, new_class, explainer_name, strategy, sigma, total_time, num_features)
 
 verbose= 0
-# for explainer_name in ["shap"]:
+# for explainer_name in ["grad"]:
 for explainer_name in [sys.argv[1]]:
     if explainer_name == "lime":
         init_csv("lime-standard")
@@ -583,10 +580,10 @@ for explainer_name in [sys.argv[1]]:
     start(explainer_name, list(range(1,21)), verbose)
 
 
-# In[ ]:
+# In[26]:
 
 
-
+model.summary()
 
 
 # In[ ]:

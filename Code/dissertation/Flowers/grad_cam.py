@@ -50,6 +50,10 @@ decode_predictions = keras.applications.xception.decode_predictions
 last_conv_layer_name = "conv2d"
 classifier_layer_names = ["global_average_pooling2d", "dense_1", ]
 
+# last_conv_layer_name = "conv2d_2"
+# classifier_layer_names = ["global_average_pooling2d_2", "dense_5", ]
+model = tf.keras.models.load_model('flowers-resnet')
+
 # The local path to our target image
 # img_path = keras.utils.get_file(
 #     "african_elephant.jpg", " https://i.imgur.com/Bvro0YD.png"
@@ -142,7 +146,7 @@ def test_drive_grad(img_array):
     # img_array = preprocess_input(get_img_array(img_path, size=img_size))
 
     # Make model
-    model = tf.keras.models.load_model('flowers-vgg')
+    # model = tf.keras.models.load_model('flowers-vgg')
 
     # Print what the top predicted class is
     # preds = model.predict(img_array.reshape(1,250, 250, 3))
@@ -202,9 +206,7 @@ def test_drive_grad_original(img_array):
     # img_array = preprocess_input(get_img_array(img_path, size=img_size))
 
     # Make model
-    last_conv_layer_name = "conv2d_2"
-    classifier_layer_names = [            "global_average_pooling2d_2",            "dense_5",        ]
-    model = tf.keras.models.load_model('flowers-vgg-new')
+
 
     # Print what the top predicted class is
     # preds = model.predict(img_array.reshape(1,250, 250, 3))
